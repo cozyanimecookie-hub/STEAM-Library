@@ -1,402 +1,362 @@
 <script>
 
-/* =========================================
+/* ======================================
    TWINKLE STARS
-========================================= */
+====================================== */
 
 const starsContainer =
 document.getElementById("stars");
 
-for(let i=0;i<180;i++){
+for(let i = 0; i < 180; i++){
 
-const star =
-document.createElement("div");
+  const star =
+  document.createElement("div");
 
-star.className="star";
+  star.className = "star";
 
-const size =
-Math.random()*4+1;
+  const size =
+  Math.random() * 4 + 1;
 
-star.style.width=
-size+"px";
+  star.style.width =
+  size + "px";
 
-star.style.height=
-size+"px";
+  star.style.height =
+  size + "px";
 
-star.style.left=
-Math.random()*100+"%";
+  star.style.left =
+  Math.random() * 100 + "%";
 
-star.style.top=
-Math.random()*100+"%";
+  star.style.top =
+  Math.random() * 100 + "%";
 
-star.style.animationDuration=
-(2+Math.random()*5)+"s";
+  star.style.animationDuration =
+  (2 + Math.random() * 5) + "s";
 
-star.style.animationDelay=
-Math.random()*5+"s";
+  star.style.animationDelay =
+  Math.random() * 5 + "s";
 
-const colors=[
-"#ffffff",
-"#fff7b0",
-"#ffe680"
-];
+  const colors = [
+    "#ffffff",
+    "#fff7b0",
+    "#ffe680"
+  ];
 
-star.style.background=
-colors[
-Math.floor(
-Math.random()*colors.length
-)
-];
+  star.style.background =
+  colors[
+    Math.floor(
+      Math.random() * colors.length
+    )
+  ];
 
-starsContainer.appendChild(star);
+  starsContainer.appendChild(star);
 }
 
-/* =========================================
+/* ======================================
    LOAD STEAM LIBRARY
-========================================= */
+====================================== */
 
 async function loadGames(){
 
-const workerURL =
-"https://icy-pond-784c.cozyanimecookie.workers.dev/";
+  const workerURL =
+  "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-try{
+  try{
 
-const response =
-await fetch(workerURL);
+    const response =
+    await fetch(workerURL);
 
-const data =
-await response.json();
+    const data =
+    await response.json();
 
-const games =
-data.response.games || [];
+    const games =
+    data.response.games || [];
 
-/* MAIN SECTIONS */
+    const playingGrid =
+    document.querySelector(
+      ".playing-grid"
+    );
 
-const playingGrid =
-document.querySelector(
-".playing-grid"
-);
+    const allGrid =
+    document.querySelector(
+      ".all-games-grid"
+    );
 
-const allGrid =
-document.querySelector(
-".all-games-grid"
-);
+    playingGrid.innerHTML = "";
+    allGrid.innerHTML = "";
 
-/* CLEAR CONTENT */
+    games.sort((a,b)=>
+      a.name.localeCompare(b.name)
+    );
 
-playingGrid.innerHTML="";
+    games.forEach(game=>{
 
-allGrid.innerHTML="";
+      const image =
+      `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
-/* SORT GAMES */
+      const gameKey =
+      `game_${game.appid}`;
 
-games.sort((a,b)=>
-a.name.localeCompare(b.name)
-);
+      const savedPlaying =
+      localStorage.getItem(
+        `${gameKey}_playing`
+      ) === "true";
 
-/* =========================================
-   CREATE GAME CARDS
-========================================= */
+      const savedNotes =
+      localStorage.getItem(
+        `${gameKey}_notes`
+      ) || "";
 
-games.forEach(game=>{
+      const savedRating =
+      localStorage.getItem(
+        `${gameKey}_rating`
+      ) || "0";
 
-const image =
-`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+      const savedCategory =
+      localStorage.getItem(
+        `${gameKey}_category`
+      ) || "Story Driven / Visual Novel";
 
-const gameKey =
-`game_${game.appid}`;
+      const card =
+      createGameCard(
+        game,
+        image,
+        savedCategory,
+        savedPlaying,
+        savedRating,
+        savedNotes,
+        gameKey
+      );
 
-/* SAVED SETTINGS */
+      allGrid.appendChild(card);
 
-const savedPlaying =
-localStorage.getItem(
-`${gameKey}_playing`
-)==="true";
+      if(savedPlaying){
 
-const savedNotes =
-localStorage.getItem(
-`${gameKey}_notes`
-)||"";
+        const playingCard =
+        createGameCard(
+          game,
+          image,
+          savedCategory,
+          savedPlaying,
+          savedRating,
+          savedNotes,
+          gameKey
+        );
 
-const savedRating =
-localStorage.getItem(
-`${gameKey}_rating`
-)||"0";
+        playingGrid.appendChild(
+          playingCard
+        );
+      }
 
-const savedCategory =
-localStorage.getItem(
-`${gameKey}_category`
-)||"Story Driven / Visual Novel";
+    });
 
-/* CREATE CARD */
+  } catch(error){
 
-const card =
-createGameCard(
-game,
-image,
-savedCategory,
-savedPlaying,
-savedRating,
-savedNotes,
-gameKey
-);
-
-/* ADD TO ALL GAMES */
-
-allGrid.appendChild(card);
-
-/* CURRENTLY PLAYING */
-
-if(savedPlaying){
-
-const playingCard =
-createGameCard(
-game,
-image,
-savedCategory,
-savedPlaying,
-savedRating,
-savedNotes,
-gameKey
-);
-
-playingGrid.appendChild(
-playingCard
-);
+    console.error(
+      "Steam Library Error:",
+      error
+    );
+  }
 }
 
-});
-
-/* =========================================
-   CARD FUNCTION
-========================================= */
+/* ======================================
+   CREATE GAME CARD
+====================================== */
 
 function createGameCard(
-game,
-image,
-savedCategory,
-savedPlaying,
-savedRating,
-savedNotes,
-gameKey
+  game,
+  image,
+  savedCategory,
+  savedPlaying,
+  savedRating,
+  savedNotes,
+  gameKey
 ){
 
-const card =
-document.createElement("div");
+  const card =
+  document.createElement("div");
 
-card.className =
-"game-card";
+  card.className =
+  "game-card";
 
-card.innerHTML=`
+  card.innerHTML = `
 
-<img
-src="${image}"
-loading="lazy"
->
+    <img
+      src="${image}"
+      loading="lazy"
+    >
 
-<div class="game-info">
+    <div class="game-info">
 
-<div class="game-title">
-${game.name}
-</div>
+      <div class="game-title">
+        ${game.name}
+      </div>
 
-<select class="category-select">
+      <select class="category-select">
 
-<option
-${savedCategory === "Story Driven / Visual Novel" ? "selected" : ""}
->
-Story Driven / Visual Novel
-</option>
+        <option
+          ${savedCategory === "Story Driven / Visual Novel" ? "selected" : ""}
+        >
+          Story Driven / Visual Novel
+        </option>
 
-<option
-${savedCategory === "CozyAdventure" ? "selected" : ""}
->
-CozyAdventure
-</option>
+        <option
+          ${savedCategory === "CozyAdventure" ? "selected" : ""}
+        >
+          CozyAdventure
+        </option>
 
-<option
-${savedCategory === "CozyHorror" ? "selected" : ""}
->
-CozyHorror
-</option>
+        <option
+          ${savedCategory === "CozyHorror" ? "selected" : ""}
+        >
+          CozyHorror
+        </option>
 
-<option
-${savedCategory === "CozyCasual" ? "selected" : ""}
->
-CozyCasual
-</option>
+        <option
+          ${savedCategory === "CozyCasual" ? "selected" : ""}
+        >
+          CozyCasual
+        </option>
 
-<option
-${savedCategory === "Multiplayer / CO-OP" ? "selected" : ""}
->
-Multiplayer / CO-OP
-</option>
+        <option
+          ${savedCategory === "Multiplayer / CO-OP" ? "selected" : ""}
+        >
+          Multiplayer / CO-OP
+        </option>
 
-</select>
+      </select>
 
-<label>
+      <label>
 
-<input
-type="checkbox"
-class="playing-toggle"
-${savedPlaying ? "checked" : ""}
->
+        <input
+          type="checkbox"
+          class="playing-toggle"
+          ${savedPlaying ? "checked" : ""}
+        >
 
-🎮 Currently Playing
+        🎮 Currently Playing
 
-</label>
+      </label>
 
-<div class="stars-rating">
+      <div class="stars-rating">
 
-<span
-class="star-rating"
-data-value="1"
->⭐</span>
+        <span class="star-rating" data-value="1">⭐</span>
+        <span class="star-rating" data-value="2">⭐</span>
+        <span class="star-rating" data-value="3">⭐</span>
+        <span class="star-rating" data-value="4">⭐</span>
+        <span class="star-rating" data-value="5">⭐</span>
 
-<span
-class="star-rating"
-data-value="2"
->⭐</span>
+      </div>
 
-<span
-class="star-rating"
-data-value="3"
->⭐</span>
+      <textarea
+        class="notes-box"
+        placeholder="Magical cozy notes..."
+      >${savedNotes}</textarea>
 
-<span
-class="star-rating"
-data-value="4"
->⭐</span>
+    </div>
+  `;
 
-<span
-class="star-rating"
-data-value="5"
->⭐</span>
+  /* CATEGORY SAVE */
 
-</div>
+  const categorySelect =
+  card.querySelector(
+    ".category-select"
+  );
 
-<textarea
-class="notes-box"
-placeholder="Magical cozy notes..."
->${savedNotes}</textarea>
+  categorySelect.addEventListener(
+    "change",
+    () => {
 
-</div>
-`;
+      localStorage.setItem(
+        `${gameKey}_category`,
+        categorySelect.value
+      );
+    }
+  );
 
-/* CATEGORY SAVE */
+  /* CURRENTLY PLAYING */
 
-const categorySelect =
-card.querySelector(
-".category-select"
-);
+  const playingToggle =
+  card.querySelector(
+    ".playing-toggle"
+  );
 
-categorySelect.addEventListener(
-"change",
-()=>{
+  playingToggle.addEventListener(
+    "change",
+    () => {
 
-localStorage.setItem(
-`${gameKey}_category`,
-categorySelect.value
-);
+      localStorage.setItem(
+        `${gameKey}_playing`,
+        playingToggle.checked
+      );
 
-}
-);
+      location.reload();
+    }
+  );
 
-/* CURRENTLY PLAYING SAVE */
+  /* NOTES */
 
-const playingToggle =
-card.querySelector(
-".playing-toggle"
-);
+  const notesBox =
+  card.querySelector(
+    ".notes-box"
+  );
 
-playingToggle.addEventListener(
-"change",
-()=>{
+  notesBox.addEventListener(
+    "input",
+    () => {
 
-localStorage.setItem(
-`${gameKey}_playing`,
-playingToggle.checked
-);
+      localStorage.setItem(
+        `${gameKey}_notes`,
+        notesBox.value
+      );
+    }
+  );
 
-location.reload();
+  /* STAR RATINGS */
 
-}
-);
+  const stars =
+  card.querySelectorAll(
+    ".star-rating"
+  );
 
-/* NOTES SAVE */
+  function updateStars(value){
 
-const notesBox =
-card.querySelector(
-".notes-box"
-);
+    stars.forEach(star=>{
 
-notesBox.addEventListener(
-"input",
-()=>{
+      star.style.opacity =
+      star.dataset.value <= value
+      ? "1"
+      : "0.3";
 
-localStorage.setItem(
-`${gameKey}_notes`,
-notesBox.value
-);
+    });
+  }
 
-}
-);
+  updateStars(savedRating);
 
-/* STAR RATINGS */
+  stars.forEach(star=>{
 
-const stars =
-card.querySelectorAll(
-".star-rating"
-);
+    star.addEventListener(
+      "click",
+      () => {
 
-function updateStars(value){
+        const value =
+        star.dataset.value;
 
-stars.forEach(star=>{
+        localStorage.setItem(
+          `${gameKey}_rating`,
+          value
+        );
 
-star.style.opacity =
-star.dataset.value <= value
-? "1"
-: "0.3";
+        updateStars(value);
+      }
+    );
+  });
 
-});
-}
-
-updateStars(savedRating);
-
-stars.forEach(star=>{
-
-star.addEventListener(
-"click",
-()=>{
-
-const value =
-star.dataset.value;
-
-localStorage.setItem(
-`${gameKey}_rating`,
-value
-);
-
-updateStars(value);
-
-}
-);
-});
-
-return card;
-
+  return card;
 }
 
-}catch(error){
-
-console.error(
-"Steam Library Error:",
-error
-);
-
-}
-}
+/* ======================================
+   START APP
+====================================== */
 
 loadGames();
 
