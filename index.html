@@ -138,6 +138,26 @@ const savedNotes =
 
 card.innerHTML = `
 
+  const gameKey =
+  `game_${game.appid}`;
+
+const savedChecked =
+  localStorage.getItem(gameKey + "_checked") === "true";
+
+const savedNotes =
+  localStorage.getItem(gameKey + "_notes") || "";
+
+const savedPlaying =
+  localStorage.getItem(gameKey + "_playing") === "true";
+
+const savedCategory =
+  localStorage.getItem(gameKey + "_category") || "Backlog";
+
+const savedRating =
+  localStorage.getItem(gameKey + "_rating") || "0";
+
+card.innerHTML = `
+
   <img src="${image}" loading="lazy">
 
   <div class="title">
@@ -146,7 +166,7 @@ card.innerHTML = `
 
   <div class="controls">
 
-    <label>
+    <label class="witch-label">
 
       <input
         type="checkbox"
@@ -159,10 +179,64 @@ card.innerHTML = `
 
     </label>
 
+    <label class="witch-label">
+
+      <input
+        type="checkbox"
+        class="playing-check"
+        data-appid="${game.appid}"
+        ${savedPlaying ? "checked" : ""}
+      >
+
+      Currently Playing
+
+    </label>
+
+    <select
+      class="category-select"
+      data-appid="${game.appid}"
+    >
+
+      <option ${savedCategory === "Backlog" ? "selected" : ""}>
+        Backlog
+      </option>
+
+      <option ${savedCategory === "Cozy" ? "selected" : ""}>
+        Cozy
+      </option>
+
+      <option ${savedCategory === "Horror" ? "selected" : ""}>
+        Horror
+      </option>
+
+      <option ${savedCategory === "RPG" ? "selected" : ""}>
+        RPG
+      </option>
+
+      <option ${savedCategory === "Multiplayer" ? "selected" : ""}>
+        Multiplayer
+      </option>
+
+      <option ${savedCategory === "Completed" ? "selected" : ""}>
+        Completed
+      </option>
+
+    </select>
+
+    <div class="rating">
+
+      <span class="star" data-value="1">⭐</span>
+      <span class="star" data-value="2">⭐</span>
+      <span class="star" data-value="3">⭐</span>
+      <span class="star" data-value="4">⭐</span>
+      <span class="star" data-value="5">⭐</span>
+
+    </div>
+
     <textarea
       class="game-notes"
       data-appid="${game.appid}"
-      placeholder="Add notes..."
+      placeholder="Potion notes..."
     >${savedNotes}</textarea>
 
   </div>
