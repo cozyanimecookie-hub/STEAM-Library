@@ -1,363 +1,750 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
 
-/* ======================================
-   TWINKLE STARS
-====================================== */
+<head>
 
-const starsContainer =
-document.getElementById("stars");
+<meta charset="UTF-8">
 
-for(let i = 0; i < 180; i++){
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  const star =
-  document.createElement("div");
+<title>Cozy Anime Cookie Library</title>
 
-  star.className = "star";
+<style>
 
-  const size =
-  Math.random() * 4 + 1;
-
-  star.style.width =
-  size + "px";
-
-  star.style.height =
-  size + "px";
-
-  star.style.left =
-  Math.random() * 100 + "%";
-
-  star.style.top =
-  Math.random() * 100 + "%";
-
-  star.style.animationDuration =
-  (2 + Math.random() * 5) + "s";
-
-  star.style.animationDelay =
-  Math.random() * 5 + "s";
-
-  const colors = [
-    "#ffffff",
-    "#fff7b0",
-    "#ffe680"
-  ];
-
-  star.style.background =
-  colors[
-    Math.floor(
-      Math.random() * colors.length
-    )
-  ];
-
-  starsContainer.appendChild(star);
+*{
+box-sizing:border-box;
 }
 
-/* ======================================
-   LOAD STEAM LIBRARY
-====================================== */
+body{
+
+margin:0;
+
+font-family:"Comic Sans MS", cursive;
+
+color:white;
+
+overflow-x:hidden;
+
+background:
+radial-gradient(
+circle at center,
+#6727b8 0%,
+#2b114a 45%,
+#000000 100%
+);
+
+min-height:100vh;
+}
+
+/* STARS */
+
+.stars{
+
+position:fixed;
+
+width:100%;
+
+height:100%;
+
+top:0;
+
+left:0;
+
+pointer-events:none;
+
+z-index:0;
+}
+
+.star{
+
+position:absolute;
+
+border-radius:50%;
+
+animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+
+0%{
+opacity:0.2;
+transform:scale(0.5);
+}
+
+50%{
+opacity:1;
+transform:scale(1.4);
+}
+
+100%{
+opacity:0.2;
+transform:scale(0.5);
+}
+}
+
+/* LAYOUT */
+
+.container{
+
+position:relative;
+
+z-index:2;
+
+padding:30px;
+}
+
+h1{
+
+text-align:center;
+
+font-size:58px;
+
+margin-bottom:10px;
+
+text-shadow:
+0 0 12px #f0abfc,
+0 0 24px #d8b4fe;
+}
+
+.subtitle{
+
+text-align:center;
+
+margin-bottom:45px;
+
+font-size:20px;
+
+color:#ffe9ff;
+}
+
+.layout{
+
+display:grid;
+
+grid-template-columns:260px 1fr;
+
+gap:24px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+background:
+rgba(255,255,255,0.08);
+
+border-radius:24px;
+
+padding:22px;
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,0.14);
+}
+
+.hat{
+
+font-size:70px;
+
+text-align:center;
+
+margin-bottom:12px;
+}
+
+.sidebar-title{
+
+text-align:center;
+
+font-size:34px;
+
+margin-bottom:22px;
+}
+
+.menu{
+
+background:
+rgba(255,255,255,0.08);
+
+padding:14px;
+
+border-radius:16px;
+
+margin-bottom:12px;
+}
+
+/* MAIN */
+
+.section{
+
+margin-bottom:60px;
+}
+
+.section-title{
+
+font-size:34px;
+
+margin-bottom:20px;
+
+text-shadow:
+0 0 10px #d8b4fe;
+}
+
+.game-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(240px,1fr));
+
+gap:20px;
+}
+
+/* CARD */
+
+.game-card{
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,0.12),
+rgba(92,34,150,0.9)
+);
+
+border-radius:24px;
+
+overflow:hidden;
+
+border:
+1px solid rgba(255,255,255,0.15);
+
+backdrop-filter:blur(10px);
+
+transition:0.25s;
+}
+
+.game-card:hover{
+
+transform:
+translateY(-6px)
+scale(1.03);
+}
+
+.game-card img{
+
+width:100%;
+
+display:block;
+}
+
+.game-info{
+
+padding:16px;
+}
+
+.game-title{
+
+font-size:18px;
+
+margin-bottom:14px;
+}
+
+select{
+
+width:100%;
+
+padding:10px;
+
+margin-bottom:14px;
+
+border-radius:12px;
+
+border:none;
+
+background:
+rgba(0,0,0,0.35);
+
+color:white;
+
+font-family:
+"Comic Sans MS", cursive;
+}
+
+label{
+
+display:block;
+
+margin-bottom:14px;
+}
+
+textarea{
+
+width:100%;
+
+min-height:80px;
+
+border:none;
+
+border-radius:14px;
+
+padding:12px;
+
+resize:vertical;
+
+background:
+rgba(0,0,0,0.35);
+
+color:white;
+
+font-family:
+"Comic Sans MS", cursive;
+}
+
+.stars-rating{
+
+margin-bottom:14px;
+
+font-size:24px;
+}
+
+.star-rating{
+
+cursor:pointer;
+
+opacity:0.3;
+
+transition:0.2s;
+}
+
+.star-rating:hover{
+
+transform:scale(1.2);
+}
+
+@media(max-width:900px){
+
+.layout{
+
+grid-template-columns:1fr;
+}
+
+h1{
+
+font-size:42px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+<h1>🌙 Cozy Anime Cookie Library ✨</h1>
+
+<div class="subtitle">
+Every game is a magical adventure 💖
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="hat">🎩</div>
+
+<div class="sidebar-title">
+SPELLBOOK
+</div>
+
+<div class="menu">📚 All Games</div>
+
+<div class="menu">🎮 Currently Playing</div>
+
+<div class="menu">📝 Cozy Notes</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main>
+
+<section class="section">
+
+<div class="section-title">
+🎮 Currently Playing
+</div>
+
+<div class="game-grid playing-grid"></div>
+
+</section>
+
+<section class="section">
+
+<div class="section-title">
+📚 All Games
+</div>
+
+<div class="game-grid all-games-grid"></div>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+<script>
+
+/* STARS */
+
+const stars =
+document.getElementById("stars");
+
+for(let i=0;i<180;i++){
+
+const star =
+document.createElement("div");
+
+star.className="star";
+
+const size =
+Math.random()*4+1;
+
+star.style.width=
+size+"px";
+
+star.style.height=
+size+"px";
+
+star.style.left=
+Math.random()*100+"%";
+
+star.style.top=
+Math.random()*100+"%";
+
+star.style.animationDuration=
+(2+Math.random()*5)+"s";
+
+star.style.animationDelay=
+Math.random()*5+"s";
+
+const colors=[
+"#ffffff",
+"#fff7b0",
+"#ffe680"
+];
+
+star.style.background=
+colors[
+Math.floor(
+Math.random()*colors.length
+)
+];
+
+stars.appendChild(star);
+}
+
+/* LOAD STEAM GAMES */
 
 async function loadGames(){
 
-  const workerURL =
-  "https://icy-pond-784c.cozyanimecookie.workers.dev/";
+const workerURL =
+"https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-  try{
+try{
 
-    const response =
-    await fetch(workerURL);
+const response =
+await fetch(workerURL);
 
-    const data =
-    await response.json();
+const data =
+await response.json();
 
-    const games =
-    data.response.games || [];
+const games =
+data.response.games || [];
 
-    const playingGrid =
-    document.querySelector(
-      ".playing-grid"
-    );
+const playingGrid =
+document.querySelector(".playing-grid");
 
-    const allGrid =
-    document.querySelector(
-      ".all-games-grid"
-    );
+const allGrid =
+document.querySelector(".all-games-grid");
 
-    playingGrid.innerHTML = "";
-    allGrid.innerHTML = "";
+playingGrid.innerHTML="";
+allGrid.innerHTML="";
 
-    games.sort((a,b)=>
-      a.name.localeCompare(b.name)
-    );
+games.sort((a,b)=>
+a.name.localeCompare(b.name)
+);
 
-    games.forEach(game=>{
+games.forEach(game=>{
 
-      const image =
-      `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+const image =
+`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
-      const gameKey =
-      `game_${game.appid}`;
+const gameKey =
+`game_${game.appid}`;
 
-      const savedPlaying =
-      localStorage.getItem(
-        `${gameKey}_playing`
-      ) === "true";
+const savedPlaying =
+localStorage.getItem(
+`${gameKey}_playing`
+)==="true";
 
-      const savedNotes =
-      localStorage.getItem(
-        `${gameKey}_notes`
-      ) || "";
+const savedCategory =
+localStorage.getItem(
+`${gameKey}_category`
+)||"Story Driven / Visual Novel";
 
-      const savedRating =
-      localStorage.getItem(
-        `${gameKey}_rating`
-      ) || "0";
+const savedRating =
+localStorage.getItem(
+`${gameKey}_rating`
+)||"0";
 
-      const savedCategory =
-      localStorage.getItem(
-        `${gameKey}_category`
-      ) || "Story Driven / Visual Novel";
+const savedNotes =
+localStorage.getItem(
+`${gameKey}_notes`
+)||"";
 
-      const card =
-      createGameCard(
-        game,
-        image,
-        savedCategory,
-        savedPlaying,
-        savedRating,
-        savedNotes,
-        gameKey
-      );
+const card =
+createCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
+);
 
-      allGrid.appendChild(card);
+allGrid.appendChild(card);
 
-      if(savedPlaying){
+if(savedPlaying){
 
-        const playingCard =
-        createGameCard(
-          game,
-          image,
-          savedCategory,
-          savedPlaying,
-          savedRating,
-          savedNotes,
-          gameKey
-        );
+const playingCard =
+createCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
+);
 
-        playingGrid.appendChild(
-          playingCard
-        );
-      }
-
-    });
-
-  } catch(error){
-
-    console.error(
-      "Steam Library Error:",
-      error
-    );
-  }
+playingGrid.appendChild(
+playingCard
+);
 }
 
-/* ======================================
-   CREATE GAME CARD
-====================================== */
+});
 
-function createGameCard(
-  game,
-  image,
-  savedCategory,
-  savedPlaying,
-  savedRating,
-  savedNotes,
-  gameKey
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+/* CREATE CARD */
+
+function createCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
 ){
 
-  const card =
-  document.createElement("div");
+const card =
+document.createElement("div");
 
-  card.className =
-  "game-card";
+card.className =
+"game-card";
 
-  card.innerHTML = `
+card.innerHTML=`
 
-    <img
-      src="${image}"
-      loading="lazy"
-    >
+<img src="${image}">
 
-    <div class="game-info">
+<div class="game-info">
 
-      <div class="game-title">
-        ${game.name}
-      </div>
+<div class="game-title">
+${game.name}
+</div>
 
-      <select class="category-select">
+<select class="category-select">
 
-        <option
-          ${savedCategory === "Story Driven / Visual Novel" ? "selected" : ""}
-        >
-          Story Driven / Visual Novel
-        </option>
+<option
+${savedCategory==="Story Driven / Visual Novel"?"selected":""}
+>
+Story Driven / Visual Novel
+</option>
 
-        <option
-          ${savedCategory === "CozyAdventure" ? "selected" : ""}
-        >
-          CozyAdventure
-        </option>
+<option
+${savedCategory==="CozyAdventure"?"selected":""}
+>
+CozyAdventure
+</option>
 
-        <option
-          ${savedCategory === "CozyHorror" ? "selected" : ""}
-        >
-          CozyHorror
-        </option>
+<option
+${savedCategory==="CozyHorror"?"selected":""}
+>
+CozyHorror
+</option>
 
-        <option
-          ${savedCategory === "CozyCasual" ? "selected" : ""}
-        >
-          CozyCasual
-        </option>
+<option
+${savedCategory==="CozyCasual"?"selected":""}
+>
+CozyCasual
+</option>
 
-        <option
-          ${savedCategory === "Multiplayer / CO-OP" ? "selected" : ""}
-        >
-          Multiplayer / CO-OP
-        </option>
+<option
+${savedCategory==="Multiplayer / CO-OP"?"selected":""}
+>
+Multiplayer / CO-OP
+</option>
 
-      </select>
+</select>
 
-      <label>
+<label>
 
-        <input
-          type="checkbox"
-          class="playing-toggle"
-          ${savedPlaying ? "checked" : ""}
-        >
+<input
+type="checkbox"
+class="playing-toggle"
+${savedPlaying ? "checked" : ""}
+>
 
-        🎮 Currently Playing
+🎮 Currently Playing
 
-      </label>
+</label>
 
-      <div class="stars-rating">
+<div class="stars-rating">
 
-        <span class="star-rating" data-value="1">⭐</span>
-        <span class="star-rating" data-value="2">⭐</span>
-        <span class="star-rating" data-value="3">⭐</span>
-        <span class="star-rating" data-value="4">⭐</span>
-        <span class="star-rating" data-value="5">⭐</span>
+<span class="star-rating" data-value="1">⭐</span>
+<span class="star-rating" data-value="2">⭐</span>
+<span class="star-rating" data-value="3">⭐</span>
+<span class="star-rating" data-value="4">⭐</span>
+<span class="star-rating" data-value="5">⭐</span>
 
-      </div>
+</div>
 
-      <textarea
-        class="notes-box"
-        placeholder="Magical cozy notes..."
-      >${savedNotes}</textarea>
+<textarea
+class="notes-box"
+placeholder="Magical cozy notes..."
+>${savedNotes}</textarea>
 
-    </div>
-  `;
+</div>
+`;
 
-  /* CATEGORY SAVE */
+/* CATEGORY */
 
-  const categorySelect =
-  card.querySelector(
-    ".category-select"
-  );
+const categorySelect =
+card.querySelector(".category-select");
 
-  categorySelect.addEventListener(
-    "change",
-    () => {
+categorySelect.addEventListener(
+"change",
+()=>{
 
-      localStorage.setItem(
-        `${gameKey}_category`,
-        categorySelect.value
-      );
-    }
-  );
+localStorage.setItem(
+`${gameKey}_category`,
+categorySelect.value
+);
 
-  /* CURRENTLY PLAYING */
+}
+);
 
-  const playingToggle =
-  card.querySelector(
-    ".playing-toggle"
-  );
+/* PLAYING */
 
-  playingToggle.addEventListener(
-    "change",
-    () => {
+const playingToggle =
+card.querySelector(".playing-toggle");
 
-      localStorage.setItem(
-        `${gameKey}_playing`,
-        playingToggle.checked
-      );
+playingToggle.addEventListener(
+"change",
+()=>{
 
-      location.reload();
-    }
-  );
+localStorage.setItem(
+`${gameKey}_playing`,
+playingToggle.checked
+);
 
-  /* NOTES */
+location.reload();
 
-  const notesBox =
-  card.querySelector(
-    ".notes-box"
-  );
+}
+);
 
-  notesBox.addEventListener(
-    "input",
-    () => {
+/* NOTES */
 
-      localStorage.setItem(
-        `${gameKey}_notes`,
-        notesBox.value
-      );
-    }
-  );
+const notesBox =
+card.querySelector(".notes-box");
 
-  /* STAR RATINGS */
+notesBox.addEventListener(
+"input",
+()=>{
 
-  const stars =
-  card.querySelectorAll(
-    ".star-rating"
-  );
+localStorage.setItem(
+`${gameKey}_notes`,
+notesBox.value
+);
 
-  function updateStars(value){
+}
+);
 
-    stars.forEach(star=>{
+/* STARS */
 
-      star.style.opacity =
-      star.dataset.value <= value
-      ? "1"
-      : "0.3";
+const stars =
+card.querySelectorAll(".star-rating");
 
-    });
-  }
+function updateStars(value){
 
-  updateStars(savedRating);
+stars.forEach(star=>{
 
-  stars.forEach(star=>{
+star.style.opacity =
+star.dataset.value <= value
+? "1"
+: "0.3";
 
-    star.addEventListener(
-      "click",
-      () => {
-
-        const value =
-        star.dataset.value;
-
-        localStorage.setItem(
-          `${gameKey}_rating`,
-          value
-        );
-
-        updateStars(value);
-      }
-    );
-  });
-
-  return card;
+});
 }
 
-/* ======================================
-   START APP
-====================================== */
+updateStars(savedRating);
+
+stars.forEach(star=>{
+
+star.addEventListener(
+"click",
+()=>{
+
+const value =
+star.dataset.value;
+
+localStorage.setItem(
+`${gameKey}_rating`,
+value
+);
+
+updateStars(value);
+
+}
+);
+
+});
+
+return card;
+
+}
 
 loadGames();
 
 </script>
+
+</body>
+
+</html>
