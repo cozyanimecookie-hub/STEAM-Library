@@ -1,54 +1,8 @@
+```html id="m2w7qp"
 <script>
-  
-<div class="game-grid all-games-grid"></div>
-
-<input
-type="text"
-id="searchBar"
-placeholder="🔍 Search your magical library..."
-style="
-width:100%;
-padding:14px;
-border:none;
-border-radius:16px;
-margin-bottom:24px;
-font-size:16px;
-background:rgba(255,255,255,0.12);
-color:white;
-font-family:'Comic Sans MS', cursive;
-outline:none;
-"
-/>
-  
-/* ======================================
-   SEARCH
-====================================== */
-
-let searchQuery = "";
-
-const searchInput =
-document.getElementById(
-"searchBar"
-);
-
-if(searchInput){
-
-searchInput.addEventListener(
-"input",
-(e)=>{
-
-searchQuery =
-e.target.value.toLowerCase();
-
-loadGames();
-
-}
-);
-
-}
 
 /* ======================================
-   STARS
+   TWINKLE STARS
 ====================================== */
 
 const stars =
@@ -100,7 +54,7 @@ stars.appendChild(star);
 }
 
 /* ======================================
-   FILTERS
+   FILTER BUTTONS
 ====================================== */
 
 let currentFilter = "all";
@@ -142,7 +96,7 @@ loadGames();
 async function loadGames(){
 
 const workerURL =
-"PASTE_YOUR_WORKER_URL_HERE";
+"https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
 try{
 
@@ -161,20 +115,6 @@ document.querySelector(
 );
 
 grid.innerHTML="";
-
-/* ======================================
-   SEARCH FILTER
-====================================== */
-
-if(searchQuery.trim()!==""){
-
-games = games.filter(game=>
-game.name
-.toLowerCase()
-.includes(searchQuery)
-);
-
-}
 
 /* ======================================
    SORTING
@@ -457,11 +397,30 @@ Year Completed
 
 <div class="stars-rating">
 
-<span class="star-rating" data-value="1">⭐</span>
-<span class="star-rating" data-value="2">⭐</span>
-<span class="star-rating" data-value="3">⭐</span>
-<span class="star-rating" data-value="4">⭐</span>
-<span class="star-rating" data-value="5">⭐</span>
+<span
+class="star-rating"
+data-value="1"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="2"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="3"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="4"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="5"
+>⭐</span>
 
 </div>
 
@@ -475,7 +434,9 @@ placeholder="Magical cozy notes..."
 
 grid.appendChild(card);
 
-/* CATEGORY */
+/* ======================================
+   CATEGORY
+====================================== */
 
 const categorySelect =
 card.querySelector(
@@ -497,7 +458,9 @@ categorySelect.value
 }
 );
 
-/* PLAYING */
+/* ======================================
+   PLAYING
+====================================== */
 
 const playingToggle =
 card.querySelector(
@@ -518,7 +481,9 @@ loadGames();
 }
 );
 
-/* COMPLETED */
+/* ======================================
+   COMPLETED
+====================================== */
 
 const completedToggle =
 card.querySelector(
@@ -539,7 +504,9 @@ loadGames();
 }
 );
 
-/* MONTH */
+/* ======================================
+   MONTH
+====================================== */
 
 const monthSelect =
 card.querySelector(
@@ -561,7 +528,9 @@ monthSelect.value
 }
 );
 
-/* YEAR */
+/* ======================================
+   YEAR
+====================================== */
 
 const yearSelect =
 card.querySelector(
@@ -583,7 +552,9 @@ yearSelect.value
 }
 );
 
-/* NOTES */
+/* ======================================
+   NOTES
+====================================== */
 
 const notesBox =
 card.querySelector(
@@ -602,7 +573,9 @@ notesBox.value
 }
 );
 
-/* STARS */
+/* ======================================
+   STARS
+====================================== */
 
 const stars =
 card.querySelectorAll(
@@ -651,5 +624,8 @@ updateStars(value);
 ====================================== */
 
 loadGames();
+
+</script>
+```
 
 </script>
