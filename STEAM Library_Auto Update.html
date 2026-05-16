@@ -1,47 +1,66 @@
-<div id="games"></div>
 <script>
 
 async function loadGames() {
 
-  const url =
-    "https://icy-pond-784c.cozyanimecookie.workers.dev/";
+  try {
 
-  const response =
-    await fetch(url);
+    const url =
+      "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-  const data =
-    await response.json();
+    const response =
+      await fetch(url);
 
-  const games =
-    data.response.games;
+    const data =
+      await response.json();
 
-  const container =
-    document.getElementById("games");
+    console.log(data);
 
-  container.innerHTML = "";
+    const games =
+      data.response?.games || [];
 
-  games.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+    const container =
+      document.getElementById("games");
 
-  games.forEach(game => {
+    container.innerHTML = "";
 
-    const image =
-            `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+    if (games.length === 0) {
 
-    container.innerHTML += `
+      container.innerHTML =
+        "<p>No games found.</p>";
 
-      <div class="game">
+      return;
+    }
 
-        <img src="${image}">
+    games.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
 
-        <div class="title">
-          ${game.name}
+    games.forEach(game => {
+
+      const image =
+        `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+      container.innerHTML += `
+
+        <div class="game">
+
+          <img src="${image}" loading="lazy">
+
+          <div class="title">
+            ${game.name}
+          </div>
+
         </div>
+      `;
+    });
 
-      </div>
-    `;
-  });
+  } catch(error) {
+
+    console.error(error);
+
+    document.getElementById("games").innerHTML =
+      `<p>Error loading games: ${error}</p>`;
+  }
 }
 
 loadGames();
