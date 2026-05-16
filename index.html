@@ -1,60 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CozyAnimeCookie Library</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+
+margin:0;
+
+font-family:"Comic Sans MS", cursive;
+
+color:white;
+
+overflow-x:hidden;
+
+background:
+radial-gradient(
+circle at center,
+#6727b8 0%,
+#2b114a 45%,
+#000000 100%
+);
+
+min-height:100vh;
+}
+
+/* STARS */
+
+.stars{
+
+position:fixed;
+
+width:100%;
+
+height:100%;
+
+top:0;
+
+left:0;
+
+pointer-events:none;
+
+z-index:0;
+}
+
+.star{
+
+position:absolute;
+
+border-radius:50%;
+
+animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+
+0%{
+opacity:0.2;
+transform:scale(0.5);
+}
+
+50%{
+opacity:1;
+transform:scale(1.4);
+}
+
+100%{
+opacity:0.2;
+transform:scale(0.5);
+}
+}
+
+/* LAYOUT */
+
+.container{
+
+position:relative;
+
+z-index:2;
+
+padding:30px;
+}
+
+h1{
+
+text-align:center;
+
+font-size:58px;
+
+margin-bottom:10px;
+
+text-shadow:
+0 0 12px #f0abfc,
+0 0 24px #d8b4fe;
+}
+
+.subtitle{
+
+text-align:center;
+
+margin-bottom:45px;
+
+font-size:20px;
+
+color:#ffe9ff;
+}
+
+.layout{
+
+display:grid;
+
+grid-template-columns:260px 1fr;
+
+gap:24px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+background:
+rgba(255,255,255,0.08);
+
+border-radius:24px;
+
+padding:22px;
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,0.14);
+}
+
+.hat{
+
+font-size:70px;
+
+text-align:center;
+
+margin-bottom:12px;
+}
+
+.sidebar-title{
+
+text-align:center;
+
+font-size:34px;
+
+margin-bottom:22px;
+}
+
+.menu{
+
+background:
+rgba(255,255,255,0.08);
+
+padding:14px;
+
+border-radius:16px;
+
+margin-bottom:12px;
+
+cursor:pointer;
+
+transition:0.2s;
+}
+
+.menu:hover{
+
+background:
+rgba(255,255,255,0.18);
+}
+
+.active-menu{
+
+background:
+rgba(255,255,255,0.28);
+}
+
+/* MAIN */
+
+.section-title{
+
+font-size:34px;
+
+margin-bottom:24px;
+
+text-shadow:
+0 0 10px #d8b4fe;
+}
+
+.game-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(260px,1fr));
+
+gap:20px;
+}
+
+/* CARD */
+
+.game-card{
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,0.12),
+rgba(92,34,150,0.9)
+);
+
+border-radius:24px;
+
+overflow:hidden;
+
+border:
+1px solid rgba(255,255,255,0.15);
+
+transition:0.25s;
+}
+
+.game-card:hover{
+
+transform:
+translateY(-6px)
+scale(1.02);
+}
+
+.game-card img{
+
+width:100%;
+
+display:block;
+}
+
+.game-info{
+
+padding:16px;
+}
+
+.game-title{
+
+font-size:18px;
+
+margin-bottom:14px;
+}
+
+select{
+
+width:100%;
+
+padding:10px;
+
+margin-bottom:12px;
+
+border-radius:12px;
+
+border:none;
+
+background:
+rgba(0,0,0,0.35);
+
+color:white;
+
+font-family:
+"Comic Sans MS", cursive;
+}
+
+label{
+
+display:block;
+
+margin-bottom:12px;
+}
+
+textarea{
+
+width:100%;
+
+min-height:80px;
+
+border:none;
+
+border-radius:14px;
+
+padding:12px;
+
+resize:vertical;
+
+background:
+rgba(0,0,0,0.35);
+
+color:white;
+
+font-family:
+"Comic Sans MS", cursive;
+}
+
+.stars-rating{
+
+margin-bottom:14px;
+
+font-size:24px;
+}
+
+.star-rating{
+
+cursor:pointer;
+
+opacity:0.3;
+
+transition:0.2s;
+}
+
+.star-rating:hover{
+
+transform:scale(1.2);
+}
+
+.completed{
+
+background:
+linear-gradient(
+180deg,
+#1a1a1a,
+#000000
+) !important;
+}
+
+@media(max-width:900px){
+
+.layout{
+
+grid-template-columns:1fr;
+}
+
+h1{
+
+font-size:42px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+<h1>🌙 CozyAnimeCookie Library ✨</h1>
+
+<div class="subtitle">
+Every game is a magical adventure 💖
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="hat">📖</div>
+
+<div class="sidebar-title">
+SPELLBOOK
+</div>
+
+<div class="menu active-menu"
+data-filter="all">
+📚 All Games
+</div>
+
+<div class="menu"
+data-filter="playing">
+🎮 Currently Playing
+</div>
+
+<div class="menu"
+data-filter="completed">
+✔ Completed
+</div>
+
+<div class="menu"
+data-filter="notes">
+📝 Cozy Notes
+</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main>
+
+<div class="section-title">
+✨ Steam Library
+</div>
+
+<div class="game-grid all-games-grid"></div>
+
+</main>
+
+</div>
+
+</div>
+
 <script>
 
-/* ======================================
-   TWINKLE STARS
-====================================== */
+/* STARS */
 
-const starsContainer =
+const stars =
 document.getElementById("stars");
 
-for(let i = 0; i < 180; i++){
+for(let i=0;i<180;i++){
 
 const star =
 document.createElement("div");
 
-star.className = "star";
+star.className="star";
 
 const size =
-Math.random() * 4 + 1;
+Math.random()*4+1;
 
-star.style.width =
-size + "px";
+star.style.width=
+size+"px";
 
-star.style.height =
-size + "px";
+star.style.height=
+size+"px";
 
-star.style.left =
-Math.random() * 100 + "%";
+star.style.left=
+Math.random()*100+"%";
 
-star.style.top =
-Math.random() * 100 + "%";
+star.style.top=
+Math.random()*100+"%";
 
-star.style.animationDuration =
-(2 + Math.random() * 5) + "s";
+star.style.animationDuration=
+(2+Math.random()*5)+"s";
 
-star.style.animationDelay =
-Math.random() * 5 + "s";
+star.style.animationDelay=
+Math.random()*5+"s";
 
-const colors = [
+const colors=[
 "#ffffff",
 "#fff7b0",
 "#ffe680"
 ];
 
-star.style.background =
+star.style.background=
 colors[
 Math.floor(
-Math.random() * colors.length
+Math.random()*colors.length
 )
 ];
 
-starsContainer.appendChild(star);
+stars.appendChild(star);
 
 }
 
-/* ======================================
-   SIDEBAR FILTER BUTTONS
-====================================== */
+/* FILTER */
 
 let currentFilter = "all";
 
@@ -68,11 +486,15 @@ button.addEventListener(
 document.querySelectorAll(".menu")
 .forEach(btn=>{
 
-btn.classList.remove("active-menu");
+btn.classList.remove(
+"active-menu"
+);
 
 });
 
-button.classList.add("active-menu");
+button.classList.add(
+"active-menu"
+);
 
 currentFilter =
 button.dataset.filter;
@@ -84,14 +506,12 @@ loadGames();
 
 });
 
-/* ======================================
-   LOAD GAMES
-====================================== */
+/* LOAD GAMES */
 
 async function loadGames(){
 
 const workerURL =
-"https://icy-pond-784c.cozyanimecookie.workers.dev/";
+"PASTE_YOUR_WORKER_URL_HERE";
 
 try{
 
@@ -104,12 +524,12 @@ await response.json();
 const games =
 data.response.games || [];
 
-const allGrid =
+const grid =
 document.querySelector(
 ".all-games-grid"
 );
 
-allGrid.innerHTML = "";
+grid.innerHTML="";
 
 games.sort((a,b)=>
 a.name.localeCompare(b.name)
@@ -117,83 +537,49 @@ a.name.localeCompare(b.name)
 
 games.forEach(game=>{
 
-const image =
-`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
-
 const gameKey =
 `game_${game.appid}`;
-
-const savedCategory =
-localStorage.getItem(
-`${gameKey}_category`
-) || "Story Driven / Visual Novel";
 
 const savedPlaying =
 localStorage.getItem(
 `${gameKey}_playing`
-) === "true";
+)==="true";
 
 const savedCompleted =
 localStorage.getItem(
 `${gameKey}_completed`
-) === "true";
-
-const savedRating =
-localStorage.getItem(
-`${gameKey}_rating`
-) || "0";
+)==="true";
 
 const savedNotes =
 localStorage.getItem(
 `${gameKey}_notes`
-) || "";
-
-const savedMonth =
-localStorage.getItem(
-`${gameKey}_month`
-) || "";
-
-const savedYear =
-localStorage.getItem(
-`${gameKey}_year`
-) || "";
+)||"";
 
 if(
-currentFilter === "playing"
+currentFilter==="playing"
 && !savedPlaying
 ){
 return;
 }
 
 if(
-currentFilter === "completed"
+currentFilter==="completed"
 && !savedCompleted
 ){
 return;
 }
 
 if(
-currentFilter === "notes"
-&& savedNotes.trim() === ""
+currentFilter==="notes"
+&& savedNotes.trim()===""
 ){
 return;
 }
 
-const card =
 createCard(
 game,
-image,
-savedCategory,
-savedPlaying,
-savedCompleted,
-savedRating,
-savedNotes,
-savedMonth,
-savedYear,
-gameKey
+grid
 );
-
-allGrid.appendChild(card);
 
 });
 
@@ -205,22 +591,53 @@ console.error(error);
 
 }
 
-/* ======================================
-   CREATE CARD
-====================================== */
+/* CREATE CARD */
 
 function createCard(
 game,
-image,
-savedCategory,
-savedPlaying,
-savedCompleted,
-savedRating,
-savedNotes,
-savedMonth,
-savedYear,
-gameKey
+grid
 ){
+
+const gameKey =
+`game_${game.appid}`;
+
+const image =
+`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+const savedCategory =
+localStorage.getItem(
+`${gameKey}_category`
+)||"Story Driven / Visual Novel";
+
+const savedPlaying =
+localStorage.getItem(
+`${gameKey}_playing`
+)==="true";
+
+const savedCompleted =
+localStorage.getItem(
+`${gameKey}_completed`
+)==="true";
+
+const savedRating =
+localStorage.getItem(
+`${gameKey}_rating`
+)||"0";
+
+const savedNotes =
+localStorage.getItem(
+`${gameKey}_notes`
+)||"";
+
+const savedMonth =
+localStorage.getItem(
+`${gameKey}_month`
+)||"";
+
+const savedYear =
+localStorage.getItem(
+`${gameKey}_year`
+)||"";
 
 const card =
 document.createElement("div");
@@ -230,12 +647,13 @@ card.className =
 
 if(savedCompleted){
 
-card.style.background =
-"linear-gradient(180deg,#1a1a1a,#000000)";
+card.classList.add(
+"completed"
+);
 
 }
 
-card.innerHTML = `
+card.innerHTML=`
 
 <img src="${image}">
 
@@ -247,38 +665,23 @@ ${game.name}
 
 <select class="category-select">
 
-<option
-value="Story Driven / Visual Novel"
-${savedCategory === "Story Driven / Visual Novel" ? "selected" : ""}
->
+<option value="Story Driven / Visual Novel">
 Story Driven / Visual Novel
 </option>
 
-<option
-value="CozyAdventure"
-${savedCategory === "CozyAdventure" ? "selected" : ""}
->
+<option value="CozyAdventure">
 CozyAdventure
 </option>
 
-<option
-value="CozyHorror"
-${savedCategory === "CozyHorror" ? "selected" : ""}
->
+<option value="CozyHorror">
 CozyHorror
 </option>
 
-<option
-value="CozyCasual"
-${savedCategory === "CozyCasual" ? "selected" : ""}
->
+<option value="CozyCasual">
 CozyCasual
 </option>
 
-<option
-value="Multiplayer / CO-OP"
-${savedCategory === "Multiplayer / CO-OP" ? "selected" : ""}
->
+<option value="Multiplayer / CO-OP">
 Multiplayer / CO-OP
 </option>
 
@@ -308,101 +711,57 @@ ${savedCompleted ? "checked" : ""}
 
 </label>
 
-<div class="completion-date">
-
 <select class="month-select">
 
 <option value="">
-Month
+Month Completed
 </option>
 
-<option ${savedMonth==="January"?"selected":""}>
-January
-</option>
-
-<option ${savedMonth==="February"?"selected":""}>
-February
-</option>
-
-<option ${savedMonth==="March"?"selected":""}>
-March
-</option>
-
-<option ${savedMonth==="April"?"selected":""}>
-April
-</option>
-
-<option ${savedMonth==="May"?"selected":""}>
-May
-</option>
-
-<option ${savedMonth==="June"?"selected":""}>
-June
-</option>
-
-<option ${savedMonth==="July"?"selected":""}>
-July
-</option>
-
-<option ${savedMonth==="August"?"selected":""}>
-August
-</option>
-
-<option ${savedMonth==="September"?"selected":""}>
-September
-</option>
-
-<option ${savedMonth==="October"?"selected":""}>
-October
-</option>
-
-<option ${savedMonth==="November"?"selected":""}>
-November
-</option>
-
-<option ${savedMonth==="December"?"selected":""}>
-December
-</option>
+<option>January</option>
+<option>February</option>
+<option>March</option>
+<option>April</option>
+<option>May</option>
+<option>June</option>
+<option>July</option>
+<option>August</option>
+<option>September</option>
+<option>October</option>
+<option>November</option>
+<option>December</option>
 
 </select>
 
 <select class="year-select">
 
 <option value="">
-Year
+Year Completed
 </option>
 
-<option ${savedYear==="2024"?"selected":""}>
-2024
-</option>
-
-<option ${savedYear==="2025"?"selected":""}>
-2025
-</option>
-
-<option ${savedYear==="2026"?"selected":""}>
-2026
-</option>
-
-<option ${savedYear==="2027"?"selected":""}>
-2027
-</option>
-
-<option ${savedYear==="2028"?"selected":""}>
-2028
-</option>
+<option>2024</option>
+<option>2025</option>
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
 
 </select>
 
-</div>
-
 <div class="stars-rating">
 
-<span class="star-rating" data-value="1">⭐</span>
-<span class="star-rating" data-value="2">⭐</span>
-<span class="star-rating" data-value="3">⭐</span>
-<span class="star-rating" data-value="4">⭐</span>
-<span class="star-rating" data-value="5">⭐</span>
+<span class="star-rating"
+data-value="1">⭐</span>
+
+<span class="star-rating"
+data-value="2">⭐</span>
+
+<span class="star-rating"
+data-value="3">⭐</span>
+
+<span class="star-rating"
+data-value="4">⭐</span>
+
+<span class="star-rating"
+data-value="5">⭐</span>
 
 </div>
 
@@ -414,12 +773,17 @@ placeholder="Magical cozy notes..."
 </div>
 `;
 
+grid.appendChild(card);
+
 /* CATEGORY */
 
 const categorySelect =
 card.querySelector(
 ".category-select"
 );
+
+categorySelect.value =
+savedCategory;
 
 categorySelect.addEventListener(
 "change",
@@ -468,17 +832,10 @@ localStorage.setItem(
 completedToggle.checked
 );
 
-if(completedToggle.checked){
-
-card.style.background =
-"linear-gradient(180deg,#1a1a1a,#000000)";
-
-}else{
-
-card.style.background =
-"linear-gradient(180deg,rgba(255,255,255,0.12),rgba(92,34,150,0.9))";
-
-}
+card.classList.toggle(
+"completed",
+completedToggle.checked
+);
 
 }
 );
@@ -489,6 +846,9 @@ const monthSelect =
 card.querySelector(
 ".month-select"
 );
+
+monthSelect.value =
+savedMonth;
 
 monthSelect.addEventListener(
 "change",
@@ -508,6 +868,9 @@ const yearSelect =
 card.querySelector(
 ".year-select"
 );
+
+yearSelect.value =
+savedYear;
 
 yearSelect.addEventListener(
 "change",
@@ -557,7 +920,6 @@ star.dataset.value <= value
 : "0.3";
 
 });
-
 }
 
 updateStars(savedRating);
@@ -583,14 +945,12 @@ updateStars(value);
 
 });
 
-return card;
-
 }
-
-/* ======================================
-   START APP
-====================================== */
 
 loadGames();
 
 </script>
+
+</body>
+
+</html>
