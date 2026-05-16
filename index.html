@@ -1,6 +1,123 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black;color:white;">
-<h1>TEST WEBSITE WORKING</h1>
+
+<head>
+
+  <title>Steam Library</title>
+
+  <style>
+
+    body {
+      background: #111827;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #games {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .game {
+      background: #1f2937;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .game:hover {
+      transform: scale(1.03);
+    }
+
+    .game img {
+      width: 100%;
+      display: block;
+    }
+
+    .title {
+      padding: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>My Steam Library</h1>
+
+  <div id="games"></div>
+
+  <script>
+
+    async function loadGames() {
+
+      try {
+
+        const url =
+          "https://icy-pond-784c.cozyanimecookie.workers.dev/";
+
+        const response =
+          await fetch(url);
+
+        const data =
+          await response.json();
+
+        console.log(data);
+
+        const games =
+          data.response.games || [];
+
+        const container =
+          document.getElementById("games");
+
+        container.innerHTML = "";
+
+        games.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+        games.forEach(game => {
+
+          const image =
+            `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+          const card = document.createElement("div");
+
+          card.className = "game";
+
+          card.innerHTML = `
+            <img src="${image}" loading="lazy">
+            <div class="title">${game.name}</div>
+          `;
+
+          container.appendChild(card);
+        });
+
+      } catch(error) {
+
+        console.error(error);
+
+        document.getElementById("games").innerHTML =
+          `<p>Error loading games.</p>`;
+      }
+    }
+
+    loadGames();
+
+  </script>
+
 </body>
+
 </html>
