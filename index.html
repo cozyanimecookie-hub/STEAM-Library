@@ -3,170 +3,169 @@
 
 <head>
 
-  <title>Steam Library</title>
-  
-<link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Witchy Steam Library</title>
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
+
   <style>
 
     body {
-      background: #111827;
-      color: white;
-      font-family: "Trebuchet MS", sans-serif;
+
+      background:
+        radial-gradient(circle at top, #2d1b4e, #0f0f1a);
+
+      color: #f3e8ff;
+
+      font-family: Arial, sans-serif;
+
       padding: 20px;
+
       margin: 0;
     }
 
     h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-family: 'Fredoka', sans-serif;
+
+      text-align: center;
+
+      font-family: 'Cinzel', serif;
+
+      color: #e9d5ff;
+
+      font-size: 48px;
+
+      text-shadow: 0 0 12px #9333ea;
+
+      margin-bottom: 40px;
     }
 
     #games {
+
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 20px;
+
+      grid-template-columns:
+        repeat(auto-fill, minmax(260px, 1fr));
+
+      gap: 24px;
     }
 
     .game {
-      background: #1f2937;
-      border-radius: 12px;
+
+      background: rgba(35, 20, 50, 0.95);
+
+      border-radius: 16px;
+
       overflow: hidden;
-      transition: transform 0.2s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+      border: 1px solid #7e22ce;
+
+      box-shadow:
+        0 0 20px rgba(168, 85, 247, 0.25);
+
+      transition: transform 0.2s;
     }
 
     .game:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
 
     .game img {
+
       width: 100%;
+
       display: block;
     }
 
     .title {
-      padding: 12px;
+
+      padding: 14px;
+
       text-align: center;
-      font-size: 14px;
+
+      font-size: 16px;
+
+      color: #f5d0fe;
+
+      font-weight: bold;
     }
 
     .controls {
-  padding: 12px;
-}
 
-.game-check {
-  margin-right: 8px;
-}
+      padding: 14px;
+    }
 
-textarea {
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  padding: 8px;
-  resize: vertical;
-  min-height: 80px;
-  font-family: Arial;
-}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    .witch-label {
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
+      display: block;
 
-body {
-  background:
-    radial-gradient(circle at top, #2d1b4e, #0f0f1a);
-  color: #f3e8ff;
-}
+      margin-bottom: 12px;
+    }
 
-h1 {
-  color: #d8b4fe;
-  font-family: 'Cinzel', serif;
-  text-shadow: 0 0 10px #c084fc;
-}
+    textarea {
 
-.game {
-  background: rgba(35, 20, 50, 0.95);
-  border: 1px solid #7e22ce;
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
-}
+      width: 100%;
 
-.title {
-  color: #f5d0fe;
-}
+      min-height: 80px;
 
-.controls {
-  padding: 12px;
-}
+      background: #1e1b2e;
 
-.witch-label {
-  display: block;
-  margin-bottom: 10px;
-  color: #e9d5ff;
-}
+      color: white;
 
-textarea {
+      border: 1px solid #9333ea;
 
-  width: 100%;
-  min-height: 80px;
+      border-radius: 10px;
 
-  background: #1e1b2e;
-  color: white;
+      padding: 10px;
 
-  border: 1px solid #9333ea;
+      margin-top: 10px;
 
-  border-radius: 10px;
+      resize: vertical;
+    }
 
-  padding: 10px;
+    select {
 
-  margin-top: 10px;
-}
+      width: 100%;
 
-select {
+      margin-top: 10px;
 
-  width: 100%;
+      background: #1e1b2e;
 
-  margin-top: 10px;
+      color: white;
 
-  background: #1e1b2e;
+      border: 1px solid #9333ea;
 
-  color: white;
+      border-radius: 10px;
 
-  border: 1px solid #9333ea;
+      padding: 10px;
+    }
 
-  border-radius: 10px;
+    .rating {
 
-  padding: 8px;
-}
+      margin-top: 12px;
 
-.rating {
-  margin-top: 10px;
-  font-size: 20px;
-}
+      font-size: 22px;
+    }
 
-.star {
-  cursor: pointer;
-  opacity: 0.3;
-}
+    .star {
 
-.star.active {
-  opacity: 1;
-}
+      cursor: pointer;
 
-    
+      opacity: 0.3;
+    }
+
+    .star.active {
+      opacity: 1;
+    }
+
   </style>
 
 </head>
 
 <body>
 
-  <h1>My Steam Library</h1>
+  <h1>🔮 Witchy Steam Library 🔮</h1>
 
   <div id="games"></div>
 
@@ -185,8 +184,6 @@ select {
         const data =
           await response.json();
 
-        console.log(data);
-
         const games =
           data.response.games || [];
 
@@ -204,148 +201,182 @@ select {
           const image =
             `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
-          const card = document.createElement("div");
+          const gameKey =
+            `game_${game.appid}`;
+
+          const savedChecked =
+            localStorage.getItem(gameKey + "_checked") === "true";
+
+          const savedPlaying =
+            localStorage.getItem(gameKey + "_playing") === "true";
+
+          const savedNotes =
+            localStorage.getItem(gameKey + "_notes") || "";
+
+          const savedCategory =
+            localStorage.getItem(gameKey + "_category") || "Backlog";
+
+          const savedRating =
+            localStorage.getItem(gameKey + "_rating") || "0";
+
+          const card =
+            document.createElement("div");
 
           card.className = "game";
 
-          const gameKey =
-  `game_${game.appid}`;
+          card.innerHTML = `
 
-const savedChecked =
-  localStorage.getItem(gameKey + "_checked") === "true";
+            <img src="${image}" loading="lazy">
 
-const savedNotes =
-  localStorage.getItem(gameKey + "_notes") || "";
+            <div class="title">
+              ${game.name}
+            </div>
 
-card.innerHTML = `
+            <div class="controls">
 
-  const gameKey =
-  `game_${game.appid}`;
+              <label class="witch-label">
 
-const savedChecked =
-  localStorage.getItem(gameKey + "_checked") === "true";
+                <input
+                  type="checkbox"
+                  class="game-check"
+                  ${savedChecked ? "checked" : ""}
+                >
 
-const savedNotes =
-  localStorage.getItem(gameKey + "_notes") || "";
+                Completed
 
-const savedPlaying =
-  localStorage.getItem(gameKey + "_playing") === "true";
+              </label>
 
-const savedCategory =
-  localStorage.getItem(gameKey + "_category") || "Backlog";
+              <label class="witch-label">
 
-const savedRating =
-  localStorage.getItem(gameKey + "_rating") || "0";
+                <input
+                  type="checkbox"
+                  class="playing-check"
+                  ${savedPlaying ? "checked" : ""}
+                >
 
-card.innerHTML = `
+                Currently Playing
 
-  <img src="${image}" loading="lazy">
+              </label>
 
-  <div class="title">
-    ${game.name}
-  </div>
+              <select class="category-select">
 
-  <div class="controls">
+                <option ${savedCategory === "Backlog" ? "selected" : ""}>
+                  Backlog
+                </option>
 
-    <label class="witch-label">
+                <option ${savedCategory === "Cozy" ? "selected" : ""}>
+                  Cozy
+                </option>
 
-      <input
-        type="checkbox"
-        class="game-check"
-        data-appid="${game.appid}"
-        ${savedChecked ? "checked" : ""}
-      >
+                <option ${savedCategory === "RPG" ? "selected" : ""}>
+                  RPG
+                </option>
 
-      Completed
+                <option ${savedCategory === "Horror" ? "selected" : ""}>
+                  Horror
+                </option>
 
-    </label>
+                <option ${savedCategory === "Multiplayer" ? "selected" : ""}>
+                  Multiplayer
+                </option>
 
-    <label class="witch-label">
+              </select>
 
-      <input
-        type="checkbox"
-        class="playing-check"
-        data-appid="${game.appid}"
-        ${savedPlaying ? "checked" : ""}
-      >
+              <div class="rating">
 
-      Currently Playing
+                <span class="star" data-value="1">⭐</span>
+                <span class="star" data-value="2">⭐</span>
+                <span class="star" data-value="3">⭐</span>
+                <span class="star" data-value="4">⭐</span>
+                <span class="star" data-value="5">⭐</span>
 
-    </label>
+              </div>
 
-    <select
-      class="category-select"
-      data-appid="${game.appid}"
-    >
+              <textarea
+                class="game-notes"
+                placeholder="Potion notes..."
+              >${savedNotes}</textarea>
 
-      <option ${savedCategory === "Backlog" ? "selected" : ""}>
-        Backlog
-      </option>
-
-      <option ${savedCategory === "Cozy" ? "selected" : ""}>
-        Cozy
-      </option>
-
-      <option ${savedCategory === "Horror" ? "selected" : ""}>
-        Horror
-      </option>
-
-      <option ${savedCategory === "RPG" ? "selected" : ""}>
-        RPG
-      </option>
-
-      <option ${savedCategory === "Multiplayer" ? "selected" : ""}>
-        Multiplayer
-      </option>
-
-      <option ${savedCategory === "Completed" ? "selected" : ""}>
-        Completed
-      </option>
-
-    </select>
-
-    <div class="rating">
-
-      <span class="star" data-value="1">⭐</span>
-      <span class="star" data-value="2">⭐</span>
-      <span class="star" data-value="3">⭐</span>
-      <span class="star" data-value="4">⭐</span>
-      <span class="star" data-value="5">⭐</span>
-
-    </div>
-
-    <textarea
-      class="game-notes"
-      data-appid="${game.appid}"
-      placeholder="Potion notes..."
-    >${savedNotes}</textarea>
-
-  </div>
-`;
+            </div>
+          `;
 
           container.appendChild(card);
 
           const checkbox =
-  card.querySelector(".game-check");
+            card.querySelector(".game-check");
 
-checkbox.addEventListener("change", () => {
+          checkbox.addEventListener("change", () => {
 
-  localStorage.setItem(
-    `game_${game.appid}_checked`,
-    checkbox.checked
-  );
-});
+            localStorage.setItem(
+              `${gameKey}_checked`,
+              checkbox.checked
+            );
+          });
 
-const notes =
-  card.querySelector(".game-notes");
+          const playing =
+            card.querySelector(".playing-check");
 
-notes.addEventListener("input", () => {
+          playing.addEventListener("change", () => {
 
-  localStorage.setItem(
-    `game_${game.appid}_notes`,
-    notes.value
-  );
-});
+            localStorage.setItem(
+              `${gameKey}_playing`,
+              playing.checked
+            );
+          });
+
+          const notes =
+            card.querySelector(".game-notes");
+
+          notes.addEventListener("input", () => {
+
+            localStorage.setItem(
+              `${gameKey}_notes`,
+              notes.value
+            );
+          });
+
+          const category =
+            card.querySelector(".category-select");
+
+          category.addEventListener("change", () => {
+
+            localStorage.setItem(
+              `${gameKey}_category`,
+              category.value
+            );
+          });
+
+          const stars =
+            card.querySelectorAll(".star");
+
+          function updateStars(value) {
+
+            stars.forEach(star => {
+
+              star.classList.toggle(
+                "active",
+                star.dataset.value <= value
+              );
+            });
+          }
+
+          updateStars(savedRating);
+
+          stars.forEach(star => {
+
+            star.addEventListener("click", () => {
+
+              const value =
+                star.dataset.value;
+
+              localStorage.setItem(
+                `${gameKey}_rating`,
+                value
+              );
+
+              updateStars(value);
+            });
+          });
         });
 
       } catch(error) {
@@ -353,7 +384,7 @@ notes.addEventListener("input", () => {
         console.error(error);
 
         document.getElementById("games").innerHTML =
-          `<p>Error loading games.</p>`;
+          `<p>Error loading Steam library.</p>`;
       }
     }
 
