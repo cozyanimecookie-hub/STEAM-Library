@@ -1,74 +1,237 @@
+# Cozy Anime Cookie — Witchy Steam Library (Full Updated Version)
+
+Replace your ENTIRE `index.html` with this code.
+
+IMPORTANT:
+Replace:
+
+```javascript
+PASTE_YOUR_WORKER_URL_HERE
+```
+
+with your REAL Cloudflare Worker URL.
+
+Example:
+
+```javascript
+https://steam-api.pixelpunchess.workers.dev
+```
+
+---
+
+```html
 <!DOCTYPE html>
 <html>
 
 <head>
 
-  <title> CozyAnimeCookie's Steam Library</title>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cozy Anime Cookie Steam Library</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
 
-      background:
-        radial-gradient(circle at top, #2d1b4e, #0f0f1a);
-
-      color: #f3e8ff;
-
-      font-family: Arial, sans-serif;
-
-      padding: 20px;
-
       margin: 0;
+
+      min-height: 100vh;
+
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(circle at top, #4b245d 0%, #1b1027 45%, #090611 100%);
+
+      color: #fff4fd;
+
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .stars {
+
+      position: fixed;
+
+      width: 100%;
+
+      height: 100%;
+
+      top: 0;
+
+      left: 0;
+
+      pointer-events: none;
+
+      z-index: 0;
+
+      overflow: hidden;
+    }
+
+    .star-bg {
+
+      position: absolute;
+
+      width: 3px;
+
+      height: 3px;
+
+      background: white;
+
+      border-radius: 50%;
+
+      opacity: 0.6;
+
+      animation:
+        twinkle linear infinite;
+    }
+
+    @keyframes twinkle {
+
+      0% {
+        opacity: 0.1;
+        transform: scale(0.5);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+
+      100% {
+        opacity: 0.1;
+        transform: scale(0.5);
+      }
+    }
+
+    .container {
+
+      position: relative;
+
+      z-index: 2;
+
+      padding: 40px 28px 80px;
     }
 
     h1 {
 
       text-align: center;
 
+      font-size: 58px;
+
+      margin-bottom: 10px;
+
       font-family: 'Cinzel', serif;
 
-      color: #e9d5ff;
+      color: #ffd7fb;
 
-      font-size: 48px;
-
-      text-shadow: 0 0 12px #9333ea;
-
-      margin-bottom: 40px;
+      text-shadow:
+        0 0 12px #ff9ef3,
+        0 0 28px #c084fc;
     }
 
-    #games {
+    .subtitle {
+
+      text-align: center;
+
+      color: #f0c9ff;
+
+      font-size: 18px;
+
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+
+      margin-top: 60px;
+
+      margin-bottom: 24px;
+
+      font-size: 34px;
+
+      color: #ffd2f8;
+
+      font-family: 'Cinzel', serif;
+
+      text-shadow: 0 0 12px #c084fc;
+    }
+
+    .game-grid {
 
       display: grid;
 
       grid-template-columns:
-        repeat(auto-fill, minmax(260px, 1fr));
+        repeat(auto-fill, minmax(300px, 1fr));
 
-      gap: 24px;
+      gap: 28px;
     }
 
     .game {
 
-      background: rgba(35, 20, 50, 0.95);
+      background:
+        linear-gradient(
+          180deg,
+          rgba(74, 35, 90, 0.95),
+          rgba(28, 16, 43, 0.97)
+        );
 
-      border-radius: 16px;
+      border-radius: 28px;
 
       overflow: hidden;
 
-      border: 1px solid #7e22ce;
+      border: 2px solid rgba(255, 184, 255, 0.25);
 
       box-shadow:
-        0 0 20px rgba(168, 85, 247, 0.25);
+        0 0 20px rgba(192, 132, 252, 0.18),
+        0 0 50px rgba(168, 85, 247, 0.12);
 
-      transition: transform 0.2s;
+      position: relative;
+
+      backdrop-filter: blur(10px);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
     }
 
     .game:hover {
-      transform: scale(1.02);
+
+      transform: translateY(-6px) scale(1.02);
+
+      box-shadow:
+        0 0 24px rgba(255, 180, 255, 0.35),
+        0 0 70px rgba(168, 85, 247, 0.25);
+    }
+
+    .spellbook-top {
+
+      position: absolute;
+
+      top: 0;
+
+      left: 0;
+
+      width: 100%;
+
+      height: 8px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #ffb7f8,
+          #c084fc,
+          #ffb7f8
+        );
     }
 
     .game img {
@@ -76,87 +239,150 @@
       width: 100%;
 
       display: block;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
     }
 
     .title {
 
-      padding: 14px;
+      padding: 18px 18px 10px;
+
+      font-size: 18px;
+
+      font-weight: 600;
+
+      color: #ffe6fc;
 
       text-align: center;
 
-      font-size: 16px;
-
-      color: #f5d0fe;
-
-      font-weight: bold;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
     }
 
     .controls {
 
-      padding: 14px;
+      padding: 0 18px 20px;
     }
 
     .witch-label {
 
-      display: block;
+      display: flex;
 
-      margin-bottom: 12px;
+      align-items: center;
+
+      gap: 10px;
+
+      margin-top: 12px;
+
+      font-size: 15px;
+
+      color: #ffe0fd;
+    }
+
+    input[type="checkbox"] {
+
+      transform: scale(1.2);
+
+      accent-color: #d946ef;
     }
 
     textarea {
 
       width: 100%;
 
-      min-height: 80px;
+      min-height: 95px;
 
-      background: #1e1b2e;
+      margin-top: 14px;
+
+      border: 1px solid rgba(255,255,255,0.15);
+
+      border-radius: 16px;
+
+      background: rgba(16, 10, 24, 0.85);
 
       color: white;
 
-      border: 1px solid #9333ea;
-
-      border-radius: 10px;
-
-      padding: 10px;
-
-      margin-top: 10px;
+      padding: 14px;
 
       resize: vertical;
+
+      font-family: 'Fredoka', sans-serif;
+
+      font-size: 14px;
+    }
+
+    textarea::placeholder {
+      color: #d8b4fe;
     }
 
     select {
 
       width: 100%;
 
-      margin-top: 10px;
+      margin-top: 14px;
 
-      background: #1e1b2e;
+      padding: 12px;
 
-      color: white;
+      border-radius: 14px;
 
-      border: 1px solid #9333ea;
+      background: rgba(18, 11, 28, 0.95);
 
-      border-radius: 10px;
+      color: #ffe6fc;
 
-      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+
+      font-family: 'Fredoka', sans-serif;
     }
 
     .rating {
 
-      margin-top: 12px;
+      margin-top: 14px;
 
-      font-size: 22px;
+      display: flex;
+
+      gap: 6px;
+
+      font-size: 26px;
     }
 
     .star {
 
       cursor: pointer;
 
-      opacity: 0.3;
+      opacity: 0.35;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .star:hover {
+      transform: scale(1.15);
     }
 
     .star.active {
       opacity: 1;
+    }
+
+    .favorites-shelf,
+    .playing-shelf {
+
+      margin-bottom: 70px;
+    }
+
+    @media (max-width: 700px) {
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .container {
+        padding: 26px 16px 60px;
+      }
     }
 
   </style>
@@ -165,18 +391,64 @@
 
 <body>
 
-  <h1>🔮 Witchy Steam Library 🔮</h1>
+  <div class="stars" id="stars"></div>
 
-  <div id="games"></div>
+  <div class="container">
+
+    <h1>🔮 Cozy Anime Cookie Library 🔮</h1>
+
+    <div class="subtitle">
+      Magical backlog • cozy gaming grimoire • anime witch vibes
+    </div>
+
+    <section class="favorites-shelf">
+
+      <h2 class="section-title">⭐ Favorite Shelf</h2>
+
+      <div class="game-grid" id="favorites-grid"></div>
+
+    </section>
+
+    <section class="playing-shelf">
+
+      <h2 class="section-title">🎮 Currently Playing</h2>
+
+      <div class="game-grid" id="playing-grid"></div>
+
+    </section>
+
+    <div id="categories-container"></div>
+
+  </div>
 
   <script>
+
+    for (let i = 0; i < 120; i++) {
+
+      const star = document.createElement('div');
+
+      star.className = 'star-bg';
+
+      star.style.left = Math.random() * 100 + '%';
+
+      star.style.top = Math.random() * 100 + '%';
+
+      star.style.animationDuration =
+        (2 + Math.random() * 6) + 's';
+
+      star.style.animationDelay =
+        Math.random() * 5 + 's';
+
+      document.getElementById('stars')
+        .appendChild(star);
+    }
 
     async function loadGames() {
 
       try {
 
         const url =
-          "https://icy-pond-784c.cozyanimecookie.workers.dev/";
+          'PASTE_YOUR_WORKER_URL_HERE';
 
         const response =
           await fetch(url);
@@ -187,10 +459,37 @@
         const games =
           data.response.games || [];
 
-        const container =
-          document.getElementById("games");
+        const categories = [
+          'Backlog',
+          'Cozy',
+          'RPG',
+          'Horror',
+          'Multiplayer'
+        ];
 
-        container.innerHTML = "";
+        const categoriesContainer =
+          document.getElementById(
+            'categories-container'
+          );
+
+        categories.forEach(category => {
+
+          categoriesContainer.innerHTML += `
+
+            <section>
+
+              <h2 class="section-title">
+                ✨ ${category}
+              </h2>
+
+              <div
+                class="game-grid"
+                id="category-${category}">
+              </div>
+
+            </section>
+          `;
+        });
 
         games.sort((a, b) =>
           a.name.localeCompare(b.name)
@@ -205,26 +504,38 @@
             `game_${game.appid}`;
 
           const savedChecked =
-            localStorage.getItem(gameKey + "_checked") === "true";
+            localStorage.getItem(
+              gameKey + '_checked'
+            ) === 'true';
 
           const savedPlaying =
-            localStorage.getItem(gameKey + "_playing") === "true";
+            localStorage.getItem(
+              gameKey + '_playing'
+            ) === 'true';
 
           const savedNotes =
-            localStorage.getItem(gameKey + "_notes") || "";
+            localStorage.getItem(
+              gameKey + '_notes'
+            ) || '';
 
           const savedCategory =
-            localStorage.getItem(gameKey + "_category") || "Backlog";
+            localStorage.getItem(
+              gameKey + '_category'
+            ) || 'Backlog';
 
           const savedRating =
-            localStorage.getItem(gameKey + "_rating") || "0";
+            localStorage.getItem(
+              gameKey + '_rating'
+            ) || '0';
 
           const card =
-            document.createElement("div");
+            document.createElement('div');
 
-          card.className = "game";
+          card.className = 'game';
 
           card.innerHTML = `
+
+            <div class="spellbook-top"></div>
 
             <img src="${image}" loading="lazy">
 
@@ -239,7 +550,7 @@
                 <input
                   type="checkbox"
                   class="game-check"
-                  ${savedChecked ? "checked" : ""}
+                  ${savedChecked ? 'checked' : ''}
                 >
 
                 Completed
@@ -251,7 +562,7 @@
                 <input
                   type="checkbox"
                   class="playing-check"
-                  ${savedPlaying ? "checked" : ""}
+                  ${savedPlaying ? 'checked' : ''}
                 >
 
                 Currently Playing
@@ -260,23 +571,23 @@
 
               <select class="category-select">
 
-                <option ${savedCategory === "Backlog" ? "selected" : ""}>
+                <option ${savedCategory === 'Backlog' ? 'selected' : ''}>
                   Backlog
                 </option>
 
-                <option ${savedCategory === "Cozy" ? "selected" : ""}>
+                <option ${savedCategory === 'Cozy' ? 'selected' : ''}>
                   Cozy
                 </option>
 
-                <option ${savedCategory === "RPG" ? "selected" : ""}>
+                <option ${savedCategory === 'RPG' ? 'selected' : ''}>
                   RPG
                 </option>
 
-                <option ${savedCategory === "Horror" ? "selected" : ""}>
+                <option ${savedCategory === 'Horror' ? 'selected' : ''}>
                   Horror
                 </option>
 
-                <option ${savedCategory === "Multiplayer" ? "selected" : ""}>
+                <option ${savedCategory === 'Multiplayer' ? 'selected' : ''}>
                   Multiplayer
                 </option>
 
@@ -294,18 +605,43 @@
 
               <textarea
                 class="game-notes"
-                placeholder="Potion notes..."
+                placeholder="Anime witch gamer notes..."
               >${savedNotes}</textarea>
 
             </div>
           `;
 
-          container.appendChild(card);
+          const targetCategory =
+            document.getElementById(
+              `category-${savedCategory}`
+            );
+
+          targetCategory.appendChild(card);
+
+          if (savedPlaying) {
+
+            const playingClone =
+              card.cloneNode(true);
+
+            document.getElementById(
+              'playing-grid'
+            ).appendChild(playingClone);
+          }
+
+          if (savedRating >= 4) {
+
+            const favoriteClone =
+              card.cloneNode(true);
+
+            document.getElementById(
+              'favorites-grid'
+            ).appendChild(favoriteClone);
+          }
 
           const checkbox =
-            card.querySelector(".game-check");
+            card.querySelector('.game-check');
 
-          checkbox.addEventListener("change", () => {
+          checkbox.addEventListener('change', () => {
 
             localStorage.setItem(
               `${gameKey}_checked`,
@@ -314,20 +650,22 @@
           });
 
           const playing =
-            card.querySelector(".playing-check");
+            card.querySelector('.playing-check');
 
-          playing.addEventListener("change", () => {
+          playing.addEventListener('change', () => {
 
             localStorage.setItem(
               `${gameKey}_playing`,
               playing.checked
             );
+
+            location.reload();
           });
 
           const notes =
-            card.querySelector(".game-notes");
+            card.querySelector('.game-notes');
 
-          notes.addEventListener("input", () => {
+          notes.addEventListener('input', () => {
 
             localStorage.setItem(
               `${gameKey}_notes`,
@@ -336,25 +674,27 @@
           });
 
           const category =
-            card.querySelector(".category-select");
+            card.querySelector('.category-select');
 
-          category.addEventListener("change", () => {
+          category.addEventListener('change', () => {
 
             localStorage.setItem(
               `${gameKey}_category`,
               category.value
             );
+
+            location.reload();
           });
 
           const stars =
-            card.querySelectorAll(".star");
+            card.querySelectorAll('.star');
 
           function updateStars(value) {
 
             stars.forEach(star => {
 
               star.classList.toggle(
-                "active",
+                'active',
                 star.dataset.value <= value
               );
             });
@@ -364,7 +704,7 @@
 
           stars.forEach(star => {
 
-            star.addEventListener("click", () => {
+            star.addEventListener('click', () => {
 
               const value =
                 star.dataset.value;
@@ -375,6 +715,10 @@
               );
 
               updateStars(value);
+
+              setTimeout(() => {
+                location.reload();
+              }, 200);
             });
           });
         });
@@ -383,8 +727,11 @@
 
         console.error(error);
 
-        document.getElementById("games").innerHTML =
-          `<p>Error loading Steam library.</p>`;
+        document.body.innerHTML += `
+          <p style="text-align:center;">
+            Error loading Steam library.
+          </p>
+        `;
       }
     }
 
@@ -395,3 +742,5 @@
 </body>
 
 </html>
+```
+
