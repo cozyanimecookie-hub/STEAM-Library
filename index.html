@@ -1,428 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CozyAnimeCookie Library</title>
-
-<style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-
-margin:0;
-
-font-family:"Comic Sans MS", cursive;
-
-color:white;
-
-overflow-x:hidden;
-
-background:
-radial-gradient(
-circle at center,
-#6727b8 0%,
-#2b114a 45%,
-#000000 100%
-);
-
-min-height:100vh;
-}
-
-/* STARS */
-
-.stars{
-
-position:fixed;
-
-width:100%;
-
-height:100%;
-
-top:0;
-
-left:0;
-
-pointer-events:none;
-
-z-index:0;
-}
-
-.star{
-
-position:absolute;
-
-border-radius:50%;
-
-animation:twinkle linear infinite;
-}
-
-@keyframes twinkle{
-
-0%{
-opacity:0.2;
-transform:scale(0.5);
-}
-
-50%{
-opacity:1;
-transform:scale(1.4);
-}
-
-100%{
-opacity:0.2;
-transform:scale(0.5);
-}
-}
-
-/* LAYOUT */
-
-.container{
-
-position:relative;
-
-z-index:2;
-
-padding:30px;
-}
-
-h1{
-
-text-align:center;
-
-font-size:58px;
-
-margin-bottom:10px;
-
-text-shadow:
-0 0 12px #f0abfc,
-0 0 24px #d8b4fe;
-}
-
-.subtitle{
-
-text-align:center;
-
-margin-bottom:45px;
-
-font-size:20px;
-
-color:#ffe9ff;
-}
-
-.layout{
-
-display:grid;
-
-grid-template-columns:260px 1fr;
-
-gap:24px;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-
-background:
-rgba(255,255,255,0.08);
-
-border-radius:24px;
-
-padding:22px;
-
-backdrop-filter:blur(12px);
-
-border:
-1px solid rgba(255,255,255,0.14);
-}
-
-.hat{
-
-font-size:70px;
-
-text-align:center;
-
-margin-bottom:12px;
-}
-
-.sidebar-title{
-
-text-align:center;
-
-font-size:34px;
-
-margin-bottom:22px;
-}
-
-.menu{
-
-background:
-rgba(255,255,255,0.08);
-
-padding:14px;
-
-border-radius:16px;
-
-margin-bottom:12px;
-
-cursor:pointer;
-
-transition:0.2s;
-}
-
-.menu:hover{
-
-background:
-rgba(255,255,255,0.18);
-}
-
-.active-menu{
-
-background:
-rgba(255,255,255,0.28);
-}
-
-/* MAIN */
-
-.section-title{
-
-font-size:34px;
-
-margin-bottom:24px;
-
-text-shadow:
-0 0 10px #d8b4fe;
-}
-
-.game-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fill,minmax(260px,1fr));
-
-gap:20px;
-}
-
-/* CARD */
-
-.game-card{
-
-background:
-linear-gradient(
-180deg,
-rgba(255,255,255,0.12),
-rgba(92,34,150,0.9)
-);
-
-border-radius:24px;
-
-overflow:hidden;
-
-border:
-1px solid rgba(255,255,255,0.15);
-
-transition:0.25s;
-}
-
-.game-card:hover{
-
-transform:
-translateY(-6px)
-scale(1.02);
-}
-
-.game-card img{
-
-width:100%;
-
-display:block;
-}
-
-.game-info{
-
-padding:16px;
-}
-
-.game-title{
-
-font-size:18px;
-
-margin-bottom:14px;
-}
-
-select{
-
-width:100%;
-
-padding:10px;
-
-margin-bottom:12px;
-
-border-radius:12px;
-
-border:none;
-
-background:
-rgba(0,0,0,0.35);
-
-color:white;
-
-font-family:
-"Comic Sans MS", cursive;
-}
-
-label{
-
-display:block;
-
-margin-bottom:12px;
-}
-
-textarea{
-
-width:100%;
-
-min-height:80px;
-
-border:none;
-
-border-radius:14px;
-
-padding:12px;
-
-resize:vertical;
-
-background:
-rgba(0,0,0,0.35);
-
-color:white;
-
-font-family:
-"Comic Sans MS", cursive;
-}
-
-.stars-rating{
-
-margin-bottom:14px;
-
-font-size:24px;
-}
-
-.star-rating{
-
-cursor:pointer;
-
-opacity:0.3;
-
-transition:0.2s;
-}
-
-.star-rating:hover{
-
-transform:scale(1.2);
-}
-
-.completed{
-
-background:
-linear-gradient(
-180deg,
-#1a1a1a,
-#000000
-) !important;
-}
-
-@media(max-width:900px){
-
-.layout{
-
-grid-template-columns:1fr;
-}
-
-h1{
-
-font-size:42px;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="stars" id="stars"></div>
-
-<div class="container">
-
-<h1>🌙 CozyAnimeCookie Library ✨</h1>
-
-<div class="subtitle">
-Every game is a magical adventure 💖
-</div>
-
-<div class="layout">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<div class="hat">📖</div>
-
-<div class="sidebar-title">
-SPELLBOOK
-</div>
-
-<div class="menu active-menu"
-data-filter="all">
-📚 All Games
-</div>
-
-<div class="menu"
-data-filter="playing">
-🎮 Currently Playing
-</div>
-
-<div class="menu"
-data-filter="completed">
-✔ Completed
-</div>
-
-<div class="menu"
-data-filter="notes">
-📝 Cozy Notes
-</div>
-
-</aside>
-
-<!-- MAIN -->
-
-<main>
-
-<div class="section-title">
-✨ Steam Library
-</div>
-
+<script>
+  
 <div class="game-grid all-games-grid"></div>
 
-</main>
+<input
+type="text"
+id="searchBar"
+placeholder="🔍 Search your magical library..."
+style="
+width:100%;
+padding:14px;
+border:none;
+border-radius:16px;
+margin-bottom:24px;
+font-size:16px;
+background:rgba(255,255,255,0.12);
+color:white;
+font-family:'Comic Sans MS', cursive;
+outline:none;
+"
+/>
+  
+/* ======================================
+   SEARCH
+====================================== */
 
-</div>
+let searchQuery = "";
 
-</div>
+const searchInput =
+document.getElementById(
+"searchBar"
+);
 
-<script>
+if(searchInput){
 
-/* STARS */
+searchInput.addEventListener(
+"input",
+(e)=>{
+
+searchQuery =
+e.target.value.toLowerCase();
+
+loadGames();
+
+}
+);
+
+}
+
+/* ======================================
+   STARS
+====================================== */
 
 const stars =
 document.getElementById("stars");
@@ -472,7 +99,9 @@ stars.appendChild(star);
 
 }
 
-/* FILTER */
+/* ======================================
+   FILTERS
+====================================== */
 
 let currentFilter = "all";
 
@@ -506,12 +135,14 @@ loadGames();
 
 });
 
-/* LOAD GAMES */
+/* ======================================
+   LOAD GAMES
+====================================== */
 
 async function loadGames(){
 
 const workerURL =
-"https://icy-pond-784c.cozyanimecookie.workers.dev/";
+"PASTE_YOUR_WORKER_URL_HERE";
 
 try{
 
@@ -521,7 +152,7 @@ await fetch(workerURL);
 const data =
 await response.json();
 
-const games =
+let games =
 data.response.games || [];
 
 const grid =
@@ -531,9 +162,79 @@ document.querySelector(
 
 grid.innerHTML="";
 
-games.sort((a,b)=>
-a.name.localeCompare(b.name)
+/* ======================================
+   SEARCH FILTER
+====================================== */
+
+if(searchQuery.trim()!==""){
+
+games = games.filter(game=>
+game.name
+.toLowerCase()
+.includes(searchQuery)
 );
+
+}
+
+/* ======================================
+   SORTING
+====================================== */
+
+games.sort((a,b)=>{
+
+const aKey =
+`game_${a.appid}`;
+
+const bKey =
+`game_${b.appid}`;
+
+const aPlaying =
+localStorage.getItem(
+`${aKey}_playing`
+)==="true";
+
+const bPlaying =
+localStorage.getItem(
+`${bKey}_playing`
+)==="true";
+
+const aCompleted =
+localStorage.getItem(
+`${aKey}_completed`
+)==="true";
+
+const bCompleted =
+localStorage.getItem(
+`${bKey}_completed`
+)==="true";
+
+/* PLAYING FIRST */
+
+if(aPlaying && !bPlaying)
+return -1;
+
+if(!aPlaying && bPlaying)
+return 1;
+
+/* COMPLETED LAST */
+
+if(aCompleted && !bCompleted)
+return 1;
+
+if(!aCompleted && bCompleted)
+return -1;
+
+/* ALPHABETICAL */
+
+return a.name.localeCompare(
+b.name
+);
+
+});
+
+/* ======================================
+   CREATE CARDS
+====================================== */
 
 games.forEach(game=>{
 
@@ -554,6 +255,8 @@ const savedNotes =
 localStorage.getItem(
 `${gameKey}_notes`
 )||"";
+
+/* FILTERS */
 
 if(
 currentFilter==="playing"
@@ -591,7 +294,9 @@ console.error(error);
 
 }
 
-/* CREATE CARD */
+/* ======================================
+   CREATE CARD
+====================================== */
 
 function createCard(
 game,
@@ -607,7 +312,7 @@ const image =
 const savedCategory =
 localStorage.getItem(
 `${gameKey}_category`
-)||"Story Driven / Visual Novel";
+)||"";
 
 const savedPlaying =
 localStorage.getItem(
@@ -664,6 +369,10 @@ ${game.name}
 </div>
 
 <select class="category-select">
+
+<option value="">
+Select Category
+</option>
 
 <option value="Story Driven / Visual Novel">
 Story Driven / Visual Novel
@@ -748,20 +457,11 @@ Year Completed
 
 <div class="stars-rating">
 
-<span class="star-rating"
-data-value="1">⭐</span>
-
-<span class="star-rating"
-data-value="2">⭐</span>
-
-<span class="star-rating"
-data-value="3">⭐</span>
-
-<span class="star-rating"
-data-value="4">⭐</span>
-
-<span class="star-rating"
-data-value="5">⭐</span>
+<span class="star-rating" data-value="1">⭐</span>
+<span class="star-rating" data-value="2">⭐</span>
+<span class="star-rating" data-value="3">⭐</span>
+<span class="star-rating" data-value="4">⭐</span>
+<span class="star-rating" data-value="5">⭐</span>
 
 </div>
 
@@ -813,6 +513,8 @@ localStorage.setItem(
 playingToggle.checked
 );
 
+loadGames();
+
 }
 );
 
@@ -832,10 +534,7 @@ localStorage.setItem(
 completedToggle.checked
 );
 
-card.classList.toggle(
-"completed",
-completedToggle.checked
-);
+loadGames();
 
 }
 );
@@ -947,10 +646,10 @@ updateStars(value);
 
 }
 
+/* ======================================
+   START APP
+====================================== */
+
 loadGames();
 
 </script>
-
-</body>
-
-</html>
