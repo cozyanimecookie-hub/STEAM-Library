@@ -1,428 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CozyAnimeCookie Library</title>
-
-<style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-
-margin:0;
-
-font-family:"Comic Sans MS",cursive;
-
-color:white;
-
-overflow-x:hidden;
-
-background:
-radial-gradient(
-circle at center,
-#6727b8 0%,
-#2a1245 40%,
-#000000 100%
-);
-
-min-height:100vh;
-}
-
-/* STARS */
-
-.stars{
-
-position:fixed;
-
-width:100%;
-
-height:100%;
-
-top:0;
-
-left:0;
-
-z-index:0;
-
-pointer-events:none;
-}
-
-.star{
-
-position:absolute;
-
-border-radius:50%;
-
-animation:twinkle linear infinite;
-}
-
-@keyframes twinkle{
-
-0%{
-opacity:0.2;
-transform:scale(0.5);
-}
-
-50%{
-opacity:1;
-transform:scale(1.4);
-}
-
-100%{
-opacity:0.2;
-transform:scale(0.5);
-}
-}
-
-/* LAYOUT */
-
-.container{
-
-position:relative;
-
-z-index:2;
-
-padding:30px;
-}
-
-h1{
-
-text-align:center;
-
-font-size:58px;
-
-margin-bottom:12px;
-
-text-shadow:
-0 0 12px #ffb6ff,
-0 0 24px #d8b4fe;
-}
-
-.subtitle{
-
-text-align:center;
-
-margin-bottom:50px;
-
-font-size:20px;
-
-color:#ffe9ff;
-}
-
-.layout{
-
-display:grid;
-
-grid-template-columns:260px 1fr;
-
-gap:25px;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-
-background:
-rgba(255,255,255,0.08);
-
-border-radius:28px;
-
-padding:24px;
-
-backdrop-filter:blur(12px);
-
-border:
-1px solid rgba(255,255,255,0.12);
-}
-
-.hat{
-
-font-size:70px;
-
-text-align:center;
-
-margin-bottom:10px;
-}
-
-.sidebar-title{
-
-text-align:center;
-
-font-size:34px;
-
-margin-bottom:24px;
-}
-
-.menu{
-
-background:
-rgba(255,255,255,0.08);
-
-padding:14px;
-
-border-radius:16px;
-
-margin-bottom:12px;
-}
-
-/* MAIN */
-
-.section{
-
-margin-bottom:60px;
-}
-
-.section-title{
-
-font-size:34px;
-
-margin-bottom:20px;
-
-text-shadow:
-0 0 10px #d8b4fe;
-}
-
-.game-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fill,minmax(240px,1fr));
-
-gap:20px;
-}
-
-/* CARDS */
-
-.game-card{
-
-background:
-linear-gradient(
-180deg,
-rgba(255,255,255,0.12),
-rgba(92,34,150,0.88)
-);
-
-border-radius:24px;
-
-overflow:hidden;
-
-border:
-1px solid rgba(255,255,255,0.15);
-
-backdrop-filter:blur(10px);
-
-transition:0.25s;
-}
-
-.game-card:hover{
-
-transform:
-translateY(-6px)
-scale(1.03);
-}
-
-.game-card img{
-
-width:100%;
-
-display:block;
-}
-
-.game-info{
-
-padding:16px;
-}
-
-.game-title{
-
-font-size:18px;
-
-margin-bottom:12px;
-}
-
-.tag{
-
-display:inline-block;
-
-background:
-rgba(255,255,255,0.12);
-
-padding:6px 10px;
-
-border-radius:12px;
-
-font-size:13px;
-
-margin-bottom:12px;
-}
-
-textarea{
-
-width:100%;
-
-min-height:80px;
-
-margin-top:14px;
-
-border:none;
-
-border-radius:14px;
-
-padding:12px;
-
-background:
-rgba(0,0,0,0.35);
-
-color:white;
-
-font-family:
-"Comic Sans MS",cursive;
-}
-
-select{
-
-width:100%;
-
-padding:10px;
-
-margin-top:10px;
-
-border-radius:12px;
-
-border:none;
-
-background:
-rgba(0,0,0,0.4);
-
-color:white;
-}
-
-label{
-
-display:block;
-
-margin-top:12px;
-}
-
-.stars-rating{
-
-margin-top:12px;
-
-font-size:22px;
-}
-
-.star-rating{
-
-cursor:pointer;
-
-opacity:0.3;
-}
-
-@media(max-width:900px){
-
-.layout{
-
-grid-template-columns:1fr;
-}
-
-h1{
-
-font-size:42px;
-}
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="stars" id="stars"></div>
-
-<div class="container">
-
-<h1>🌙 Cozy Anime Cookie Library ✨</h1>
-
-<div class="subtitle">
-Every game is a magical adventure 💖
-</div>
-
-<div class="layout">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<div class="hat">🧙‍♀️</div>
-
-<div class="sidebar-title">
-SPELLBOOK
-</div>
-
-<div class="menu">📚 All Games</div>
-
-<div class="menu">⭐ Favorites</div>
-
-<div class="menu">🎮 Currently Playing</div>
-
-<div class="menu">📝 Notes</div>
-
-</aside>
-
-<!-- MAIN -->
-
-<main>
-
-<section class="section">
-
-<div class="section-title">
-⭐ Favorites
-</div>
-
-<div class="game-grid favorites-grid"></div>
-
-</section>
-
-<section class="section">
-
-<div class="section-title">
-🎮 Currently Playing
-</div>
-
-<div class="game-grid playing-grid"></div>
-
-</section>
-
-<section class="section">
-
-<div class="section-title">
-📚 All Games
-</div>
-
-<div class="game-grid all-games-grid"></div>
-
-</section>
-
-</main>
-
-</div>
-
-</div>
-
 <script>
 
-/* STARS */
+/* =========================================
+   TWINKLE STARS
+========================================= */
 
-const stars =
+const starsContainer =
 document.getElementById("stars");
 
 for(let i=0;i<180;i++){
@@ -450,6 +32,9 @@ Math.random()*100+"%";
 star.style.animationDuration=
 (2+Math.random()*5)+"s";
 
+star.style.animationDelay=
+Math.random()*5+"s";
+
 const colors=[
 "#ffffff",
 "#fff7b0",
@@ -463,10 +48,12 @@ Math.random()*colors.length
 )
 ];
 
-stars.appendChild(star);
+starsContainer.appendChild(star);
 }
 
-/* LOAD GAMES */
+/* =========================================
+   LOAD STEAM LIBRARY
+========================================= */
 
 async function loadGames(){
 
@@ -484,17 +71,116 @@ await response.json();
 const games =
 data.response.games || [];
 
+/* MAIN SECTIONS */
+
+const playingGrid =
+document.querySelector(
+".playing-grid"
+);
+
 const allGrid =
-document.querySelector(".all-games-grid");
+document.querySelector(
+".all-games-grid"
+);
+
+/* CLEAR CONTENT */
+
+playingGrid.innerHTML="";
+
+allGrid.innerHTML="";
+
+/* SORT GAMES */
 
 games.sort((a,b)=>
 a.name.localeCompare(b.name)
 );
 
+/* =========================================
+   CREATE GAME CARDS
+========================================= */
+
 games.forEach(game=>{
 
 const image =
 `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+const gameKey =
+`game_${game.appid}`;
+
+/* SAVED SETTINGS */
+
+const savedPlaying =
+localStorage.getItem(
+`${gameKey}_playing`
+)==="true";
+
+const savedNotes =
+localStorage.getItem(
+`${gameKey}_notes`
+)||"";
+
+const savedRating =
+localStorage.getItem(
+`${gameKey}_rating`
+)||"0";
+
+const savedCategory =
+localStorage.getItem(
+`${gameKey}_category`
+)||"Story Driven / Visual Novel";
+
+/* CREATE CARD */
+
+const card =
+createGameCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
+);
+
+/* ADD TO ALL GAMES */
+
+allGrid.appendChild(card);
+
+/* CURRENTLY PLAYING */
+
+if(savedPlaying){
+
+const playingCard =
+createGameCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
+);
+
+playingGrid.appendChild(
+playingCard
+);
+}
+
+});
+
+/* =========================================
+   CARD FUNCTION
+========================================= */
+
+function createGameCard(
+game,
+image,
+savedCategory,
+savedPlaying,
+savedRating,
+savedNotes,
+gameKey
+){
 
 const card =
 document.createElement("div");
@@ -504,7 +190,10 @@ card.className =
 
 card.innerHTML=`
 
-<img src="${image}">
+<img
+src="${image}"
+loading="lazy"
+>
 
 <div class="game-info">
 
@@ -512,34 +201,203 @@ card.innerHTML=`
 ${game.name}
 </div>
 
-<div class="tag">
-Steam Game
-</div>
+<select class="category-select">
+
+<option
+${savedCategory === "Story Driven / Visual Novel" ? "selected" : ""}
+>
+Story Driven / Visual Novel
+</option>
+
+<option
+${savedCategory === "CozyAdventure" ? "selected" : ""}
+>
+CozyAdventure
+</option>
+
+<option
+${savedCategory === "CozyHorror" ? "selected" : ""}
+>
+CozyHorror
+</option>
+
+<option
+${savedCategory === "CozyCasual" ? "selected" : ""}
+>
+CozyCasual
+</option>
+
+<option
+${savedCategory === "Multiplayer / CO-OP" ? "selected" : ""}
+>
+Multiplayer / CO-OP
+</option>
+
+</select>
+
+<label>
+
+<input
+type="checkbox"
+class="playing-toggle"
+${savedPlaying ? "checked" : ""}
+>
+
+🎮 Currently Playing
+
+</label>
 
 <div class="stars-rating">
-⭐⭐⭐⭐⭐
+
+<span
+class="star-rating"
+data-value="1"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="2"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="3"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="4"
+>⭐</span>
+
+<span
+class="star-rating"
+data-value="5"
+>⭐</span>
+
 </div>
 
 <textarea
+class="notes-box"
 placeholder="Magical cozy notes..."
-></textarea>
+>${savedNotes}</textarea>
 
 </div>
 `;
 
-allGrid.appendChild(card);
+/* CATEGORY SAVE */
+
+const categorySelect =
+card.querySelector(
+".category-select"
+);
+
+categorySelect.addEventListener(
+"change",
+()=>{
+
+localStorage.setItem(
+`${gameKey}_category`,
+categorySelect.value
+);
+
+}
+);
+
+/* CURRENTLY PLAYING SAVE */
+
+const playingToggle =
+card.querySelector(
+".playing-toggle"
+);
+
+playingToggle.addEventListener(
+"change",
+()=>{
+
+localStorage.setItem(
+`${gameKey}_playing`,
+playingToggle.checked
+);
+
+location.reload();
+
+}
+);
+
+/* NOTES SAVE */
+
+const notesBox =
+card.querySelector(
+".notes-box"
+);
+
+notesBox.addEventListener(
+"input",
+()=>{
+
+localStorage.setItem(
+`${gameKey}_notes`,
+notesBox.value
+);
+
+}
+);
+
+/* STAR RATINGS */
+
+const stars =
+card.querySelectorAll(
+".star-rating"
+);
+
+function updateStars(value){
+
+stars.forEach(star=>{
+
+star.style.opacity =
+star.dataset.value <= value
+? "1"
+: "0.3";
+
 });
+}
+
+updateStars(savedRating);
+
+stars.forEach(star=>{
+
+star.addEventListener(
+"click",
+()=>{
+
+const value =
+star.dataset.value;
+
+localStorage.setItem(
+`${gameKey}_rating`,
+value
+);
+
+updateStars(value);
+
+}
+);
+});
+
+return card;
+
+}
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Steam Library Error:",
+error
+);
+
 }
 }
 
 loadGames();
 
 </script>
-
-</body>
-
-</html>
