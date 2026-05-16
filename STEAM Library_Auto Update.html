@@ -1,72 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title> CozyAnimeCookie STEAM Library</title>
-
-  <style>
-    body {
-      background: #111827;
-      color: black;
-      font-family: Magnolia Script;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    #games {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .game {
-      background: #1f2937;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.2s;
-    }
-
-    .game:hover {
-      transform: scale(1.03);
-    }
-
-    .game img {
-      width: 100%;
-      display: block;
-    }
-
-    .title {
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-    }
-  </style>
-</head>
-
-<body>
-
-<h1>My Steam Library</h1>
-
-<div id="games"></div>
 
 <script>
 
-  const url = "https://icy-pond-784c.cozyanimecookie.workers.dev/";
+async function loadGames() {
 
-  const response = await fetch(url);
-  const data = await response.json();
+  const url =
+    "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-  const games = data.response.games;
+  const response =
+    await fetch(url);
+
+  const data =
+    await response.json();
+
+  const games =
+    data.response.games;
+
+  const container =
+    document.getElementById("games");
+
+  container.innerHTML = "";
 
   games.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
-
-  const container = document.getElementById("games");
-
-  container.innerHTML = "";
 
   games.forEach(game => {
 
@@ -74,16 +30,20 @@
       `https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/${game.appid}/header.jpg`;
 
     container.innerHTML += `
+
       <div class="game">
+
         <img src="${image}">
-        <div class="title">${game.name}</div>
+
+        <div class="title">
+          ${game.name}
+        </div>
+
       </div>
     `;
   });
 }
 
 loadGames();
-</script>
 
-</body>
-</html><!DOCTYPE html>
+</script>
