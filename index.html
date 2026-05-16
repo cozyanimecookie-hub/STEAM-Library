@@ -1,695 +1,355 @@
+<script>
 
-<!DOCTYPE html>
-<html>
+  /* =========================
+     TWINKLE STARS BACKGROUND
+  ========================== */
 
-<head>
+  const starsContainer =
+    document.getElementById("stars");
 
-  <meta charset="UTF-8">
+  for (let i = 0; i < 180; i++) {
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    const star =
+      document.createElement("div");
 
-  <title>CozyAnimeCookie Steam Library</title>
+    star.className = "star";
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+    const size =
+      Math.random() * 4 + 1;
 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    star.style.width =
+      size + "px";
 
-  <link href="https://fonts.googleapis.com/css2?family=Magnolia:wght@400;500;600&family=comic:wght@500;700&display=swap" rel="stylesheet">
+    star.style.height =
+      size + "px";
 
-  <style>
+    star.style.left =
+      Math.random() * 100 + "%";
 
-    * {
-      box-sizing: border-box;
-    }
+    star.style.top =
+      Math.random() * 100 + "%";
 
-    body {
+    star.style.animationDuration =
+      (2 + Math.random() * 5) + "s";
 
-      margin: 0;
+    star.style.animationDelay =
+      Math.random() * 5 + "s";
 
-      min-height: 100vh;
+    const colors = [
+      "#ffffff",
+      "#fff7b0",
+      "#ffe680"
+    ];
 
-      overflow-x: hidden;
+    star.style.background =
+      colors[
+        Math.floor(
+          Math.random() * colors.length
+        )
+      ];
 
-      background:
-        radial-gradient(circle at top, #6727b8 80%, ##010006 100%;
+    starsContainer.appendChild(star);
+  }
 
-      color: #6727b8;
+  /* =========================
+     LOAD STEAM LIBRARY
+  ========================== */
 
-      font-family: 'Magnolia', script;
-    }
+  async function loadSteamGames() {
 
-    .stars {
+    /* PUT YOUR CLOUDFLARE WORKER URL HERE */
 
-      position: fixed;
+    const workerURL =
+      "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-      width: 100%;
+    try {
 
-      height: 100%;
+      const response =
+        await fetch(workerURL);
 
-      top: 0;
+      const data =
+        await response.json();
 
-      left: 0;
+      const games =
+        data.response.games || [];
 
-      pointer-events: none;
+      /* CLEAR EXISTING SECTIONS */
 
-      z-index: 0;
+      document.querySelector(".favorites-grid").innerHTML = "";
 
-      overflow: hidden;
-    }
+      document.querySelector(".playing-grid").innerHTML = "";
 
-    .star-bg {
+      document.querySelector(".all-games-grid").innerHTML = "";
 
-      position: absolute;
+      /* SORT GAMES */
 
-      width: 3px;
+      games.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
 
-      height: 3px;
+      games.forEach(game => {
 
-      background: yellow;
+        const image =
+          `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
-      border-radius: 50%;
+        const gameKey =
+          `game_${game.appid}`;
 
-      opacity: 0.6;
+        /* SAVED DATA */
 
-      animation:
-        twinkle linear infinite;
-    }
+        const savedNotes =
+          localStorage.getItem(
+            `${gameKey}_notes`
+          ) || "";
 
-    @keyframes twinkle {
+        const savedRating =
+          localStorage.getItem(
+            `${gameKey}_rating`
+          ) || "0";
 
-      0% {
-        opacity: 0.1;
-        transform: scale(0.5);
-      }
+        const savedPlaying =
+          localStorage.getItem(
+            `${gameKey}_playing`
+          ) === "true";
 
-      50% {
-        opacity: 1;
-        transform: scale(1.5);
-      }
+        const savedFavorite =
+          localStorage.getItem(
+            `${gameKey}_favorite`
+          ) === "true";
 
-      100% {
-        opacity: 0.1;
-        transform: scale(0.5);
-      }
-    }
+        const savedCategory =
+          localStorage.getItem(
+            `${gameKey}_category`
+          ) || "Backlog";
 
-    .container {
+        /* CREATE CARD */
 
-      position: relative;
+        const card =
+          document.createElement("div");
 
-      z-index: 2;
+        card.className =
+          "game-card";
 
-      padding: 40px 28px 80px;
-    }
+        card.innerHTML = `
 
-    h1 {
+          <img
+            src="${image}"
+            loading="lazy"
+          >
 
-      text-align: center;
+          <div class="game-info">
 
-      font-size: 58px;
-
-      margin-bottom: 10px;
-
-      font-family: 'Comic', sans-serif;
-
-      color: #fff0fb;
-
-      text-shadow:
-        0 0 12px #ffb7ea,
-        0 0 32px #d8b4fe;
-    }
-
-    .subtitle {
-
-      text-align: center;
-
-      color: #f0c9ff;
-
-      font-size: 18px;
-
-      margin-bottom: 50px;
-    }
-
-    .section-title {
-
-      margin-top: 60px;
-
-      margin-bottom: 24px;
-
-      font-size: 34px;
-
-      color: #ffd2f8;
-
-      font-family: 'Comic', sans-serif;;
-
-      text-shadow: 0 0 12px #c084fc;
-    }
-
-    .game-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(auto-fill, minmax(300px, 1fr));
-
-      gap: 28px;
-    }
-
-    .game {
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255, 228, 246, 0.18),
-          rgba(90, 60, 130, 0.78)
-        );
-
-      border-radius: 28px;
-
-      overflow: hidden;
-
-      border: 2px solid rgba(255, 214, 245, 0.38);
-
-      box-shadow:
-        0 0 24px rgba(255, 183, 234, 0.22),
-        0 0 55px rgba(216, 180, 254, 0.18);
-
-      position: relative;
-
-      backdrop-filter: blur(10px);
-
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-    }
-
-    .game:hover {
-
-      transform: translateY(-6px) scale(1.02);
-
-      box-shadow:
-        0 0 24px rgba(255, 180, 255, 0.35),
-        0 0 70px rgba(168, 85, 247, 0.25);
-    }
-
-    .spellbook-top {
-
-      position: absolute;
-
-      top: 0;
-
-      left: 0;
-
-      width: 100%;
-
-      height: 8px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #ffd6f5,
-          #f9a8d4,
-          #d8b4fe,
-          #ffd6f5
-        );
-    }
-
-    .game img {
-
-      width: 100%;
-
-      display: block;
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.08);
-    }
-
-    .title {
-
-      padding: 18px 18px 10px;
-
-      font-size: 18px;
-
-      font-weight: 600;
-
-      color: #fff6fe;
-
-      text-align: center;
-
-      text-shadow: 0 0 8px rgba(255,255,255,0.2);
-    }
-
-    .controls {
-
-      padding: 0 18px 20px;
-    }
-
-    .witch-label {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      margin-top: 12px;
-
-      font-size: 15px;
-
-      color: #ffe0fd;
-    }
-
-    input[type="checkbox"] {
-
-      transform: scale(1.2);
-
-      accent-color: #d946ef;
-    }
-
-    textarea {
-
-      width: 100%;
-
-      min-height: 95px;
-
-      margin-top: 14px;
-
-      border: 1px solid rgba(255,255,255,0.15);
-
-      border-radius: 16px;
-
-      background: rgba(44, 28, 70, 0.78);
-
-      color: white;
-
-      padding: 14px;
-
-      resize: vertical;
-
-      font-family: 'Magnolia', script;
-
-      font-size: 14px;
-    }
-
-    textarea::placeholder {
-      color: #d8b4fe;
-    }
-
-    select {
-
-      width: 100%;
-
-      margin-top: 14px;
-
-      padding: 12px;
-
-      border-radius: 14px;
-
-      background: rgba(52, 33, 82, 0.9);
-
-      color: #ffe6fc;
-
-      border: 1px solid rgba(255,255,255,0.15);
-
-      font-family: 'Comic', sans-serif;
-    }
-
-    .rating {
-
-      margin-top: 14px;
-
-      display: flex;
-
-      gap: 6px;
-
-      font-size: 26px;
-    }
-
-    .star {
-
-      cursor: pointer;
-
-      opacity: 0.35;
-
-      transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
-    }
-
-    .star:hover {
-      transform: scale(1.15);
-    }
-
-    .star.active {
-      opacity: 1;
-    }
-
-    .favorites-shelf,
-    .playing-shelf {
-
-      margin-bottom: 70px;
-    }
-
-    @media (max-width: 700px) {
-
-      h1 {
-        font-size: 38px;
-      }
-
-      .section-title {
-        font-size: 28px;
-      }
-
-      .container {
-        padding: 26px 16px 60px;
-      }
-    }
-
-  </style>
-
-</head>
-
-<body>
-
-  <div class="stars" id="stars"></div>
-
-  <div class="container">
-
-    <h1>CozyAnimeCookie Library</h1>
-
-    <div class="subtitle">
-      CozyCasual • CozyCreepy Horror • CozyAdventures • With A lil Nostalgia
-    </div>
-
-    <section class="favorites-shelf">
-
-      <h2 class="section-title">⭐ Favorite Shelf</h2>
-
-      <div class="game-grid" id="favorites-grid"></div>
-
-    </section>
-
-    <section class="playing-shelf">
-
-      <h2 class="section-title">🎮 Currently Playing</h2>
-
-      <div class="game-grid" id="playing-grid"></div>
-
-    </section>
-
-    <div id="categories-container"></div>
-
-  </div>
-
-  <script>
-
-    for (let i = 0; i < 120; i++) {
-
-      const star = document.createElement('div');
-
-      star.className = 'star-bg';
-
-      star.style.left = Math.random() * 100 + '%';
-
-      star.style.top = Math.random() * 100 + '%';
-
-      star.style.animationDuration =
-        (2 + Math.random() * 6) + 's';
-
-      star.style.animationDelay =
-        Math.random() * 5 + 's';
-
-      document.getElementById('stars')
-        .appendChild(star);
-    }
-
-    async function loadGames() {
-
-      try {
-
-        const url =
-          'https://icy-pond-784c.cozyanimecookie.workers.dev/';
-
-        const response =
-          await fetch(url);
-
-        const data =
-          await response.json();
-
-        const games =
-          data.response.games || [];
-
-        const categories = [
-          'Backlog',
-          'Cozy',
-          'RPG',
-          'Story Driven/ Visual Novel',
-          'Horror',
-          'Multiplayer'
-        ];
-
-        const categoriesContainer =
-          document.getElementById(
-            'categories-container'
-          );
-
-        categories.forEach(category => {
-
-          categoriesContainer.innerHTML += `
-
-            <section>
-
-              <h2 class="section-title">
-                ✨ ${category}
-              </h2>
-
-              <div
-                class="game-grid"
-                id="category-${category}">
-              </div>
-
-            </section>
-          `;
-        });
-
-        games.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        );
-
-        games.forEach(game => {
-
-          const image =
-            `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
-
-          const gameKey =
-            `game_${game.appid}`;
-
-          const savedChecked =
-            localStorage.getItem(
-              gameKey + '_checked'
-            ) === 'true';
-
-          const savedPlaying =
-            localStorage.getItem(
-              gameKey + '_playing'
-            ) === 'true';
-
-          const savedNotes =
-            localStorage.getItem(
-              gameKey + '_notes'
-            ) || '';
-
-          const savedCategory =
-            localStorage.getItem(
-              gameKey + '_category'
-            ) || 'Backlog';
-
-          const savedRating =
-            localStorage.getItem(
-              gameKey + '_rating'
-            ) || '0';
-
-          const card =
-            document.createElement('div');
-
-          card.className = 'game';
-
-          card.innerHTML = `
-
-            <div class="spellbook-top"></div>
-
-            <img src="${image}" loading="lazy">
-
-            <div class="title">
+            <div class="game-title">
               ${game.name}
             </div>
 
-            <div class="controls">
+            <div class="tags">
 
-              <label class="witch-label">
-
-                <input
-                  type="checkbox"
-                  class="game-check"
-                  ${savedChecked ? 'checked' : ''}
-                >
-
-                Completed
-
-              </label>
-
-              <label class="witch-label">
-
-                <input
-                  type="checkbox"
-                  class="playing-check"
-                  ${savedPlaying ? 'checked' : ''}
-                >
-
-                Currently Playing
-
-              </label>
-
-              <select class="category-select">
-
-                <option ${savedCategory === 'Backlog' ? 'selected' : ''}>
-                  Backlog
-                </option>
-
-                <option ${savedCategory === 'Cozy' ? 'selected' : ''}>
-                  Cozy
-                </option>
-
-                <option ${savedCategory === 'RPG' ? 'selected' : ''}>
-                  RPG
-                </option>
-
-                <option ${savedCategory === 'Story Driven/ Visual Novel' ? 'selected' : ''}>
-                  Story Driven/ Visual Novel
-                </option>
-
-                <option ${savedCategory === 'Horror' ? 'selected' : ''}>
-                  Horror
-                </option>
-
-                <option ${savedCategory === 'Multiplayer' ? 'selected' : ''}>
-                  Multiplayer
-                </option>
-
-              </select>
-
-              <div class="rating">
-
-                <span class="star" data-value="1">⭐</span>
-                <span class="star" data-value="2">⭐</span>
-                <span class="star" data-value="3">⭐</span>
-                <span class="star" data-value="4">⭐</span>
-                <span class="star" data-value="5">⭐</span>
-
+              <div class="tag">
+                ${savedCategory}
               </div>
 
-              <textarea
-                class="game-notes"
-                placeholder="Magical cozy gaming notes..."
-              >${savedNotes}</textarea>
+            </div>
+
+            <label class="witch-label">
+
+              <input
+                type="checkbox"
+                class="favorite-toggle"
+                ${savedFavorite ? "checked" : ""}
+              >
+
+              ⭐ Favorite
+
+            </label>
+
+            <label class="witch-label">
+
+              <input
+                type="checkbox"
+                class="playing-toggle"
+                ${savedPlaying ? "checked" : ""}
+              >
+
+              🎮 Currently Playing
+
+            </label>
+
+            <select class="category-select">
+
+              <option
+                ${savedCategory === "Backlog" ? "selected" : ""}
+              >
+                Backlog
+              </option>
+
+              <option
+                ${savedCategory === "Cozy" ? "selected" : ""}
+              >
+                Cozy
+              </option>
+
+              <option
+                ${savedCategory === "RPG" ? "selected" : ""}
+              >
+                RPG
+              </option>
+
+              <option
+                ${savedCategory === "Horror" ? "selected" : ""}
+              >
+                Horror
+              </option>
+
+              <option
+                ${savedCategory === "Multiplayer" ? "selected" : ""}
+              >
+                Multiplayer
+              </option>
+
+            </select>
+
+            <div class="stars-rating">
+
+              <span class="star-rating" data-value="1">⭐</span>
+              <span class="star-rating" data-value="2">⭐</span>
+              <span class="star-rating" data-value="3">⭐</span>
+              <span class="star-rating" data-value="4">⭐</span>
+              <span class="star-rating" data-value="5">⭐</span>
 
             </div>
-          `;
 
-          const targetCategory =
-            document.getElementById(
-              `category-${savedCategory}`
-            );
+            <textarea
+              class="notes-box"
+              placeholder="Magical cozy notes..."
+            >${savedNotes}</textarea>
 
-          targetCategory.appendChild(card);
+          </div>
+        `;
 
-          if (savedPlaying) {
+        /* MAIN GRID */
 
-            const playingClone =
-              card.cloneNode(true);
+        document
+          .querySelector(".all-games-grid")
+          .appendChild(card);
 
-            document.getElementById(
-              'playing-grid'
-            ).appendChild(playingClone);
-          }
+        /* FAVORITES */
 
-          if (savedRating >= 4) {
+        if (savedFavorite) {
 
-            const favoriteClone =
-              card.cloneNode(true);
+          const favoriteClone =
+            card.cloneNode(true);
 
-            document.getElementById(
-              'favorites-grid'
-            ).appendChild(favoriteClone);
-          }
+          document
+            .querySelector(".favorites-grid")
+            .appendChild(favoriteClone);
+        }
 
-          const checkbox =
-            card.querySelector('.game-check');
+        /* CURRENTLY PLAYING */
 
-          checkbox.addEventListener('change', () => {
+        if (savedPlaying) {
 
-            localStorage.setItem(
-              `${gameKey}_checked`,
-              checkbox.checked
-            );
-          });
+          const playingClone =
+            card.cloneNode(true);
 
-          const playing =
-            card.querySelector('.playing-check');
+          document
+            .querySelector(".playing-grid")
+            .appendChild(playingClone);
+        }
 
-          playing.addEventListener('change', () => {
+        /* SAVE NOTES */
 
-            localStorage.setItem(
-              `${gameKey}_playing`,
-              playing.checked
-            );
+        const notesBox =
+          card.querySelector(".notes-box");
 
-            location.reload();
-          });
-
-          const notes =
-            card.querySelector('.game-notes');
-
-          notes.addEventListener('input', () => {
+        notesBox.addEventListener(
+          "input",
+          () => {
 
             localStorage.setItem(
               `${gameKey}_notes`,
-              notes.value
+              notesBox.value
             );
-          });
+          }
+        );
 
-          const category =
-            card.querySelector('.category-select');
+        /* SAVE CATEGORY */
 
-          category.addEventListener('change', () => {
+        const categorySelect =
+          card.querySelector(".category-select");
+
+        categorySelect.addEventListener(
+          "change",
+          () => {
 
             localStorage.setItem(
               `${gameKey}_category`,
-              category.value
+              categorySelect.value
             );
 
             location.reload();
-          });
-
-          const stars =
-            card.querySelectorAll('.star');
-
-          function updateStars(value) {
-
-            stars.forEach(star => {
-
-              star.classList.toggle(
-                'active',
-                star.dataset.value <= value
-              );
-            });
           }
+        );
 
-          updateStars(savedRating);
+        /* SAVE FAVORITES */
+
+        const favoriteToggle =
+          card.querySelector(".favorite-toggle");
+
+        favoriteToggle.addEventListener(
+          "change",
+          () => {
+
+            localStorage.setItem(
+              `${gameKey}_favorite`,
+              favoriteToggle.checked
+            );
+
+            location.reload();
+          }
+        );
+
+        /* SAVE CURRENTLY PLAYING */
+
+        const playingToggle =
+          card.querySelector(".playing-toggle");
+
+        playingToggle.addEventListener(
+          "change",
+          () => {
+
+            localStorage.setItem(
+              `${gameKey}_playing`,
+              playingToggle.checked
+            );
+
+            location.reload();
+          }
+        );
+
+        /* STAR RATINGS */
+
+        const stars =
+          card.querySelectorAll(".star-rating");
+
+        function updateStars(value) {
 
           stars.forEach(star => {
 
-            star.addEventListener('click', () => {
+            star.style.opacity =
+              star.dataset.value <= value
+              ? "1"
+              : "0.3";
+          });
+        }
+
+        updateStars(savedRating);
+
+        stars.forEach(star => {
+
+          star.addEventListener(
+            "click",
+            () => {
 
               const value =
                 star.dataset.value;
@@ -700,33 +360,21 @@
               );
 
               updateStars(value);
-
-              setTimeout(() => {
-                location.reload();
-              }, 200);
-            });
-          });
+            }
+          );
         });
+      });
 
-      } catch(error) {
+    } catch(error) {
 
-        console.error(error);
-
-        document.body.innerHTML += `
-          <p style="text-align:center;">
-            Error loading Steam library.
-          </p>
-        `;
-      }
+      console.error(
+        "Steam Library Error:",
+        error
+      );
     }
+  }
 
-    loadGames();
+  loadSteamGames();
 
-  </script>
-
-</body>
-
-</html>
-```
-
+</script>
 
