@@ -1,1 +1,119 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+  <title>STEAM-Library</title>
+
+  <style>
+
+    body {
+      background: #111827;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #games {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .game {
+      background: #1f2937;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .game img {
+      width: 100%;
+      display: block;
+    }
+
+    .title {
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>STEAM-Library</h1>
+
+  <p>Auto update on Wix</p>
+
+  <div id="games"></div>
+
+  <script>
+
+    async function loadGames() {
+
+      try {
+
+        const url =
+          "https://icy-pond-784c.cozyanimecookie.workers.dev";
+
+        const response =
+          await fetch(url);
+
+        const data =
+          await response.json();
+
+        console.log(data);
+
+        const games =
+          data.response.games;
+
+        const container =
+          document.getElementById("games");
+
+        games.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+        games.forEach(game => {
+
+          const image =
+            `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+          container.innerHTML += `
+
+            <div class="game">
+
+              <img src="${image}">
+
+              <div class="title">
+                ${game.name}
+              </div>
+
+            </div>
+
+          `;
+        });
+
+      } catch(error) {
+
+        console.error(error);
+
+        document.getElementById("games").innerHTML =
+          `<p>${error}</p>`;
+      }
+    }
+
+    loadGames();
+
+  </script>
+
+</body>
+
+</html>
