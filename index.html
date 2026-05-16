@@ -55,6 +55,25 @@
       text-align: center;
       font-size: 14px;
     }
+
+    .controls {
+  padding: 12px;
+}
+
+.game-check {
+  margin-right: 8px;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  padding: 8px;
+  resize: vertical;
+  min-height: 80px;
+  font-family: Arial;
+}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -108,12 +127,70 @@
 
           card.className = "game";
 
-          card.innerHTML = `
-            <img src="${image}" loading="lazy">
-            <div class="title">${game.name}</div>
-          `;
+          const gameKey =
+  `game_${game.appid}`;
+
+const savedChecked =
+  localStorage.getItem(gameKey + "_checked") === "true";
+
+const savedNotes =
+  localStorage.getItem(gameKey + "_notes") || "";
+
+card.innerHTML = `
+
+  <img src="${image}" loading="lazy">
+
+  <div class="title">
+    ${game.name}
+  </div>
+
+  <div class="controls">
+
+    <label>
+
+      <input
+        type="checkbox"
+        class="game-check"
+        data-appid="${game.appid}"
+        ${savedChecked ? "checked" : ""}
+      >
+
+      Completed
+
+    </label>
+
+    <textarea
+      class="game-notes"
+      data-appid="${game.appid}"
+      placeholder="Add notes..."
+    >${savedNotes}</textarea>
+
+  </div>
+`;
 
           container.appendChild(card);
+
+          const checkbox =
+  card.querySelector(".game-check");
+
+checkbox.addEventListener("change", () => {
+
+  localStorage.setItem(
+    `game_${game.appid}_checked`,
+    checkbox.checked
+  );
+});
+
+const notes =
+  card.querySelector(".game-notes");
+
+notes.addEventListener("input", () => {
+
+  localStorage.setItem(
+    `game_${game.appid}_notes`,
+    notes.value
+  );
+});
         });
 
       } catch(error) {
