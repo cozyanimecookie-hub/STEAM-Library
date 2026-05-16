@@ -1,71 +1,119 @@
+<!DOCTYPE html>
+<html>
 
-<div id="games"></div>
+<head>
 
-<script>
+  <title>STEAM-Library</title>
 
-async function loadGames() {
+  <style>
 
-  try {
-
-    const url =
-      "https://icy-pond-784c.cozyanimecookie.workers.dev/";
-
-    const response =
-      await fetch(url);
-
-    const data =
-      await response.json();
-
-    console.log(data);
-
-    const games =
-      data.response?.games || [];
-
-    const container =
-      document.getElementById("games");
-
-    container.innerHTML = "";
-
-    if (games.length === 0) {
-
-      container.innerHTML =
-        "<p>No games found.</p>";
-
-      return;
+    body {
+      background: #111827;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
     }
 
-    games.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    h1 {
+      text-align: center;
+    }
 
-    games.forEach(game => {
+    #games {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
 
-      const image =
-        `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+    .game {
+      background: #1f2937;
+      border-radius: 12px;
+      overflow: hidden;
+    }
 
-      container.innerHTML += `
+    .game img {
+      width: 100%;
+      display: block;
+    }
 
-        <div class="game">
+    .title {
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-          <img src="${image}" loading="lazy">
+  </style>
 
-          <div class="title">
-            ${game.name}
-          </div>
+</head>
 
-        </div>
-      `;
-    });
+<body>
 
-  } catch(error) {
+  <h1>STEAM-Library</h1>
 
-    console.error(error);
+  <p>Auto update on Wix</p>
 
-    document.getElementById("games").innerHTML =
-      `<p>Error loading games: ${error}</p>`;
-  }
-}
+  <div id="games"></div>
 
-loadGames();
+  <script>
 
-</script>
+    async function loadGames() {
+
+      try {
+
+        const url =
+          "https://icy-pond-784c.cozyanimecookie.workers.dev";
+
+        const response =
+          await fetch(url);
+
+        const data =
+          await response.json();
+
+        console.log(data);
+
+        const games =
+          data.response.games;
+
+        const container =
+          document.getElementById("games");
+
+        games.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+        games.forEach(game => {
+
+          const image =
+            `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+          container.innerHTML += `
+
+            <div class="game">
+
+              <img src="${image}">
+
+              <div class="title">
+                ${game.name}
+              </div>
+
+            </div>
+
+          `;
+        });
+
+      } catch(error) {
+
+        console.error(error);
+
+        document.getElementById("games").innerHTML =
+          `<p>${error}</p>`;
+      }
+    }
+
+    loadGames();
+
+  </script>
+
+</body>
+
+</html>
