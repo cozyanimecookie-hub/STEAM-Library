@@ -1,8 +1,8 @@
 <script>
 
-  /* =========================
-     TWINKLE STARS BACKGROUND
-  ========================== */
+  /* =========================================
+     TWINKLE STAR BACKGROUND
+  ========================================= */
 
   const starsContainer =
     document.getElementById("stars");
@@ -51,13 +51,13 @@
     starsContainer.appendChild(star);
   }
 
-  /* =========================
+  /* =========================================
      LOAD STEAM LIBRARY
-  ========================== */
+  ========================================= */
 
   async function loadSteamGames() {
 
-    /* PUT YOUR CLOUDFLARE WORKER URL HERE */
+    /* INSERT YOUR REAL CLOUDFLARE WORKER URL */
 
     const workerURL =
       "https://icy-pond-784c.cozyanimecookie.workers.dev/";
@@ -73,19 +73,57 @@
       const games =
         data.response.games || [];
 
-      /* CLEAR EXISTING SECTIONS */
+      /* =========================================
+         FIND PAGE SECTIONS
+      ========================================= */
 
-      document.querySelector(".favorites-grid").innerHTML = "";
+      const favoritesGrid =
+        document.querySelector(
+          ".favorites-grid"
+        );
 
-      document.querySelector(".playing-grid").innerHTML = "";
+      const playingGrid =
+        document.querySelector(
+          ".playing-grid"
+        );
 
-      document.querySelector(".all-games-grid").innerHTML = "";
+      const allGamesGrid =
+        document.querySelector(
+          ".all-games-grid"
+        );
+
+      /* SAFETY CHECK */
+
+      if (
+        !favoritesGrid ||
+        !playingGrid ||
+        !allGamesGrid
+      ) {
+
+        console.error(
+          "Missing required grid sections."
+        );
+
+        return;
+      }
+
+      /* CLEAR OLD CONTENT */
+
+      favoritesGrid.innerHTML = "";
+
+      playingGrid.innerHTML = "";
+
+      allGamesGrid.innerHTML = "";
 
       /* SORT GAMES */
 
       games.sort((a, b) =>
         a.name.localeCompare(b.name)
       );
+
+      /* =========================================
+         CREATE GAME CARDS
+      ========================================= */
 
       games.forEach(game => {
 
@@ -95,7 +133,7 @@
         const gameKey =
           `game_${game.appid}`;
 
-        /* SAVED DATA */
+        /* SAVED SETTINGS */
 
         const savedNotes =
           localStorage.getItem(
@@ -107,14 +145,14 @@
             `${gameKey}_rating`
           ) || "0";
 
-        const savedPlaying =
-          localStorage.getItem(
-            `${gameKey}_playing`
-          ) === "true";
-
         const savedFavorite =
           localStorage.getItem(
             `${gameKey}_favorite`
+          ) === "true";
+
+        const savedPlaying =
+          localStorage.getItem(
+            `${gameKey}_playing`
           ) === "true";
 
         const savedCategory =
@@ -227,40 +265,48 @@
           </div>
         `;
 
-        /* MAIN GRID */
+        /* =========================================
+           ADD TO ALL GAMES
+        ========================================= */
 
-        document
-          .querySelector(".all-games-grid")
-          .appendChild(card);
+        allGamesGrid.appendChild(card);
 
-        /* FAVORITES */
+        /* =========================================
+           FAVORITES SHELF
+        ========================================= */
 
         if (savedFavorite) {
 
           const favoriteClone =
             card.cloneNode(true);
 
-          document
-            .querySelector(".favorites-grid")
-            .appendChild(favoriteClone);
+          favoritesGrid.appendChild(
+            favoriteClone
+          );
         }
 
-        /* CURRENTLY PLAYING */
+        /* =========================================
+           CURRENTLY PLAYING SHELF
+        ========================================= */
 
         if (savedPlaying) {
 
           const playingClone =
             card.cloneNode(true);
 
-          document
-            .querySelector(".playing-grid")
-            .appendChild(playingClone);
+          playingGrid.appendChild(
+            playingClone
+          );
         }
 
-        /* SAVE NOTES */
+        /* =========================================
+           SAVE NOTES
+        ========================================= */
 
         const notesBox =
-          card.querySelector(".notes-box");
+          card.querySelector(
+            ".notes-box"
+          );
 
         notesBox.addEventListener(
           "input",
@@ -273,10 +319,14 @@
           }
         );
 
-        /* SAVE CATEGORY */
+        /* =========================================
+           SAVE CATEGORY
+        ========================================= */
 
         const categorySelect =
-          card.querySelector(".category-select");
+          card.querySelector(
+            ".category-select"
+          );
 
         categorySelect.addEventListener(
           "change",
@@ -291,10 +341,14 @@
           }
         );
 
-        /* SAVE FAVORITES */
+        /* =========================================
+           FAVORITES TOGGLE
+        ========================================= */
 
         const favoriteToggle =
-          card.querySelector(".favorite-toggle");
+          card.querySelector(
+            ".favorite-toggle"
+          );
 
         favoriteToggle.addEventListener(
           "change",
@@ -309,10 +363,14 @@
           }
         );
 
-        /* SAVE CURRENTLY PLAYING */
+        /* =========================================
+           CURRENTLY PLAYING TOGGLE
+        ========================================= */
 
         const playingToggle =
-          card.querySelector(".playing-toggle");
+          card.querySelector(
+            ".playing-toggle"
+          );
 
         playingToggle.addEventListener(
           "change",
@@ -327,10 +385,14 @@
           }
         );
 
-        /* STAR RATINGS */
+        /* =========================================
+           STAR RATINGS
+        ========================================= */
 
         const stars =
-          card.querySelectorAll(".star-rating");
+          card.querySelectorAll(
+            ".star-rating"
+          );
 
         function updateStars(value) {
 
