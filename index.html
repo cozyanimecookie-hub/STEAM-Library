@@ -4,10 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CozyAnimeCookie Library</title>
+<title>CozyAnimeCookie STEAM Library</title>
 
 <style>
 
@@ -71,7 +70,7 @@ opacity:0.2;
 transform:scale(0.5);
 }
 
-75%{
+50%{
 opacity:1;
 transform:scale(1.4);
 }
@@ -83,7 +82,7 @@ transform:scale(0.5);
 
 }
 
-/* CONTAINER */
+/* MAIN */
 
 .container{
 
@@ -111,11 +110,72 @@ text-shadow:
 
 text-align:center;
 
-margin-bottom:40px;
+margin-bottom:20px;
 
 font-size:20px;
 
 color:#ffe9ff;
+}
+
+/* ADMIN BUTTONS */
+
+.admin-buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:14px;
+
+margin-bottom:30px;
+}
+
+.admin-buttons button{
+
+border:none;
+
+padding:12px 18px;
+
+border-radius:16px;
+
+cursor:pointer;
+
+font-family:
+"Comic Sans MS", cursive;
+
+font-size:15px;
+
+color:white;
+
+background:
+linear-gradient(
+180deg,
+#8b5cf6,
+#4c1d95
+);
+
+box-shadow:
+0 0 12px rgba(139,92,246,0.5);
+
+transition:0.25s;
+}
+
+.admin-buttons button:hover{
+
+transform:scale(1.05);
+}
+
+.admin-active{
+
+background:
+linear-gradient(
+180deg,
+#ffb347,
+#ff7b00
+) !important;
+
+box-shadow:
+0 0 18px rgba(255,140,0,0.9) !important;
 }
 
 .layout{
@@ -480,53 +540,6 @@ font-size:42px;
 }
 
 }
-  /*Admin Button */
-
-  .admin-buttons{
-
-display:flex;
-
-justify-content:center;
-
-gap:14px;
-
-margin-bottom:30px;
-}
-
-.admin-buttons button{
-
-border:none;
-
-padding:12px 18px;
-
-border-radius:16px;
-
-cursor:pointer;
-
-font-family:
-"Comic Sans MS", cursive;
-
-font-size:15px;
-
-color:white;
-
-background:
-linear-gradient(
-180deg,
-#8b5cf6,
-#4c1d95
-);
-
-box-shadow:
-0 0 12px rgba(139,92,246,0.5);
-
-transition:0.25s;
-}
-
-.admin-buttons button:hover{
-
-transform:scale(1.05);
-}
 
 </style>
 
@@ -542,7 +555,7 @@ transform:scale(1.05);
 
 <div class="container">
 
-<h1>🌙 CozyAnimeCookie Library ✨</h1>
+<h1>🌙 CozyAnimeCookie STEAM Library ✨</h1>
 
 <div class="subtitle">
 Every game is a magical adventure 💖
@@ -564,7 +577,7 @@ Every game is a magical adventure 💖
 
 <aside class="sidebar">
 
-<div class="Book">📖</div>
+<div class="hat">📖 </div>
 
 <div class="sidebar-title">
 SPELLBOOK
@@ -591,7 +604,7 @@ SPELLBOOK
 </div>
 
 <div class="menu" data-filter="CozyHorror">
-🕯 CozyHorror
+🕯️ CozyHorror
 </div>
 
 </aside>
@@ -615,6 +628,10 @@ class="search-bar"
 
 <script>
 
+/* ======================================
+ADMIN
+====================================== */
+
 const ADMIN_PASSWORD =
 "@Cozyanimecookie";
 
@@ -633,6 +650,19 @@ document.getElementById(
 "logoutBtn"
 );
 
+/* ADMIN ACTIVE */
+
+if(isAdmin){
+
+loginBtn.classList.add(
+"admin-active"
+);
+
+loginBtn.innerHTML =
+"🟠 Admin Active";
+
+}
+
 /* LOGIN */
 
 loginBtn.addEventListener(
@@ -649,10 +679,6 @@ if(password===ADMIN_PASSWORD){
 localStorage.setItem(
 "adminMode",
 "true"
-);
-
-alert(
-"Admin Mode Enabled"
 );
 
 location.reload();
@@ -678,19 +704,17 @@ localStorage.removeItem(
 "adminMode"
 );
 
-alert(
-"Logged Out"
-);
-
 location.reload();
 
 }
 );
 
+/* ======================================
+SEARCH + FILTER
+====================================== */
+
 let searchQuery = "";
 let currentFilter = "all";
-
-/* SEARCH */
 
 document.getElementById(
 "searchBar"
@@ -705,8 +729,6 @@ loadGames();
 
 }
 );
-
-/* FILTERS */
 
 document.querySelectorAll(".menu")
 .forEach(button=>{
@@ -738,7 +760,9 @@ loadGames();
 
 });
 
-/* TOP BUTTON */
+/* ======================================
+TOP BUTTON
+====================================== */
 
 document.getElementById(
 "topButton"
@@ -757,7 +781,9 @@ behavior:"smooth"
 }
 );
 
-/* STARS */
+/* ======================================
+STARS
+====================================== */
 
 const stars =
 document.getElementById("stars");
@@ -799,7 +825,9 @@ stars.appendChild(star);
 
 }
 
-/* LOAD GAMES */
+/* ======================================
+LOAD GAMES
+====================================== */
 
 async function loadGames(){
 
@@ -882,6 +910,8 @@ b.name
 
 });
 
+/* CREATE */
+
 games.forEach(game=>{
 
 const gameKey =
@@ -946,7 +976,9 @@ grid
 
 }
 
-/* CREATE CARD */
+/* ======================================
+CARD
+====================================== */
 
 function createCard(
 game,
@@ -1017,6 +1049,7 @@ card.classList.add(
 }
 
 card.innerHTML = `
+
 <img src="${image}">
 
 <div class="game-info">
@@ -1046,23 +1079,37 @@ CozyHorror
 </select>
 
 <label>
-<input type="checkbox"
+
+<input
+type="checkbox"
 class="playing-toggle"
 ${savedPlaying ? "checked" : ""}
 >
+
 🎮 Currently Playing
+${isAdmin ? "🔓" : "🔒"}
+
 </label>
 
 <label>
-<input type="checkbox"
+
+<input
+type="checkbox"
 class="completed-toggle"
 ${savedCompleted ? "checked" : ""}
 >
-✔ Completed 🔒
+
+✔ Completed
+${isAdmin ? "🔓" : "🔒"}
+
 </label>
 
 <select class="month-select">
-<option value="">Month Completed</option>
+
+<option value="">
+Month Completed
+</option>
+
 <option>January</option>
 <option>February</option>
 <option>March</option>
@@ -1075,33 +1122,30 @@ ${savedCompleted ? "checked" : ""}
 <option>October</option>
 <option>November</option>
 <option>December</option>
+
 </select>
 
 <select class="year-select">
-<option value="">Year Completed</option>
+
+<option value="">
+Year Completed
+</option>
+
 <option>2024</option>
 <option>2025</option>
 <option>2026</option>
 <option>2027</option>
 <option>2028</option>
+
 </select>
 
 <div class="stars-rating">
 
-<span class="star-rating"
-data-value="1">⭐</span>
-
-<span class="star-rating"
-data-value="2">⭐</span>
-
-<span class="star-rating"
-data-value="3">⭐</span>
-
-<span class="star-rating"
-data-value="4">⭐</span>
-
-<span class="star-rating"
-data-value="5">⭐</span>
+<span class="star-rating" data-value="1">⭐</span>
+<span class="star-rating" data-value="2">⭐</span>
+<span class="star-rating" data-value="3">⭐</span>
+<span class="star-rating" data-value="4">⭐</span>
+<span class="star-rating" data-value="5">⭐</span>
 
 </div>
 
@@ -1154,7 +1198,7 @@ savedMonth;
 yearSelect.value =
 savedYear;
 
-/* LOCK VISITORS */
+/* LOCK */
 
 if(!isAdmin){
 
