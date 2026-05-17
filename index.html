@@ -740,15 +740,6 @@ STATS
 🌿 Currently Playing
 </div>
 
-<div class="stat-card">
-<div class="stat-number" id="horrorGames">
-0
-</div>
-🕯️ CozyHorror
-</div>
-
-</div>
-
 <div class="layout">
 
 <!-- SIDEBAR -->
@@ -1063,15 +1054,6 @@ games.filter(game=>
 localStorage.getItem(
 `game_${game.appid}_playing`
 )==="true"
-).length;
-
-document.getElementById(
-"horrorGames"
-).innerText =
-games.filter(game=>
-localStorage.getItem(
-`game_${game.appid}_category`
-)==="CozyHorror"
 ).length;
 
 /* SORT */
