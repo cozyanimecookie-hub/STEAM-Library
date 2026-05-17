@@ -630,6 +630,7 @@ const response = await fetch(workerURL);
 const data = await response.json();
 
 let games = data.response.games || [];
+games = games.slice(0,120);
 
 const grid = document.querySelector(".all-games-grid");
 grid.innerHTML = "";
