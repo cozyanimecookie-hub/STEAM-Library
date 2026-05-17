@@ -71,7 +71,7 @@ opacity:0.2;
 transform:scale(0.5);
 }
 
-50%{
+75%{
 opacity:1;
 transform:scale(1.4);
 }
@@ -83,7 +83,7 @@ transform:scale(0.5);
 
 }
 
-/* LAYOUT */
+/* CONTAINER */
 
 .container{
 
@@ -111,7 +111,7 @@ text-shadow:
 
 text-align:center;
 
-margin-bottom:45px;
+margin-bottom:40px;
 
 font-size:20px;
 
@@ -218,8 +218,6 @@ font-family:
 
 outline:none;
 
-backdrop-filter:blur(8px);
-
 border:
 1px solid rgba(255,255,255,0.15);
 }
@@ -229,17 +227,7 @@ border:
 color:#f3d9ff;
 }
 
-/* MAIN */
-
-.section-title{
-
-font-size:34px;
-
-margin-bottom:24px;
-
-text-shadow:
-0 0 10px #d8b4fe;
-}
+/* GRID */
 
 .game-grid{
 
@@ -251,7 +239,7 @@ repeat(auto-fill,minmax(260px,1fr));
 gap:20px;
 }
 
-/* CARD */
+/* CARDS */
 
 .game-card{
 
@@ -270,6 +258,8 @@ border:
 1px solid rgba(255,255,255,0.15);
 
 transition:0.25s;
+
+position:relative;
 }
 
 .game-card:hover{
@@ -278,6 +268,66 @@ transform:
 translateY(-6px)
 scale(1.02);
 }
+
+/* PLAYING EFFECT */
+
+.currently-playing{
+
+background:
+linear-gradient(
+180deg,
+rgba(34,197,94,0.35),
+rgba(0,0,0,0.9)
+) !important;
+}
+
+.currently-playing::before{
+
+content:"🌿";
+
+position:absolute;
+
+top:8px;
+
+left:8px;
+
+font-size:28px;
+
+animation:sway 4s ease-in-out infinite;
+}
+
+.currently-playing::after{
+
+content:"🌿";
+
+position:absolute;
+
+bottom:8px;
+
+right:8px;
+
+font-size:28px;
+
+animation:sway 5s ease-in-out infinite;
+}
+
+@keyframes sway{
+
+0%{
+transform:rotate(-5deg);
+}
+
+50%{
+transform:rotate(5deg);
+}
+
+100%{
+transform:rotate(-5deg);
+}
+
+}
+
+/* COMPLETED */
 
 .completed{
 
@@ -380,6 +430,43 @@ transition:0.2s;
 transform:scale(1.2);
 }
 
+/* TOP BUTTON */
+
+#topButton{
+
+position:fixed;
+
+bottom:25px;
+
+right:25px;
+
+width:60px;
+
+height:60px;
+
+border:none;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+180deg,
+#8b5cf6,
+#4c1d95
+);
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+z-index:999;
+
+box-shadow:
+0 0 20px rgba(139,92,246,0.8);
+}
+
 @media(max-width:900px){
 
 .layout{
@@ -402,6 +489,10 @@ font-size:42px;
 
 <div class="stars" id="stars"></div>
 
+<button id="topButton">
+⬆
+</button>
+
 <div class="container">
 
 <h1>🌙 CozyAnimeCookie Library ✨</h1>
@@ -412,53 +503,41 @@ Every game is a magical adventure 💖
 
 <div class="layout">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
-<div class="hat">📖</div>
+<div class="hat">🎩</div>
 
 <div class="sidebar-title">
 SPELLBOOK
 </div>
 
-<div
-class="menu active-menu"
-data-filter="all"
->
+<div class="menu active-menu" data-filter="all">
 📚 All Games
 </div>
 
-<div
-class="menu"
-data-filter="playing"
->
+<div class="menu" data-filter="playing">
 🎮 Currently Playing
 </div>
 
-<div
-class="menu"
-data-filter="completed"
->
+<div class="menu" data-filter="completed">
 ✔ Completed
 </div>
 
-<div
-class="menu"
-data-filter="notes"
->
-📝 Cozy Notes
+<div class="menu" data-filter="CozyCasual">
+🫖 CozyCasual
+</div>
+
+<div class="menu" data-filter="CozyAdventure">
+🌲 CozyAdventure
+</div>
+
+<div class="menu" data-filter="CozyHorror">
+🕯 CozyHorror
 </div>
 
 </aside>
 
-<!-- MAIN -->
-
 <main>
-
-<div class="section-title">
-✨ Steam Library
-</div>
 
 <input
 type="text"
@@ -477,22 +556,56 @@ class="search-bar"
 
 <script>
 
-/* SEARCH */
+const ADMIN_PASSWORD =
+"YOURPASSWORDHERE";
 
-let searchQuery = "";
+const isAdmin =
+localStorage.getItem(
+"adminMode"
+)==="true";
 
 window.addEventListener(
-"DOMContentLoaded",
-()=>{
+"keydown",
+(e)=>{
 
-const searchInput =
-document.getElementById(
-"searchBar"
+if(
+e.ctrlKey &&
+e.shiftKey &&
+e.key==="A"
+){
+
+const password =
+prompt(
+"Enter Admin Password"
 );
 
-if(searchInput){
+if(password===ADMIN_PASSWORD){
 
-searchInput.addEventListener(
+localStorage.setItem(
+"adminMode",
+"true"
+);
+
+alert(
+"Admin Mode Enabled"
+);
+
+location.reload();
+
+}
+
+}
+
+});
+
+let searchQuery = "";
+let currentFilter = "all";
+
+/* SEARCH */
+
+document.getElementById(
+"searchBar"
+).addEventListener(
 "input",
 (e)=>{
 
@@ -504,9 +617,56 @@ loadGames();
 }
 );
 
-}
+/* FILTERS */
+
+document.querySelectorAll(".menu")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+document.querySelectorAll(".menu")
+.forEach(btn=>{
+
+btn.classList.remove(
+"active-menu"
+);
 
 });
+
+button.classList.add(
+"active-menu"
+);
+
+currentFilter =
+button.dataset.filter;
+
+loadGames();
+
+}
+);
+
+});
+
+/* TOP BUTTON */
+
+document.getElementById(
+"topButton"
+).addEventListener(
+"click",
+()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+);
 
 /* STARS */
 
@@ -541,56 +701,14 @@ star.style.animationDuration=
 star.style.animationDelay=
 Math.random()*5+"s";
 
-const colors=[
-"#ffffff",
-"#fff7b0",
-"#ffe680"
-];
-
 star.style.background=
-colors[
-Math.floor(
-Math.random()*colors.length
-)
-];
+Math.random()>0.5
+? "#ffffff"
+: "#ffe680";
 
 stars.appendChild(star);
 
 }
-
-/* FILTERS */
-
-let currentFilter = "all";
-
-document.querySelectorAll(".menu")
-.forEach(button=>{
-
-button.addEventListener(
-"click",
-()=>{
-
-document.querySelectorAll(".menu")
-.forEach(btn=>{
-
-btn.classList.remove(
-"active-menu"
-);
-
-});
-
-button.classList.add(
-"active-menu"
-);
-
-currentFilter =
-button.dataset.filter;
-
-loadGames();
-
-}
-);
-
-});
 
 /* LOAD GAMES */
 
@@ -598,8 +716,6 @@ async function loadGames(){
 
 const workerURL =
 "https://icy-pond-784c.cozyanimecookie.workers.dev/";
-
-try{
 
 const response =
 await fetch(workerURL);
@@ -619,7 +735,7 @@ grid.innerHTML="";
 
 /* SEARCH */
 
-if(searchQuery.trim()!==""){
+if(searchQuery){
 
 games = games.filter(game=>
 game.name
@@ -629,7 +745,7 @@ game.name
 
 }
 
-/* SORTING */
+/* SORT */
 
 games.sort((a,b)=>{
 
@@ -659,15 +775,11 @@ localStorage.getItem(
 `${bKey}_completed`
 )==="true";
 
-/* PLAYING FIRST */
-
 if(aPlaying && !bPlaying)
 return -1;
 
 if(!aPlaying && bPlaying)
 return 1;
-
-/* COMPLETED LAST */
 
 if(aCompleted && !bCompleted)
 return 1;
@@ -680,8 +792,6 @@ b.name
 );
 
 });
-
-/* CREATE CARDS */
 
 games.forEach(game=>{
 
@@ -698,9 +808,9 @@ localStorage.getItem(
 `${gameKey}_completed`
 )==="true";
 
-const savedNotes =
+const savedCategory =
 localStorage.getItem(
-`${gameKey}_notes`
+`${gameKey}_category`
 )||"";
 
 if(
@@ -718,8 +828,22 @@ return;
 }
 
 if(
-currentFilter==="notes"
-&& savedNotes.trim()===""
+currentFilter==="CozyCasual"
+&& savedCategory!=="CozyCasual"
+){
+return;
+}
+
+if(
+currentFilter==="CozyAdventure"
+&& savedCategory!=="CozyAdventure"
+){
+return;
+}
+
+if(
+currentFilter==="CozyHorror"
+&& savedCategory!=="CozyHorror"
 ){
 return;
 }
@@ -730,12 +854,6 @@ grid
 );
 
 });
-
-}catch(error){
-
-console.error(error);
-
-}
 
 }
 
@@ -801,8 +919,15 @@ card.classList.add(
 
 }
 
-card.innerHTML=`
+if(savedPlaying){
 
+card.classList.add(
+"currently-playing"
+);
+
+}
+
+card.innerHTML = `
 <img src="${image}">
 
 <div class="game-info">
@@ -817,8 +942,8 @@ ${game.name}
 Select Category
 </option>
 
-<option value="Story Driven / Visual Novel">
-Story Driven / Visual Novel
+<option value="CozyCasual">
+CozyCasual
 </option>
 
 <option value="CozyAdventure">
@@ -829,46 +954,26 @@ CozyAdventure
 CozyHorror
 </option>
 
-<option value="CozyCasual">
-CozyCasual
-</option>
-
-<option value="Multiplayer / CO-OP">
-Multiplayer / CO-OP
-</option>
-
 </select>
 
 <label>
-
-<input
-type="checkbox"
+<input type="checkbox"
 class="playing-toggle"
 ${savedPlaying ? "checked" : ""}
 >
-
 🎮 Currently Playing
-
 </label>
 
 <label>
-
-<input
-type="checkbox"
+<input type="checkbox"
 class="completed-toggle"
 ${savedCompleted ? "checked" : ""}
 >
-
-✔ Completed
-
+✔ Completed 🔒
 </label>
 
 <select class="month-select">
-
-<option value="">
-Month Completed
-</option>
-
+<option value="">Month Completed</option>
 <option>January</option>
 <option>February</option>
 <option>March</option>
@@ -881,30 +986,33 @@ Month Completed
 <option>October</option>
 <option>November</option>
 <option>December</option>
-
 </select>
 
 <select class="year-select">
-
-<option value="">
-Year Completed
-</option>
-
+<option value="">Year Completed</option>
 <option>2024</option>
 <option>2025</option>
 <option>2026</option>
 <option>2027</option>
 <option>2028</option>
-
 </select>
 
 <div class="stars-rating">
 
-<span class="star-rating" data-value="1">⭐</span>
-<span class="star-rating" data-value="2">⭐</span>
-<span class="star-rating" data-value="3">⭐</span>
-<span class="star-rating" data-value="4">⭐</span>
-<span class="star-rating" data-value="5">⭐</span>
+<span class="star-rating"
+data-value="1">⭐</span>
+
+<span class="star-rating"
+data-value="2">⭐</span>
+
+<span class="star-rating"
+data-value="3">⭐</span>
+
+<span class="star-rating"
+data-value="4">⭐</span>
+
+<span class="star-rating"
+data-value="5">⭐</span>
 
 </div>
 
@@ -918,15 +1026,59 @@ placeholder="Magical cozy notes..."
 
 grid.appendChild(card);
 
-/* CATEGORY */
-
 const categorySelect =
 card.querySelector(
 ".category-select"
 );
 
+const playingToggle =
+card.querySelector(
+".playing-toggle"
+);
+
+const completedToggle =
+card.querySelector(
+".completed-toggle"
+);
+
+const monthSelect =
+card.querySelector(
+".month-select"
+);
+
+const yearSelect =
+card.querySelector(
+".year-select"
+);
+
+const notesBox =
+card.querySelector(
+".notes-box"
+);
+
 categorySelect.value =
 savedCategory;
+
+monthSelect.value =
+savedMonth;
+
+yearSelect.value =
+savedYear;
+
+/* LOCK VISITORS */
+
+if(!isAdmin){
+
+categorySelect.disabled = true;
+playingToggle.disabled = true;
+completedToggle.disabled = true;
+monthSelect.disabled = true;
+yearSelect.disabled = true;
+notesBox.disabled = true;
+
+}
+
+/* SAVE */
 
 categorySelect.addEventListener(
 "change",
@@ -938,13 +1090,6 @@ categorySelect.value
 );
 
 }
-);
-
-/* PLAYING */
-
-const playingToggle =
-card.querySelector(
-".playing-toggle"
 );
 
 playingToggle.addEventListener(
@@ -961,13 +1106,6 @@ loadGames();
 }
 );
 
-/* COMPLETED */
-
-const completedToggle =
-card.querySelector(
-".completed-toggle"
-);
-
 completedToggle.addEventListener(
 "change",
 ()=>{
@@ -982,16 +1120,6 @@ loadGames();
 }
 );
 
-/* MONTH */
-
-const monthSelect =
-card.querySelector(
-".month-select"
-);
-
-monthSelect.value =
-savedMonth;
-
 monthSelect.addEventListener(
 "change",
 ()=>{
@@ -1004,16 +1132,6 @@ monthSelect.value
 }
 );
 
-/* YEAR */
-
-const yearSelect =
-card.querySelector(
-".year-select"
-);
-
-yearSelect.value =
-savedYear;
-
 yearSelect.addEventListener(
 "change",
 ()=>{
@@ -1024,13 +1142,6 @@ yearSelect.value
 );
 
 }
-);
-
-/* NOTES */
-
-const notesBox =
-card.querySelector(
-".notes-box"
 );
 
 notesBox.addEventListener(
@@ -1069,6 +1180,13 @@ updateStars(savedRating);
 
 stars.forEach(star=>{
 
+if(!isAdmin){
+
+star.style.pointerEvents =
+"none";
+
+}
+
 star.addEventListener(
 "click",
 ()=>{
@@ -1095,5 +1213,7 @@ loadGames();
 </script>
 
 </body>
+
+</html>
 
 </html>
