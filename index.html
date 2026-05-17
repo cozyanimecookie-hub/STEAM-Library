@@ -480,6 +480,53 @@ font-size:42px;
 }
 
 }
+  /*Admin Button */
+
+  .admin-buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:14px;
+
+margin-bottom:30px;
+}
+
+.admin-buttons button{
+
+border:none;
+
+padding:12px 18px;
+
+border-radius:16px;
+
+cursor:pointer;
+
+font-family:
+"Comic Sans MS", cursive;
+
+font-size:15px;
+
+color:white;
+
+background:
+linear-gradient(
+180deg,
+#8b5cf6,
+#4c1d95
+);
+
+box-shadow:
+0 0 12px rgba(139,92,246,0.5);
+
+transition:0.25s;
+}
+
+.admin-buttons button:hover{
+
+transform:scale(1.05);
+}
 
 </style>
 
@@ -501,11 +548,23 @@ font-size:42px;
 Every game is a magical adventure 💖
 </div>
 
+<div class="admin-buttons">
+
+<button id="loginBtn">
+🔐 Admin Login
+</button>
+
+<button id="logoutBtn">
+🚪 Logout
+</button>
+
+</div>
+
 <div class="layout">
 
 <aside class="sidebar">
 
-<div class="hat">🎩</div>
+<div class="Book">📖</div>
 
 <div class="sidebar-title">
 SPELLBOOK
@@ -557,22 +616,28 @@ class="search-bar"
 <script>
 
 const ADMIN_PASSWORD =
-"@CozyAnimeCookie";
+"@Cozyanimecookie";
 
 const isAdmin =
 localStorage.getItem(
 "adminMode"
 )==="true";
 
-window.addEventListener(
-"keydown",
-(e)=>{
+const loginBtn =
+document.getElementById(
+"loginBtn"
+);
 
-if(
-e.ctrlKey &&
-e.shiftKey &&
-e.key==="A"
-){
+const logoutBtn =
+document.getElementById(
+"logoutBtn"
+);
+
+/* LOGIN */
+
+loginBtn.addEventListener(
+"click",
+()=>{
 
 const password =
 prompt(
@@ -592,11 +657,35 @@ alert(
 
 location.reload();
 
-}
+}else{
+
+alert(
+"Wrong Password"
+);
 
 }
 
-});
+}
+);
+
+/* LOGOUT */
+
+logoutBtn.addEventListener(
+"click",
+()=>{
+
+localStorage.removeItem(
+"adminMode"
+);
+
+alert(
+"Logged Out"
+);
+
+location.reload();
+
+}
+);
 
 let searchQuery = "";
 let currentFilter = "all";
