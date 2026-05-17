@@ -12,6 +12,7 @@
 
 *{
 box-sizing:border-box;
+scroll-behavior:smooth;
 }
 
 body{
@@ -35,7 +36,53 @@ circle at center,
 min-height:100vh;
 }
 
-/* STARS */
+/* ======================================
+FOG
+====================================== */
+
+.fog{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+width:200%;
+
+height:220px;
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,0.12) 0%,
+rgba(255,255,255,0) 70%
+);
+
+opacity:0.45;
+
+animation:fogMove 40s linear infinite;
+
+pointer-events:none;
+
+z-index:1;
+}
+
+@keyframes fogMove{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-50%);
+}
+
+}
+
+/* ======================================
+STARS
+====================================== */
 
 .stars{
 
@@ -82,7 +129,9 @@ transform:scale(0.5);
 
 }
 
-/* MAIN */
+/* ======================================
+MAIN
+====================================== */
 
 .container{
 
@@ -117,7 +166,9 @@ font-size:20px;
 color:#ffe9ff;
 }
 
-/* ADMIN BUTTONS */
+/* ======================================
+ADMIN BUTTONS
+====================================== */
 
 .admin-buttons{
 
@@ -178,6 +229,53 @@ box-shadow:
 0 0 18px rgba(255,140,0,0.9) !important;
 }
 
+/* ======================================
+STATS
+====================================== */
+
+.stats-bar{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(200px,1fr));
+
+gap:18px;
+
+margin-bottom:30px;
+}
+
+.stat-card{
+
+background:
+rgba(255,255,255,0.08);
+
+padding:18px;
+
+border-radius:22px;
+
+text-align:center;
+
+backdrop-filter:blur(10px);
+
+border:
+1px solid rgba(255,255,255,0.14);
+
+box-shadow:
+0 0 14px rgba(255,255,255,0.08);
+}
+
+.stat-number{
+
+font-size:34px;
+
+margin-bottom:8px;
+}
+
+/* ======================================
+LAYOUT
+====================================== */
+
 .layout{
 
 display:grid;
@@ -187,7 +285,9 @@ grid-template-columns:260px 1fr;
 gap:24px;
 }
 
-/* SIDEBAR */
+/* ======================================
+SIDEBAR
+====================================== */
 
 .sidebar{
 
@@ -237,13 +337,15 @@ margin-bottom:12px;
 
 cursor:pointer;
 
-transition:0.2s;
+transition:0.25s;
 }
 
 .menu:hover{
 
 background:
 rgba(255,255,255,0.18);
+
+transform:translateX(4px);
 }
 
 .active-menu{
@@ -252,7 +354,9 @@ background:
 rgba(255,255,255,0.28);
 }
 
-/* SEARCH */
+/* ======================================
+SEARCH
+====================================== */
 
 .search-bar{
 
@@ -287,7 +391,9 @@ border:
 color:#f3d9ff;
 }
 
-/* GRID */
+/* ======================================
+GRID
+====================================== */
 
 .game-grid{
 
@@ -299,7 +405,9 @@ repeat(auto-fill,minmax(260px,1fr));
 gap:20px;
 }
 
-/* CARDS */
+/* ======================================
+CARDS
+====================================== */
 
 .game-card{
 
@@ -320,16 +428,24 @@ border:
 transition:0.25s;
 
 position:relative;
+
+box-shadow:
+0 0 14px rgba(0,0,0,0.3);
 }
 
 .game-card:hover{
 
 transform:
-translateY(-6px)
-scale(1.02);
+translateY(-8px)
+scale(1.03);
+
+box-shadow:
+0 0 24px rgba(216,180,254,0.55);
 }
 
-/* PLAYING EFFECT */
+/* ======================================
+PLAYING EFFECT
+====================================== */
 
 .currently-playing{
 
@@ -387,7 +503,9 @@ transform:rotate(-5deg);
 
 }
 
-/* COMPLETED */
+/* ======================================
+COMPLETED
+====================================== */
 
 .completed{
 
@@ -404,6 +522,13 @@ linear-gradient(
 width:100%;
 
 display:block;
+
+transition:0.3s;
+}
+
+.game-card:hover img{
+
+filter:brightness(1.08);
 }
 
 .game-info{
@@ -487,10 +612,12 @@ transition:0.2s;
 
 .star-rating:hover{
 
-transform:scale(1.2);
+transform:scale(1.25);
 }
 
-/* TOP BUTTON */
+/* ======================================
+TOP BUTTON
+====================================== */
 
 #topButton{
 
@@ -525,7 +652,18 @@ z-index:999;
 
 box-shadow:
 0 0 20px rgba(139,92,246,0.8);
+
+transition:0.25s;
 }
+
+#topButton:hover{
+
+transform:scale(1.12);
+}
+
+/* ======================================
+RESPONSIVE
+====================================== */
 
 @media(max-width:900px){
 
@@ -548,6 +686,8 @@ font-size:42px;
 <body>
 
 <div class="stars" id="stars"></div>
+
+<div class="fog"></div>
 
 <button id="topButton">
 ⬆
@@ -573,11 +713,49 @@ Every game is a magical adventure 💖
 
 </div>
 
+<!-- ======================================
+STATS
+====================================== -->
+
+<div class="stats-bar">
+
+<div class="stat-card">
+<div class="stat-number" id="totalGames">
+0
+</div>
+🎮 Total Games
+</div>
+
+<div class="stat-card">
+<div class="stat-number" id="completedGames">
+0
+</div>
+✔ Completed
+</div>
+
+<div class="stat-card">
+<div class="stat-number" id="playingGames">
+0
+</div>
+🌿 Currently Playing
+</div>
+
+<div class="stat-card">
+<div class="stat-number" id="horrorGames">
+0
+</div>
+🕯️ CozyHorror
+</div>
+
+</div>
+
 <div class="layout">
+
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
-<div class="hat">📖 </div>
+<div class="hat">📖</div>
 
 <div class="sidebar-title">
 SPELLBOOK
@@ -588,7 +766,7 @@ SPELLBOOK
 </div>
 
 <div class="menu" data-filter="playing">
-🎮 Currently Playing
+🌿 Currently Playing
 </div>
 
 <div class="menu" data-filter="completed">
@@ -608,6 +786,8 @@ SPELLBOOK
 </div>
 
 </aside>
+
+<!-- MAIN -->
 
 <main>
 
@@ -650,8 +830,6 @@ document.getElementById(
 "logoutBtn"
 );
 
-/* ADMIN ACTIVE */
-
 if(isAdmin){
 
 loginBtn.classList.add(
@@ -659,7 +837,7 @@ loginBtn.classList.add(
 );
 
 loginBtn.innerHTML =
-"🟠 Admin Active";
+"☀️ Admin Active";
 
 }
 
@@ -788,7 +966,7 @@ STARS
 const stars =
 document.getElementById("stars");
 
-for(let i=0;i<500;i++){
+for(let i=0;i<450;i++){
 
 const star =
 document.createElement("div");
@@ -796,7 +974,7 @@ document.createElement("div");
 star.className="star";
 
 const size =
-Math.random()*6+1;
+Math.random()*5+1;
 
 star.style.width=
 size+"px";
@@ -811,7 +989,7 @@ star.style.top=
 Math.random()*100+"%";
 
 star.style.animationDuration=
-(2+Math.random()*5)+"s";
+(1+Math.random()*4)+"s";
 
 star.style.animationDelay=
 Math.random()*5+"s";
@@ -861,6 +1039,40 @@ game.name
 );
 
 }
+
+/* STATS */
+
+document.getElementById(
+"totalGames"
+).innerText =
+games.length;
+
+document.getElementById(
+"completedGames"
+).innerText =
+games.filter(game=>
+localStorage.getItem(
+`game_${game.appid}_completed`
+)==="true"
+).length;
+
+document.getElementById(
+"playingGames"
+).innerText =
+games.filter(game=>
+localStorage.getItem(
+`game_${game.appid}_playing`
+)==="true"
+).length;
+
+document.getElementById(
+"horrorGames"
+).innerText =
+games.filter(game=>
+localStorage.getItem(
+`game_${game.appid}_category`
+)==="CozyHorror"
+).length;
 
 /* SORT */
 
@@ -1065,15 +1277,15 @@ Select Category
 </option>
 
 <option value="CozyCasual">
-CozyCasual
+🫖 CozyCasual
 </option>
 
 <option value="CozyAdventure">
-CozyAdventure
+🌲 CozyAdventure
 </option>
 
 <option value="CozyHorror">
-CozyHorror
+🕯️ CozyHorror
 </option>
 
 </select>
@@ -1086,7 +1298,7 @@ class="playing-toggle"
 ${savedPlaying ? "checked" : ""}
 >
 
-🎮 Currently Playing
+🌿 Currently Playing
 ${isAdmin ? "🔓" : "🔒"}
 
 </label>
@@ -1349,4 +1561,4 @@ loadGames();
 
 </html>
 
-</html>
+
