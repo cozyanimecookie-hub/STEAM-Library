@@ -47,9 +47,9 @@ animation:twinkle linear infinite;
 }
 
 @keyframes twinkle{
-0%{opacity:0.2;transform:scale(0.5);} 
-50%{opacity:1;transform:scale(1.4);} 
-100%{opacity:0.2;transform:scale(0.5);} 
+0%{opacity:0.2;transform:scale(0.5);}
+50%{opacity:1;transform:scale(1.4);}
+100%{opacity:0.2;transform:scale(0.5);}
 }
 
 /* =========================
@@ -321,9 +321,9 @@ right:8px;
 }
 
 @keyframes sway{
-0%{transform:rotate(-5deg);} 
-50%{transform:rotate(5deg);} 
-100%{transform:rotate(-5deg);} 
+0%{transform:rotate(-5deg);}
+50%{transform:rotate(5deg);}
+100%{transform:rotate(-5deg);}
 }
 
 .completed{
@@ -505,6 +505,23 @@ type="text"
 
 <div class="game-grid all-games-grid"></div>
 
+<div style="text-align:center;margin-top:30px;">
+<button id="loadMoreBtn" style="
+padding:14px 24px;
+border:none;
+border-radius:18px;
+background:linear-gradient(180deg,#8b5cf6,#4c1d95);
+color:white;
+font-family:'Comic Sans MS', cursive;
+font-size:18px;
+cursor:pointer;
+box-shadow:0 0 18px rgba(139,92,246,0.6);
+transition:0.25s;
+">
+✨ Load More Games ✨
+</button>
+</div>
+
 </main>
 
 </div>
@@ -563,11 +580,19 @@ SEARCH + FILTER
 
 let searchQuery = "";
 let currentFilter = "all";
+let visibleGames = 120;
 
 const searchBar = document.getElementById("searchBar");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
 
 searchBar.addEventListener("input",(e)=>{
 searchQuery = e.target.value.toLowerCase();
+visibleGames = 120;
+loadGames();
+});
+
+loadMoreBtn.addEventListener("click",()=>{
+visibleGames += 120;
 loadGames();
 });
 
@@ -630,7 +655,6 @@ const response = await fetch(workerURL);
 const data = await response.json();
 
 let games = data.response.games || [];
-games = games.slice(0,120);
 
 const grid = document.querySelector(".all-games-grid");
 grid.innerHTML = "";
@@ -643,7 +667,13 @@ game.name.toLowerCase().includes(searchQuery)
 
 updateStats(games);
 
-createGameCards(games,grid);
+createGameCards(games.slice(0,visibleGames),grid);
+
+if(visibleGames >= games.length){
+loadMoreBtn.style.display = "none";
+}else{
+loadMoreBtn.style.display = "inline-block";
+}
 
 }
 
@@ -727,10 +757,7 @@ if(completed) card.classList.add("completed");
 
 card.innerHTML = `
 
-<img
-src="${image}"
-onerror="https://raw.githubusercontent.com/cozyanimecookie-hub/STEAM-Library/main/CozyAnimeCookie%20-%20Twitches%20-%20CozyAnimeCookie%20(1).png'"
->
+<img src="${image}">
 
 <div class="game-info">
 
@@ -840,5 +867,6 @@ loadGames();
 </body>
 </html>
 ```
+
 
 
