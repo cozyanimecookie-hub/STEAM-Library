@@ -1,6 +1,10 @@
+# Optimized `index.html` Structure for CozyAnimeCookie STEAM Library
+
+Replace your current `index.html` with the cleaned and optimized version below.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -16,15 +20,8 @@ scroll-behavior:smooth;
 }
 
 body{
-
 margin:0;
-
 font-family:"Comic Sans MS", cursive;
-
-color:white;
-
-overflow-x:hidden;
-
 background:
 radial-gradient(
 circle at center,
@@ -32,433 +29,276 @@ circle at center,
 #2b114a 45%,
 #000000 100%
 );
-
+color:white;
+overflow-x:hidden;
 min-height:100vh;
 }
 
-/* ======================================
-FOG
-====================================== */
-
-.fog{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-width:200%;
-
-height:220px;
-
-background:
-radial-gradient(
-circle,
-rgba(216,180,254,0.28) 0%,
-rgba(192,132,252,0.18) 70%
-);
-
-opacity:0.45;
-
-animation:fogMove 40s linear infinite;
-
-pointer-events:none;
-
-z-index:1;
-}
-
-@keyframes fogMove{
-
-0%{
-transform:
-translateX(0)
-translateY(0);
-}
-
-50%{
-transform:
-translateX(-20%)
-translateY(-10px);
-}
-
-100%{
-transform:
-translateX(-40%)
-translateY(0);
-}
-
-}
-
-/* ======================================
+/* =========================
 STARS
-====================================== */
+========================= */
 
 .stars{
-
 position:fixed;
-
-width:100%;
-
-height:100%;
-
-top:0;
-
-left:0;
-
+inset:0;
 pointer-events:none;
-
 z-index:0;
 }
 
 .star{
-
 position:absolute;
-
 border-radius:50%;
-
 animation:twinkle linear infinite;
 }
 
 @keyframes twinkle{
+0%{opacity:0.2;transform:scale(0.5);} 
+50%{opacity:1;transform:scale(1.4);} 
+100%{opacity:0.2;transform:scale(0.5);} 
+}
 
+/* =========================
+FOG
+========================= */
+
+.fog{
+position:fixed;
+bottom:-40px;
+left:0;
+width:300%;
+height:320px;
+background:
+radial-gradient(
+circle,
+rgba(216,180,254,0.28) 0%,
+rgba(192,132,252,0.18) 35%,
+rgba(255,255,255,0) 75%
+);
+filter:blur(40px);
+opacity:0.7;
+animation:fogMove 55s linear infinite;
+pointer-events:none;
+z-index:1;
+}
+
+@keyframes fogMove{
 0%{
-opacity:0.2;
-transform:scale(0.5);
+transform:translateX(0) translateY(0);
 }
-
 50%{
-opacity:1;
-transform:scale(1.4);
+transform:translateX(-20%) translateY(-10px);
 }
-
 100%{
-opacity:0.2;
-transform:scale(0.5);
+transform:translateX(-40%) translateY(0);
+}
 }
 
-}
-
-/* ======================================
+/* =========================
 MAIN
-====================================== */
+========================= */
 
 .container{
-
 position:relative;
-
 z-index:2;
-
 padding:30px;
 }
 
 h1{
-
 text-align:center;
-
 font-size:58px;
-
 margin-bottom:10px;
-
 text-shadow:
 0 0 12px #f0abfc,
 0 0 24px #d8b4fe;
 }
 
 .subtitle{
-
 text-align:center;
-
-margin-bottom:20px;
-
 font-size:20px;
-
+margin-bottom:24px;
 color:#ffe9ff;
 }
 
-/* ======================================
+/* =========================
 ADMIN BUTTONS
-====================================== */
+========================= */
 
 .admin-buttons{
-
 display:flex;
-
 justify-content:center;
-
 gap:14px;
-
 margin-bottom:30px;
 }
 
 .admin-buttons button{
-
 border:none;
-
 padding:12px 18px;
-
 border-radius:16px;
-
-cursor:pointer;
-
-font-family:
-"Comic Sans MS", cursive;
-
+font-family:"Comic Sans MS", cursive;
 font-size:15px;
-
+cursor:pointer;
 color:white;
-
 background:
 linear-gradient(
 180deg,
 #8b5cf6,
 #4c1d95
 );
-
 box-shadow:
 0 0 12px rgba(139,92,246,0.5);
-
 transition:0.25s;
 }
 
 .admin-buttons button:hover{
-
 transform:scale(1.05);
 }
 
 .admin-active{
-
 background:
 linear-gradient(
 180deg,
 #ffb347,
 #ff7b00
 ) !important;
-
 box-shadow:
 0 0 18px rgba(255,140,0,0.9) !important;
 }
 
-/* ======================================
+/* =========================
 STATS
-====================================== */
+========================= */
 
 .stats-bar{
-
 display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(200px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:18px;
-
 margin-bottom:30px;
 }
 
 .stat-card{
-
-background:
-rgba(255,255,255,0.08);
-
+background:rgba(255,255,255,0.08);
 padding:18px;
-
 border-radius:22px;
-
 text-align:center;
-
 backdrop-filter:blur(10px);
-
-border:
-1px solid rgba(255,255,255,0.14);
-
-box-shadow:
-0 0 14px rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.14);
 }
 
 .stat-number{
-
 font-size:34px;
-
 margin-bottom:8px;
 }
 
-/* ======================================
+/* =========================
 LAYOUT
-====================================== */
+========================= */
 
 .layout{
-
 display:grid;
-
 grid-template-columns:260px 1fr;
-
 gap:24px;
 }
 
-/* ======================================
+/* =========================
 SIDEBAR
-====================================== */
+========================= */
 
 .sidebar{
-
-background:
-rgba(255,255,255,0.08);
-
-border-radius:24px;
-
+background:rgba(255,255,255,0.08);
 padding:22px;
-
+border-radius:24px;
 backdrop-filter:blur(12px);
-
-border:
-1px solid rgba(255,255,255,0.14);
-
+border:1px solid rgba(255,255,255,0.14);
 height:fit-content;
 }
 
 .hat{
-
 font-size:70px;
-
 text-align:center;
-
 margin-bottom:12px;
 }
 
 .sidebar-title{
-
 text-align:center;
-
 font-size:34px;
-
 margin-bottom:22px;
 }
 
 .menu{
-
-background:
-rgba(255,255,255,0.08);
-
+background:rgba(255,255,255,0.08);
 padding:14px;
-
 border-radius:16px;
-
 margin-bottom:12px;
-
 cursor:pointer;
-
 transition:0.25s;
 }
 
 .menu:hover{
-
-background:
-rgba(255,255,255,0.18);
-
+background:rgba(255,255,255,0.18);
 transform:translateX(4px);
 }
 
 .active-menu{
-
-background:
-rgba(255,255,255,0.28);
+background:rgba(255,255,255,0.28);
 }
 
-/* ======================================
+/* =========================
 SEARCH
-====================================== */
+========================= */
 
 .search-bar{
-
 width:100%;
-
 padding:14px;
-
 border:none;
-
 border-radius:18px;
-
 margin-bottom:24px;
-
 font-size:16px;
-
-background:
-rgba(255,255,255,0.12);
-
+background:rgba(255,255,255,0.12);
 color:white;
-
-font-family:
-"Comic Sans MS", cursive;
-
+font-family:"Comic Sans MS", cursive;
 outline:none;
-
-border:
-1px solid rgba(255,255,255,0.15);
+border:1px solid rgba(255,255,255,0.15);
 }
 
 .search-bar::placeholder{
-
 color:#f3d9ff;
 }
 
-/* ======================================
+/* =========================
 GRID
-====================================== */
+========================= */
 
 .game-grid{
-
 display:grid;
-
-grid-template-columns:
-repeat(auto-fill,minmax(260px,1fr));
-
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
 gap:20px;
 }
 
-/* ======================================
+/* =========================
 CARDS
-====================================== */
+========================= */
 
 .game-card{
-
 background:
 linear-gradient(
 180deg,
 rgba(255,255,255,0.12),
 rgba(92,34,150,0.9)
 );
-
 border-radius:24px;
-
 overflow:hidden;
-
-border:
-1px solid rgba(255,255,255,0.15);
-
+border:1px solid rgba(255,255,255,0.15);
 transition:0.25s;
-
 position:relative;
-
-box-shadow:
-0 0 14px rgba(0,0,0,0.3);
+box-shadow:0 0 14px rgba(0,0,0,0.3);
 }
 
 .game-card:hover{
-
-transform:
-translateY(-8px)
-scale(1.03);
-
-box-shadow:
-0 0 24px rgba(216,180,254,0.55);
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 0 24px rgba(216,180,254,0.55);
 }
 
-/* ======================================
-PLAYING EFFECT
-====================================== */
-
 .currently-playing{
-
 background:
 linear-gradient(
 180deg,
@@ -467,58 +307,31 @@ rgba(0,0,0,0.9)
 ) !important;
 }
 
-.currently-playing::before{
-
-content:"🌿";
-
-position:absolute;
-
-top:8px;
-
-left:8px;
-
-font-size:28px;
-
-animation:sway 4s ease-in-out infinite;
-}
-
+.currently-playing::before,
 .currently-playing::after{
-
 content:"🌿";
-
 position:absolute;
-
-bottom:8px;
-
-right:8px;
-
 font-size:28px;
-
 animation:sway 5s ease-in-out infinite;
 }
 
+.currently-playing::before{
+top:8px;
+left:8px;
+}
+
+.currently-playing::after{
+bottom:8px;
+right:8px;
+}
+
 @keyframes sway{
-
-0%{
-transform:rotate(-5deg);
+0%{transform:rotate(-5deg);} 
+50%{transform:rotate(5deg);} 
+100%{transform:rotate(-5deg);} 
 }
-
-50%{
-transform:rotate(5deg);
-}
-
-100%{
-transform:rotate(-5deg);
-}
-
-}
-
-/* ======================================
-COMPLETED
-====================================== */
 
 .completed{
-
 background:
 linear-gradient(
 180deg,
@@ -528,162 +341,97 @@ linear-gradient(
 }
 
 .game-card img{
-
 width:100%;
-
 display:block;
-
 transition:0.3s;
 }
 
 .game-card:hover img{
-
 filter:brightness(1.08);
 }
 
 .game-info{
-
 padding:16px;
 }
 
 .game-title{
-
 font-size:18px;
-
 margin-bottom:14px;
 }
 
-select{
-
+select,
+textarea{
 width:100%;
-
-padding:10px;
-
-margin-bottom:12px;
-
-border-radius:12px;
-
 border:none;
-
-background:
-rgba(0,0,0,0.35);
-
+border-radius:14px;
+background:rgba(0,0,0,0.35);
 color:white;
-
-font-family:
-"Comic Sans MS", cursive;
-}
-
-label{
-
-display:block;
-
+font-family:"Comic Sans MS", cursive;
 margin-bottom:12px;
+padding:12px;
 }
 
 textarea{
-
-width:100%;
-
 min-height:80px;
-
-border:none;
-
-border-radius:14px;
-
-padding:12px;
-
 resize:vertical;
+}
 
-background:
-rgba(0,0,0,0.35);
-
-color:white;
-
-font-family:
-"Comic Sans MS", cursive;
+label{
+display:block;
+margin-bottom:12px;
 }
 
 .stars-rating{
-
-margin-bottom:14px;
-
 font-size:24px;
+margin-bottom:14px;
 }
 
 .star-rating{
-
 cursor:pointer;
-
 opacity:0.3;
-
 transition:0.2s;
 }
 
 .star-rating:hover{
-
 transform:scale(1.25);
 }
 
-/* ======================================
+/* =========================
 TOP BUTTON
-====================================== */
+========================= */
 
 #topButton{
-
 position:fixed;
-
 bottom:25px;
-
 right:25px;
-
 width:60px;
-
 height:60px;
-
 border:none;
-
 border-radius:50%;
-
 background:
 linear-gradient(
 180deg,
 #8b5cf6,
 #4c1d95
 );
-
 color:white;
-
 font-size:28px;
-
 cursor:pointer;
-
 z-index:999;
-
-box-shadow:
-0 0 20px rgba(139,92,246,0.8);
-
-transition:0.25s;
+box-shadow:0 0 20px rgba(139,92,246,0.8);
 }
 
-#topButton:hover{
-
-transform:scale(1.12);
-}
-
-/* ======================================
+/* =========================
 RESPONSIVE
-====================================== */
+========================= */
 
 @media(max-width:900px){
 
 .layout{
-
 grid-template-columns:1fr;
 }
 
 h1{
-
 font-size:42px;
 }
 
@@ -696,12 +444,9 @@ font-size:42px;
 <body>
 
 <div class="stars" id="stars"></div>
-
 <div class="fog"></div>
 
-<button id="topButton">
-⬆
-</button>
+<button id="topButton">⬆</button>
 
 <div class="container">
 
@@ -712,56 +457,30 @@ Every game is a magical adventure 💖
 </div>
 
 <div class="admin-buttons">
-
-<button id="loginBtn">
-🔐 Admin Login
-</button>
-
-<button id="logoutBtn">
-🚪 Logout
-</button>
-
+<button id="loginBtn">🔐 Admin Login</button>
+<button id="logoutBtn">🚪 Logout</button>
 </div>
-
-<!-- ======================================
-STATS
-====================================== -->
 
 <div class="stats-bar">
 
 <div class="stat-card">
-<!-- ======================================
-STATS
-====================================== -->
-
-<div class="stats-bar">
-
-<div class="stat-card">
-<div class="stat-number" id="totalGames">
-0
-</div>
+<div class="stat-number" id="totalGames">0</div>
 🎮 Total Games
 </div>
 
 <div class="stat-card">
-<div class="stat-number" id="completedGames">
-0
-</div>
+<div class="stat-number" id="completedGames">0</div>
 ✔ Completed
 </div>
 
 <div class="stat-card">
-<div class="stat-number" id="playingGames">
-0
-</div>
+<div class="stat-number" id="playingGames">0</div>
 🌿 Currently Playing
 </div>
 
 </div>
-  
-<div class="layout">
 
-<!-- SIDEBAR -->
+<div class="layout">
 
 <aside class="sidebar">
 
@@ -771,41 +490,22 @@ STATS
 SPELLBOOK
 </div>
 
-<div class="menu active-menu" data-filter="all">
-📚 All Games
-</div>
-
-<div class="menu" data-filter="playing">
-🌿 Currently Playing
-</div>
-
-<div class="menu" data-filter="completed">
-✔ Completed
-</div>
-
-<div class="menu" data-filter="CozyCasual">
-🫖 CozyCasual
-</div>
-
-<div class="menu" data-filter="CozyAdventure">
-🌲 CozyAdventure
-</div>
-
-<div class="menu" data-filter="CozyHorror">
-🕯️ CozyHorror
-</div>
+<div class="menu active-menu" data-filter="all">📚 All Games</div>
+<div class="menu" data-filter="playing">🌿 Currently Playing</div>
+<div class="menu" data-filter="completed">✔ Completed</div>
+<div class="menu" data-filter="CozyCasual">🫖 CozyCasual</div>
+<div class="menu" data-filter="CozyAdventure">🌲 CozyAdventure</div>
+<div class="menu" data-filter="CozyHorror">🕯️ CozyHorror</div>
 
 </aside>
-
-<!-- MAIN -->
 
 <main>
 
 <input
-type="text"
+class="search-bar"
 id="searchBar"
 placeholder="🔍 Search your magical library..."
-class="search-bar"
+type="text"
 >
 
 <div class="game-grid all-games-grid"></div>
@@ -818,194 +518,103 @@ class="search-bar"
 
 <script>
 
-/* ======================================
+/* =========================
 ADMIN
-====================================== */
+========================= */
 
-const ADMIN_PASSWORD =
-"@Cozyanimecookie";
+const ADMIN_PASSWORD = "@Cozyanimecookie";
 
 const isAdmin =
-localStorage.getItem(
-"adminMode"
-)==="true";
+localStorage.getItem("adminMode") === "true";
 
-const loginBtn =
-document.getElementById(
-"loginBtn"
-);
-
-const logoutBtn =
-document.getElementById(
-"logoutBtn"
-);
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
 if(isAdmin){
-
-loginBtn.classList.add(
-"admin-active"
-);
-
-loginBtn.innerHTML =
-"☀️ Admin Active";
-
+loginBtn.classList.add("admin-active");
+loginBtn.innerHTML = "☀️ Admin Active";
 }
 
-/* LOGIN */
+loginBtn.addEventListener("click",()=>{
 
-loginBtn.addEventListener(
-"click",
-()=>{
+const password = prompt("Enter Admin Password");
 
-const password =
-prompt(
-"Enter Admin Password"
-);
-
-if(password===ADMIN_PASSWORD){
-
-localStorage.setItem(
-"adminMode",
-"true"
-);
-
+if(password === ADMIN_PASSWORD){
+localStorage.setItem("adminMode","true");
 location.reload();
-
 }else{
-
-alert(
-"Wrong Password"
-);
-
+alert("Wrong Password");
 }
 
-}
-);
+});
 
-/* LOGOUT */
-
-logoutBtn.addEventListener(
-"click",
-()=>{
-
-localStorage.removeItem(
-"adminMode"
-);
-
+logoutBtn.addEventListener("click",()=>{
+localStorage.removeItem("adminMode");
 location.reload();
+});
 
-}
-);
+/* =========================
+TOP BUTTON
+========================= */
 
-/* ======================================
+document.getElementById("topButton")
+.addEventListener("click",()=>{
+window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* =========================
 SEARCH + FILTER
-====================================== */
+========================= */
 
 let searchQuery = "";
 let currentFilter = "all";
 
-document.getElementById(
-"searchBar"
-).addEventListener(
-"input",
-(e)=>{
+const searchBar = document.getElementById("searchBar");
 
-searchQuery =
-e.target.value.toLowerCase();
+searchBar.addEventListener("input",(e)=>{
+searchQuery = e.target.value.toLowerCase();
+loadGames();
+});
+
+const menuButtons = document.querySelectorAll(".menu");
+
+menuButtons.forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+menuButtons.forEach(btn=>{
+btn.classList.remove("active-menu");
+});
+
+button.classList.add("active-menu");
+currentFilter = button.dataset.filter;
 
 loadGames();
 
-}
-);
-
-document.querySelectorAll(".menu")
-.forEach(button=>{
-
-button.addEventListener(
-"click",
-()=>{
-
-document.querySelectorAll(".menu")
-.forEach(btn=>{
-
-btn.classList.remove(
-"active-menu"
-);
+});
 
 });
 
-button.classList.add(
-"active-menu"
-);
-
-currentFilter =
-button.dataset.filter;
-
-loadGames();
-
-}
-);
-
-});
-
-/* ======================================
-TOP BUTTON
-====================================== */
-
-document.getElementById(
-"topButton"
-).addEventListener(
-"click",
-()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-}
-);
-
-/* ======================================
+/* =========================
 STARS
-====================================== */
+========================= */
 
-const stars =
-document.getElementById("stars");
+const stars = document.getElementById("stars");
 
 for(let i=0;i<450;i++){
 
-const star =
-document.createElement("div");
+const star = document.createElement("div");
+star.className = "star";
 
-star.className="star";
+const size = Math.random()*5+1;
 
-const size =
-Math.random()*5+1;
-
-star.style.width=
-size+"px";
-
-star.style.height=
-size+"px";
-
-star.style.left=
-Math.random()*100+"%";
-
-star.style.top=
-Math.random()*100+"%";
-
-star.style.animationDuration=
-(1+Math.random()*4)+"s";
-
-star.style.animationDelay=
-Math.random()*5+"s";
-
-star.style.background=
-Math.random()>0.5
+star.style.width = size+"px";
+star.style.height = size+"px";
+star.style.left = Math.random()*100+"%";
+star.style.top = Math.random()*100+"%";
+star.style.animationDuration = (1+Math.random()*4)+"s";
+star.style.animationDelay = Math.random()*5+"s";
+star.style.background = Math.random()>0.5
 ? "#ffffff"
 : "#ffe680";
 
@@ -1013,253 +622,112 @@ stars.appendChild(star);
 
 }
 
-/* ======================================
+/* =========================
 LOAD GAMES
-====================================== */
+========================= */
 
 async function loadGames(){
 
 const workerURL =
 "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-const response =
-await fetch(workerURL);
+const response = await fetch(workerURL);
+const data = await response.json();
 
-const data =
-await response.json();
+let games = data.response.games || [];
 
-let games =
-data.response.games || [];
-
-const grid =
-document.querySelector(
-".all-games-grid"
-);
-
-grid.innerHTML="";
-
-/* SEARCH */
+const grid = document.querySelector(".all-games-grid");
+grid.innerHTML = "";
 
 if(searchQuery){
-
 games = games.filter(game=>
-game.name
-.toLowerCase()
-.includes(searchQuery)
+game.name.toLowerCase().includes(searchQuery)
 );
+}
+
+updateStats(games);
+
+createGameCards(games,grid);
 
 }
 
-/* STATS */
+/* =========================
+STATS
+========================= */
 
-document.getElementById(
-"totalGames"
-).innerText =
-games.length;
+function updateStats(games){
 
-document.getElementById(
-"completedGames"
-).innerText =
-games.filter(game=>
-localStorage.getItem(
-`game_${game.appid}_completed`
-)==="true"
+const completed = games.filter(game=>
+localStorage.getItem(`game_${game.appid}_completed`) === "true"
 ).length;
 
-document.getElementById(
-"playingGames"
-).innerText =
-games.filter(game=>
-localStorage.getItem(
-`game_${game.appid}_playing`
-)==="true"
+const playing = games.filter(game=>
+localStorage.getItem(`game_${game.appid}_playing`) === "true"
 ).length;
 
-/* SORT */
+document.getElementById("totalGames").innerText = games.length;
+document.getElementById("completedGames").innerText = completed;
+document.getElementById("playingGames").innerText = playing;
 
-games.sort((a,b)=>{
+}
 
-const aKey =
-`game_${a.appid}`;
+/* =========================
+CREATE CARDS
+========================= */
 
-const bKey =
-`game_${b.appid}`;
+function createGameCards(games,grid){
 
-const aPlaying =
-localStorage.getItem(
-`${aKey}_playing`
-)==="true";
+const filteredGames = games.filter(game=>{
 
-const bPlaying =
-localStorage.getItem(
-`${bKey}_playing`
-)==="true";
+const key = `game_${game.appid}`;
 
-const aCompleted =
-localStorage.getItem(
-`${aKey}_completed`
-)==="true";
+const playing =
+localStorage.getItem(`${key}_playing`) === "true";
 
-const bCompleted =
-localStorage.getItem(
-`${bKey}_completed`
-)==="true";
+const completed =
+localStorage.getItem(`${key}_completed`) === "true";
 
-if(aPlaying && !bPlaying)
-return -1;
+const category =
+localStorage.getItem(`${key}_category`) || "";
 
-if(!aPlaying && bPlaying)
-return 1;
+if(currentFilter === "playing") return playing;
+if(currentFilter === "completed") return completed;
+if(currentFilter === "CozyCasual") return category === "CozyCasual";
+if(currentFilter === "CozyAdventure") return category === "CozyAdventure";
+if(currentFilter === "CozyHorror") return category === "CozyHorror";
 
-if(aCompleted && !bCompleted)
-return 1;
-
-if(!aCompleted && bCompleted)
-return -1;
-
-return a.name.localeCompare(
-b.name
-);
+return true;
 
 });
 
-/* CREATE */
-
-games.forEach(game=>{
-
-const gameKey =
-`game_${game.appid}`;
-
-const savedPlaying =
-localStorage.getItem(
-`${gameKey}_playing`
-)==="true";
-
-const savedCompleted =
-localStorage.getItem(
-`${gameKey}_completed`
-)==="true";
-
-const savedCategory =
-localStorage.getItem(
-`${gameKey}_category`
-)||"";
-
-if(
-currentFilter==="playing"
-&& !savedPlaying
-){
-return;
-}
-
-if(
-currentFilter==="completed"
-&& !savedCompleted
-){
-return;
-}
-
-if(
-currentFilter==="CozyCasual"
-&& savedCategory!=="CozyCasual"
-){
-return;
-}
-
-if(
-currentFilter==="CozyAdventure"
-&& savedCategory!=="CozyAdventure"
-){
-return;
-}
-
-if(
-currentFilter==="CozyHorror"
-&& savedCategory!=="CozyHorror"
-){
-return;
-}
-
-createCard(
-game,
-grid
-);
-
+filteredGames.forEach(game=>{
+createCard(game,grid);
 });
 
 }
 
-/* ======================================
+/* =========================
 CARD
-====================================== */
+========================= */
 
-function createCard(
-game,
-grid
-){
+function createCard(game,grid){
 
-const gameKey =
-`game_${game.appid}`;
+const key = `game_${game.appid}`;
+
+const category = localStorage.getItem(`${key}_category`) || "";
+const playing = localStorage.getItem(`${key}_playing`) === "true";
+const completed = localStorage.getItem(`${key}_completed`) === "true";
+const notes = localStorage.getItem(`${key}_notes`) || "";
+const rating = localStorage.getItem(`${key}_rating`) || "0";
 
 const image =
 `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
-const savedCategory =
-localStorage.getItem(
-`${gameKey}_category`
-)||"";
+const card = document.createElement("div");
+card.className = "game-card";
 
-const savedPlaying =
-localStorage.getItem(
-`${gameKey}_playing`
-)==="true";
-
-const savedCompleted =
-localStorage.getItem(
-`${gameKey}_completed`
-)==="true";
-
-const savedRating =
-localStorage.getItem(
-`${gameKey}_rating`
-)||"0";
-
-const savedNotes =
-localStorage.getItem(
-`${gameKey}_notes`
-)||"";
-
-const savedMonth =
-localStorage.getItem(
-`${gameKey}_month`
-)||"";
-
-const savedYear =
-localStorage.getItem(
-`${gameKey}_year`
-)||"";
-
-const card =
-document.createElement("div");
-
-card.className =
-"game-card";
-
-if(savedCompleted){
-
-card.classList.add(
-"completed"
-);
-
-}
-
-if(savedPlaying){
-
-card.classList.add(
-"currently-playing"
-);
-
-}
+if(playing) card.classList.add("currently-playing");
+if(completed) card.classList.add("completed");
 
 card.innerHTML = `
 
@@ -1267,288 +735,100 @@ card.innerHTML = `
 
 <div class="game-info">
 
-<div class="game-title">
-${game.name}
-</div>
+<div class="game-title">${game.name}</div>
 
 <select class="category-select">
-
-<option value="">
-Select Category
-</option>
-
-<option value="CozyCasual">
-🫖 CozyCasual
-</option>
-
-<option value="CozyAdventure">
-🌲 CozyAdventure
-</option>
-
-<option value="CozyHorror">
-🕯️ CozyHorror
-</option>
-
+<option value="">Select Category</option>
+<option value="CozyCasual">🫖 CozyCasual</option>
+<option value="CozyAdventure">🌲 CozyAdventure</option>
+<option value="CozyHorror">🕯️ CozyHorror</option>
 </select>
 
 <label>
-
-<input
-type="checkbox"
-class="playing-toggle"
-${savedPlaying ? "checked" : ""}
->
-
-🌿 Currently Playing
-${isAdmin ? "🔓" : "🔒"}
-
+<input type="checkbox" class="playing-toggle" ${playing ? "checked" : ""}>
+🌿 Currently Playing ${isAdmin ? "🔓" : "🔒"}
 </label>
 
 <label>
-
-<input
-type="checkbox"
-class="completed-toggle"
-${savedCompleted ? "checked" : ""}
->
-
-✔ Completed
-${isAdmin ? "🔓" : "🔒"}
-
+<input type="checkbox" class="completed-toggle" ${completed ? "checked" : ""}>
+✔ Completed ${isAdmin ? "🔓" : "🔒"}
 </label>
-
-<select class="month-select">
-
-<option value="">
-Month Completed
-</option>
-
-<option>January</option>
-<option>February</option>
-<option>March</option>
-<option>April</option>
-<option>May</option>
-<option>June</option>
-<option>July</option>
-<option>August</option>
-<option>September</option>
-<option>October</option>
-<option>November</option>
-<option>December</option>
-
-</select>
-
-<select class="year-select">
-
-<option value="">
-Year Completed
-</option>
-
-<option>2024</option>
-<option>2025</option>
-<option>2026</option>
-<option>2027</option>
-<option>2028</option>
-
-</select>
 
 <div class="stars-rating">
-
 <span class="star-rating" data-value="1">⭐</span>
 <span class="star-rating" data-value="2">⭐</span>
 <span class="star-rating" data-value="3">⭐</span>
 <span class="star-rating" data-value="4">⭐</span>
 <span class="star-rating" data-value="5">⭐</span>
+</div>
+
+<textarea class="notes-box" placeholder="Magical cozy notes...">${notes}</textarea>
 
 </div>
 
-<textarea
-class="notes-box"
-placeholder="Magical cozy notes..."
->${savedNotes}</textarea>
-
-</div>
 `;
 
 grid.appendChild(card);
 
-const categorySelect =
-card.querySelector(
-".category-select"
-);
+const categorySelect = card.querySelector(".category-select");
+const playingToggle = card.querySelector(".playing-toggle");
+const completedToggle = card.querySelector(".completed-toggle");
+const notesBox = card.querySelector(".notes-box");
+const stars = card.querySelectorAll(".star-rating");
 
-const playingToggle =
-card.querySelector(
-".playing-toggle"
-);
-
-const completedToggle =
-card.querySelector(
-".completed-toggle"
-);
-
-const monthSelect =
-card.querySelector(
-".month-select"
-);
-
-const yearSelect =
-card.querySelector(
-".year-select"
-);
-
-const notesBox =
-card.querySelector(
-".notes-box"
-);
-
-categorySelect.value =
-savedCategory;
-
-monthSelect.value =
-savedMonth;
-
-yearSelect.value =
-savedYear;
-
-/* LOCK */
+categorySelect.value = category;
 
 if(!isAdmin){
-
 categorySelect.disabled = true;
 playingToggle.disabled = true;
 completedToggle.disabled = true;
-monthSelect.disabled = true;
-yearSelect.disabled = true;
 notesBox.disabled = true;
-
+stars.forEach(star=>{
+star.style.pointerEvents = "none";
+});
 }
 
-/* SAVE */
+categorySelect.addEventListener("change",()=>{
+localStorage.setItem(`${key}_category`,categorySelect.value);
+});
 
-categorySelect.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_category`,
-categorySelect.value
-);
-
-}
-);
-
-playingToggle.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_playing`,
-playingToggle.checked
-);
-
+playingToggle.addEventListener("change",()=>{
+localStorage.setItem(`${key}_playing`,playingToggle.checked);
 loadGames();
+});
 
-}
-);
-
-completedToggle.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_completed`,
-completedToggle.checked
-);
-
+completedToggle.addEventListener("change",()=>{
+localStorage.setItem(`${key}_completed`,completedToggle.checked);
 loadGames();
+});
 
-}
-);
-
-monthSelect.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_month`,
-monthSelect.value
-);
-
-}
-);
-
-yearSelect.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_year`,
-yearSelect.value
-);
-
-}
-);
-
-notesBox.addEventListener(
-"input",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_notes`,
-notesBox.value
-);
-
-}
-);
-
-/* STARS */
-
-const stars =
-card.querySelectorAll(
-".star-rating"
-);
+notesBox.addEventListener("input",()=>{
+localStorage.setItem(`${key}_notes`,notesBox.value);
+});
 
 function updateStars(value){
 
 stars.forEach(star=>{
-
 star.style.opacity =
 star.dataset.value <= value
 ? "1"
 : "0.3";
-
 });
 
 }
 
-updateStars(savedRating);
+updateStars(rating);
 
 stars.forEach(star=>{
 
-if(!isAdmin){
+star.addEventListener("click",()=>{
 
-star.style.pointerEvents =
-"none";
+const value = star.dataset.value;
 
-}
-
-star.addEventListener(
-"click",
-()=>{
-
-const value =
-star.dataset.value;
-
-localStorage.setItem(
-`${gameKey}_rating`,
-value
-);
-
+localStorage.setItem(`${key}_rating`,value);
 updateStars(value);
 
-}
-);
+});
 
 });
 
@@ -1559,7 +839,7 @@ loadGames();
 </script>
 
 </body>
-
 </html>
+```
 
 
