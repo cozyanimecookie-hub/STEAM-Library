@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6727b8">
 
 <title>CozyAnimeCookie STEAM Library</title>
 
@@ -12,6 +14,12 @@
 *{
 box-sizing:border-box;
 scroll-behavior:smooth;
+}
+
+html,
+body{
+width:100%;
+overflow-x:hidden;
 }
 
 body{
@@ -69,7 +77,7 @@ rgba(216,180,254,0.28) 0%,
 rgba(192,132,252,0.18) 35%,
 rgba(255,255,255,0) 75%
 );
-filter:blur(40px);
+filter:blur(18px);
 opacity:0.7;
 animation:fogMove 55s linear infinite;
 pointer-events:none;
@@ -289,7 +297,7 @@ box-shadow:0 0 14px rgba(0,0,0,0.3);
 }
 
 .game-card:hover{
-transform:translateY(-8px) scale(1.03);
+transform:translateY(-4px);
 box-shadow:0 0 24px rgba(216,180,254,0.55);
 }
 
@@ -416,181 +424,136 @@ z-index:999;
 box-shadow:0 0 20px rgba(139,92,246,0.8);
 }
 
+/* =========================
+RESPONSIVE
+========================= */
+
 /* ======================================
 RESPONSIVE
 ====================================== */
 
-/* ------------------------------
-TABLETS
------------------------------- */
-
 @media(max-width:1100px){
 
 .layout{
-
 grid-template-columns:1fr;
-
 }
 
 .sidebar{
-
 position:relative;
-
 width:100%;
-
 margin-bottom:24px;
-
 }
 
 .game-grid{
-
 grid-template-columns:
 repeat(auto-fill,minmax(220px,1fr));
-
 }
 
 }
-
-/* ------------------------------
-PHONES
------------------------------- */
 
 @media(max-width:700px){
 
 .container{
-
 padding:16px;
+}
+
+h1{
+font-size:34px;
+line-height:1.2;
+}
+
+.subtitle{
+font-size:16px;
+}
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+padding:18px;
+}
+
+.sidebar-title{
+font-size:26px;
+}
+
+.hat{
+font-size:54px;
+}
+
+.menu{
+font-size:15px;
+padding:12px;
+}
+
+.stats-bar{
+grid-template-columns:1fr;
+}
+
+.stat-card{
+padding:14px;
+}
+
+.stat-number{
+font-size:28px;
+}
+
+.game-grid{
+grid-template-columns:1fr;
+gap:18px;
+}
+
+.game-card{
+border-radius:20px;
+}
+
+.game-title{
+font-size:16px;
+}
+
+.search-bar{
+font-size:15px;
+padding:12px;
+}
+
+textarea,
+select{
+font-size:14px;
+}
+
+.admin-buttons{
+flex-direction:column;
+align-items:center;
+}
+
+.admin-buttons button{
+width:100%;
+max-width:300px;
+}
+
+#topButton{
+width:52px;
+height:52px;
+font-size:22px;
+bottom:18px;
+right:18px;
+}
+
+.star{
+animation:none !important;
+opacity:0.7;
+}
+
+.fog{
+filter:blur(10px);
+opacity:0.4;
+}
 
 }
 
 h1{
-
-font-size:34px;
-
-line-height:1.2;
-
-}
-
-.subtitle{
-
-font-size:16px;
-
-}
-
-.sidebar{
-
-padding:18px;
-
-}
-
-.sidebar-title{
-
-font-size:26px;
-
-}
-
-.hat{
-
-font-size:54px;
-
-}
-
-.menu{
-
-font-size:15px;
-
-padding:12px;
-
-}
-
-.stats-bar{
-
-grid-template-columns:1fr;
-
-}
-
-.stat-card{
-
-padding:14px;
-
-}
-
-.stat-number{
-
-font-size:28px;
-
-}
-
-.game-grid{
-
-grid-template-columns:1fr;
-
-gap:18px;
-
-}
-
-.game-card{
-
-border-radius:20px;
-
-}
-
-.game-title{
-
-font-size:16px;
-
-}
-
-.search-bar{
-
-font-size:15px;
-
-padding:12px;
-
-}
-
-textarea{
-
-font-size:14px;
-
-}
-
-select{
-
-font-size:14px;
-
-}
-
-.admin-buttons{
-
-flex-direction:column;
-
-align-items:center;
-
-}
-
-.admin-buttons button{
-
-width:100%;
-
-max-width:300px;
-
-}
-
-#topButton{
-
-width:52px;
-
-height:52px;
-
-font-size:22px;
-
-bottom:18px;
-
-right:18px;
-
-}
-
+font-size:42px;
 }
 
 }
@@ -784,7 +747,7 @@ STARS
 
 const stars = document.getElementById("stars");
 
-for(let i=0;i<450;i++){
+for(let i=0;i<180;i++){
 
 const star = document.createElement("div");
 star.className = "star";
@@ -920,7 +883,11 @@ if(completed) card.classList.add("completed");
 
 card.innerHTML = `
 
-<img src="${image}">
+<img
+loading="lazy"
+src="${image}"
+onerror="this.src='https://placehold.co/600x900/2b114a/ffffff?text=✨+Cozy+Game+✨'"
+>
 
 <div class="game-info">
 
