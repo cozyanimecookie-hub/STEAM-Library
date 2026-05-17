@@ -1,90 +1,75 @@
-<script>
+<input id="searchBar" placeholder="Search games..." />
 
 /* ======================================
    TWINKLE STARS
 ====================================== */
 
-const stars =
+const starContainer =
 document.getElementById("stars");
 
-for(let i=0;i<180;i++){
+for (let i = 0; i < 180; i++) {
 
-const star =
-document.createElement("div");
+const star = document.createElement("div");
+star.className = "star";
 
-star.className="star";
+const size = Math.random() * 4 + 1;
 
-const size =
-Math.random()*4+1;
+star.style.width = size + "px";
+star.style.height = size + "px";
+star.style.left = Math.random() * 100 + "%";
+star.style.top = Math.random() * 100 + "%";
+star.style.animationDuration = (2 + Math.random() * 5) + "s";
+star.style.animationDelay = Math.random() * 5 + "s";
 
-star.style.width=
-size+"px";
+const colors = ["#ffffff", "#fff7b0", "#ffe680"];
 
-star.style.height=
-size+"px";
+star.style.background =
+colors[Math.floor(Math.random() * colors.length)];
 
-star.style.left=
-Math.random()*100+"%";
-
-star.style.top=
-Math.random()*100+"%";
-
-star.style.animationDuration=
-(2+Math.random()*5)+"s";
-
-star.style.animationDelay=
-Math.random()*5+"s";
-
-const colors=[
-"#ffffff",
-"#fff7b0",
-"#ffe680"
-];
-
-star.style.background=
-colors[
-Math.floor(
-Math.random()*colors.length
-)
-];
-
-stars.appendChild(star);
-
+starContainer.appendChild(star);
 }
+
+/* ======================================
+   STATE
+====================================== */
+
+let currentFilter = "all";
+let searchQuery = "";
+
+/* SEARCH BAR */
+const searchBar = document.getElementById("searchBar");
+
+let debounceTimer;
+
+searchBar?.addEventListener("input", (e) => {
+
+clearTimeout(debounceTimer);
+
+debounceTimer = setTimeout(() => {
+searchQuery = e.target.value.toLowerCase();
+loadGames();
+}, 200);
+
+});
 
 /* ======================================
    FILTER BUTTONS
 ====================================== */
 
-let currentFilter = "all";
+document.querySelectorAll(".menu").forEach(button => {
+
+button.addEventListener("click", () => {
 
 document.querySelectorAll(".menu")
-.forEach(button=>{
+.forEach(btn => btn.classList.remove("active-menu"));
 
-button.addEventListener(
-"click",
-()=>{
+button.classList.add("active-menu");
 
-document.querySelectorAll(".menu")
-.forEach(btn=>{
-
-btn.classList.remove(
-"active-menu"
-);
-
-});
-
-button.classList.add(
-"active-menu"
-);
-
-currentFilter =
-button.dataset.filter;
+currentFilter = button.dataset.filter;
 
 loadGames();
 
-}
-);
+});
 
 });
 
@@ -92,539 +77,252 @@ loadGames();
    LOAD GAMES
 ====================================== */
 
-async function loadGames(){
+async function loadGames() {
 
 const workerURL =
 "https://icy-pond-784c.cozyanimecookie.workers.dev/";
 
-try{
+try {
 
-const response =
-await fetch(workerURL);
+const response = await fetch(workerURL);
+const data = await response.json();
 
-const data =
-await response.json();
+let games = data.response.games || [];
 
-let games =
-data.response.games || [];
+/* ======================================
+   FILTER: SEARCH
+====================================== */
 
-const grid =
-document.querySelector(
-".all-games-grid"
+if (searchQuery.trim() !== "") {
+games = games.filter(game =>
+game.name.toLowerCase().includes(searchQuery)
 );
-
-grid.innerHTML="";
+}
 
 /* ======================================
    SORTING
 ====================================== */
 
-games.sort((a,b)=>{
+games.sort((a, b) => {
 
-const aKey =
-`game_${a.appid}`;
+const aKey = `game_${a.appid}`;
+const bKey = `game_${b.appid}`;
 
-const bKey =
-`game_${b.appid}`;
+const aPlaying = localStorage.getItem(`${aKey}_playing`) === "true";
+const bPlaying = localStorage.getItem(`${bKey}_playing`) === "true";
 
-const aPlaying =
-localStorage.getItem(
-`${aKey}_playing`
-)==="true";
-
-const bPlaying =
-localStorage.getItem(
-`${bKey}_playing`
-)==="true";
-
-const aCompleted =
-localStorage.getItem(
-`${aKey}_completed`
-)==="true";
-
-const bCompleted =
-localStorage.getItem(
-`${bKey}_completed`
-)==="true";
+const aCompleted = localStorage.getItem(`${aKey}_completed`) === "true";
+const bCompleted = localStorage.getItem(`${bKey}_completed`) === "true";
 
 /* PLAYING FIRST */
-
-if(aPlaying && !bPlaying)
-return -1;
-
-if(!aPlaying && bPlaying)
-return 1;
+if (aPlaying && !bPlaying) return -1;
+if (!aPlaying && bPlaying) return 1;
 
 /* COMPLETED LAST */
-
-if(aCompleted && !bCompleted)
-return 1;
-
-if(!aCompleted && bCompleted)
-return -1;
+if (aCompleted && !bCompleted) return 1;
+if (!aCompleted && bCompleted) return -1;
 
 /* ALPHABETICAL */
-
-return a.name.localeCompare(
-b.name
-);
+return a.name.localeCompare(b.name);
 
 });
+
+const grid = document.querySelector(".all-games-grid");
+grid.innerHTML = "";
 
 /* ======================================
    CREATE CARDS
 ====================================== */
 
-games.forEach(game=>{
+games.forEach(game => {
 
-const gameKey =
-`game_${game.appid}`;
+const gameKey = `game_${game.appid}`;
 
 const savedPlaying =
-localStorage.getItem(
-`${gameKey}_playing`
-)==="true";
+localStorage.getItem(`${gameKey}_playing`) === "true";
 
 const savedCompleted =
-localStorage.getItem(
-`${gameKey}_completed`
-)==="true";
+localStorage.getItem(`${gameKey}_completed`) === "true";
 
 const savedNotes =
-localStorage.getItem(
-`${gameKey}_notes`
-)||"";
+localStorage.getItem(`${gameKey}_notes`) || "";
 
-/* FILTERS */
+/* FILTER BUTTONS */
 
-if(
-currentFilter==="playing"
-&& !savedPlaying
-){
-return;
-}
+if (currentFilter === "playing" && !savedPlaying) return;
+if (currentFilter === "completed" && !savedCompleted) return;
+if (currentFilter === "notes" && savedNotes.trim() === "") return;
 
-if(
-currentFilter==="completed"
-&& !savedCompleted
-){
-return;
-}
-
-if(
-currentFilter==="notes"
-&& savedNotes.trim()===""
-){
-return;
-}
-
-createCard(
-game,
-grid
-);
+createCard(game, grid);
 
 });
 
-}catch(error){
-
+} catch (error) {
 console.error(error);
-
 }
-
 }
 
 /* ======================================
    CREATE CARD
 ====================================== */
 
-function createCard(
-game,
-grid
-){
+function createCard(game, grid) {
 
-const gameKey =
-`game_${game.appid}`;
+const gameKey = `game_${game.appid}`;
 
 const image =
 `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
 
 const savedCategory =
-localStorage.getItem(
-`${gameKey}_category`
-)||"";
+localStorage.getItem(`${gameKey}_category`) || "";
 
 const savedPlaying =
-localStorage.getItem(
-`${gameKey}_playing`
-)==="true";
+localStorage.getItem(`${gameKey}_playing`) === "true";
 
 const savedCompleted =
-localStorage.getItem(
-`${gameKey}_completed`
-)==="true";
+localStorage.getItem(`${gameKey}_completed`) === "true";
 
 const savedRating =
-localStorage.getItem(
-`${gameKey}_rating`
-)||"0";
+localStorage.getItem(`${gameKey}_rating`) || "0";
 
 const savedNotes =
-localStorage.getItem(
-`${gameKey}_notes`
-)||"";
+localStorage.getItem(`${gameKey}_notes`) || "";
 
 const savedMonth =
-localStorage.getItem(
-`${gameKey}_month`
-)||"";
+localStorage.getItem(`${gameKey}_month`) || "";
 
 const savedYear =
-localStorage.getItem(
-`${gameKey}_year`
-)||"";
+localStorage.getItem(`${gameKey}_year`) || "";
 
-const card =
-document.createElement("div");
+const card = document.createElement("div");
+card.className = "game-card";
 
-card.className =
-"game-card";
+if (savedCompleted) card.classList.add("completed");
 
-if(savedCompleted){
-
-card.classList.add(
-"completed"
-);
-
-}
-
-card.innerHTML=`
-
+card.innerHTML = `
 <img src="${image}">
 
 <div class="game-info">
 
-<div class="game-title">
-${game.name}
-</div>
+<div class="game-title">${game.name}</div>
 
 <select class="category-select">
-
-<option value="">
-Select Category
-</option>
-
-<option value="Story Driven / Visual Novel">
-Story Driven / Visual Novel
-</option>
-
-<option value="CozyAdventure">
-CozyAdventure
-</option>
-
-<option value="CozyHorror">
-CozyHorror
-</option>
-
-<option value="CozyCasual">
-CozyCasual
-</option>
-
-<option value="Multiplayer / CO-OP">
-Multiplayer / CO-OP
-</option>
-
+<option value="">Select Category</option>
+<option value="Story Driven / Visual Novel">Story Driven / Visual Novel</option>
+<option value="CozyAdventure">CozyAdventure</option>
+<option value="CozyHorror">CozyHorror</option>
+<option value="CozyCasual">CozyCasual</option>
+<option value="Multiplayer / CO-OP">Multiplayer / CO-OP</option>
 </select>
 
 <label>
-
-<input
-type="checkbox"
-class="playing-toggle"
-${savedPlaying ? "checked" : ""}
->
-
+<input type="checkbox" class="playing-toggle" ${savedPlaying ? "checked" : ""}>
 🎮 Currently Playing
-
 </label>
 
 <label>
-
-<input
-type="checkbox"
-class="completed-toggle"
-${savedCompleted ? "checked" : ""}
->
-
+<input type="checkbox" class="completed-toggle" ${savedCompleted ? "checked" : ""}>
 ✔ Completed
-
 </label>
 
 <select class="month-select">
-
-<option value="">
-Month Completed
-</option>
-
-<option>January</option>
-<option>February</option>
-<option>March</option>
-<option>April</option>
-<option>May</option>
-<option>June</option>
-<option>July</option>
-<option>August</option>
-<option>September</option>
-<option>October</option>
-<option>November</option>
-<option>December</option>
-
+<option value="">Month Completed</option>
+<option>January</option><option>February</option><option>March</option>
+<option>April</option><option>May</option><option>June</option>
+<option>July</option><option>August</option><option>September</option>
+<option>October</option><option>November</option><option>December</option>
 </select>
 
 <select class="year-select">
-
-<option value="">
-Year Completed
-</option>
-
-<option>2024</option>
-<option>2025</option>
-<option>2026</option>
-<option>2027</option>
-<option>2028</option>
-
+<option value="">Year Completed</option>
+<option>2024</option><option>2025</option><option>2026</option>
+<option>2027</option><option>2028</option>
 </select>
 
 <div class="stars-rating">
-
-<span
-class="star-rating"
-data-value="1"
->⭐</span>
-
-<span
-class="star-rating"
-data-value="2"
->⭐</span>
-
-<span
-class="star-rating"
-data-value="3"
->⭐</span>
-
-<span
-class="star-rating"
-data-value="4"
->⭐</span>
-
-<span
-class="star-rating"
-data-value="5"
->⭐</span>
-
+<span class="star-rating" data-value="1">⭐</span>
+<span class="star-rating" data-value="2">⭐</span>
+<span class="star-rating" data-value="3">⭐</span>
+<span class="star-rating" data-value="4">⭐</span>
+<span class="star-rating" data-value="5">⭐</span>
 </div>
 
-<textarea
-class="notes-box"
-placeholder="Magical cozy notes..."
->${savedNotes}</textarea>
+<textarea class="notes-box" placeholder="Magical cozy notes...">${savedNotes}</textarea>
 
 </div>
 `;
 
 grid.appendChild(card);
 
-/* ======================================
-   CATEGORY
-====================================== */
+/* CATEGORY */
+const categorySelect = card.querySelector(".category-select");
+categorySelect.value = savedCategory;
 
-const categorySelect =
-card.querySelector(
-".category-select"
-);
+categorySelect.addEventListener("change", () => {
+localStorage.setItem(`${gameKey}_category`, categorySelect.value);
+});
 
-categorySelect.value =
-savedCategory;
-
-categorySelect.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_category`,
-categorySelect.value
-);
-
-}
-);
-
-/* ======================================
-   PLAYING
-====================================== */
-
-const playingToggle =
-card.querySelector(
-".playing-toggle"
-);
-
-playingToggle.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_playing`,
-playingToggle.checked
-);
-
+/* PLAYING */
+const playingToggle = card.querySelector(".playing-toggle");
+playingToggle.addEventListener("change", () => {
+localStorage.setItem(`${gameKey}_playing`, playingToggle.checked);
 loadGames();
+});
 
-}
-);
-
-/* ======================================
-   COMPLETED
-====================================== */
-
-const completedToggle =
-card.querySelector(
-".completed-toggle"
-);
-
-completedToggle.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_completed`,
-completedToggle.checked
-);
-
+/* COMPLETED */
+const completedToggle = card.querySelector(".completed-toggle");
+completedToggle.addEventListener("change", () => {
+localStorage.setItem(`${gameKey}_completed`, completedToggle.checked);
 loadGames();
+});
 
-}
-);
+/* MONTH */
+const monthSelect = card.querySelector(".month-select");
+monthSelect.value = savedMonth;
 
-/* ======================================
-   MONTH
-====================================== */
+monthSelect.addEventListener("change", () => {
+localStorage.setItem(`${gameKey}_month`, monthSelect.value);
+});
 
-const monthSelect =
-card.querySelector(
-".month-select"
-);
+/* YEAR */
+const yearSelect = card.querySelector(".year-select");
+yearSelect.value = savedYear;
 
-monthSelect.value =
-savedMonth;
+yearSelect.addEventListener("change", () => {
+localStorage.setItem(`${gameKey}_year`, yearSelect.value);
+});
 
-monthSelect.addEventListener(
-"change",
-()=>{
+/* NOTES */
+const notesBox = card.querySelector(".notes-box");
 
-localStorage.setItem(
-`${gameKey}_month`,
-monthSelect.value
-);
+notesBox.addEventListener("input", () => {
+localStorage.setItem(`${gameKey}_notes`, notesBox.value);
+});
 
-}
-);
+/* STARS */
+const stars = card.querySelectorAll(".star-rating");
 
-/* ======================================
-   YEAR
-====================================== */
-
-const yearSelect =
-card.querySelector(
-".year-select"
-);
-
-yearSelect.value =
-savedYear;
-
-yearSelect.addEventListener(
-"change",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_year`,
-yearSelect.value
-);
-
-}
-);
-
-/* ======================================
-   NOTES
-====================================== */
-
-const notesBox =
-card.querySelector(
-".notes-box"
-);
-
-notesBox.addEventListener(
-"input",
-()=>{
-
-localStorage.setItem(
-`${gameKey}_notes`,
-notesBox.value
-);
-
-}
-);
-
-/* ======================================
-   STARS
-====================================== */
-
-const stars =
-card.querySelectorAll(
-".star-rating"
-);
-
-function updateStars(value){
-
-stars.forEach(star=>{
-
+function updateStars(value) {
+stars.forEach(star => {
 star.style.opacity =
-star.dataset.value <= value
-? "1"
-: "0.3";
-
+star.dataset.value <= value ? "1" : "0.3";
 });
 }
 
 updateStars(savedRating);
 
-stars.forEach(star=>{
-
-star.addEventListener(
-"click",
-()=>{
-
-const value =
-star.dataset.value;
-
-localStorage.setItem(
-`${gameKey}_rating`,
-value
-);
-
+stars.forEach(star => {
+star.addEventListener("click", () => {
+const value = star.dataset.value;
+localStorage.setItem(`${gameKey}_rating`, value);
 updateStars(value);
-
-}
-);
-
+});
 });
 
 }
 
 /* ======================================
-   START APP
+   START
 ====================================== */
 
 loadGames();
-
-</script>
-```
-
-</script>
