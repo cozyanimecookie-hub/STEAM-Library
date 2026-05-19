@@ -1,4 +1,8 @@
+# Optimized `index.html` Structure for CozyAnimeCookie STEAM Library
 
+Replace your current `index.html` with the cleaned and optimized version below.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +18,7 @@
 *{
 box-sizing:border-box;
 scroll-behavior:smooth;
+font-family:"Comic Sans MS", cursive;
 }
 
 html,
@@ -23,6 +28,7 @@ overflow-x:hidden;
 }
 
 body{
+-webkit-text-size-adjust:100%;
 margin:0;
 font-family:"Comic Sans MS", cursive;
 background:
@@ -363,7 +369,9 @@ margin-bottom:14px;
 }
 
 select,
-textarea{
+textarea,
+button,
+input{
 width:100%;
 border:none;
 border-radius:14px;
@@ -791,7 +799,9 @@ game.name.toLowerCase().includes(searchQuery)
 );
 }
 
-updateStats(games);
+const allGames = [...games];
+
+updateStats(allGames);
 
 createGameCards(games.slice(0,visibleGames),grid);
 
@@ -997,6 +1007,5 @@ loadGames();
 </body>
 </html>
 ```
-
 
 
