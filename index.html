@@ -18,19 +18,17 @@ font-family:"Comic Sans MS", cursive;
 
 html,
 body{
-width:100%;
-overflow-x:hidden;
-}
-
-body{
 
 -webkit-text-size-adjust:100%;
 
 font-family:
 "Comic Sans MS",
+"Comic Sans",
 "Chalkboard SE",
 "Comic Neue",
 cursive !important;
+
+margin:0;
 
 font-family:
 "Comic Sans MS",
@@ -148,276 +146,17 @@ margin-bottom:30px;
 }
 
 .admin-buttons button{
-border:none;
-padding:12px 18px;
-border-radius:16px;
-font-family:"Comic Sans MS", cursive;
-font-size:16px;
-cursor:pointer;
-color:white;
-background:
-linear-gradient(
-180deg,
-#8b5cf6,
-#4c1d95
-);
-box-shadow:
-0 0 12px rgba(139,92,246,0.5);
-transition:0.25s;
-}
 
-.admin-buttons button:hover{
-transform:scale(1.05);
-}
+width:auto;
 
-.admin-active{
-background:
-linear-gradient(
-180deg,
-#ffb347,
-#ff7b00
-) !important;
-box-shadow:
-0 0 18px rgba(255,140,0,0.9) !important;
-}
+max-width:none;
 
-/* =========================
-STATS
-========================= */
+padding:8px 14px;
 
-.stats-bar{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:18px;
-margin-bottom:30px;
-}
+font-size:14px;
 
-.stat-card{
-background:rgba(255,255,255,0.08);
-padding:18px;
-border-radius:22px;
-text-align:center;
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.14);
-}
+min-width:unset;
 
-.stat-number{
-font-size:34px;
-margin-bottom:8px;
-}
-
-/* =========================
-LAYOUT
-========================= */
-
-.layout{
-display:grid;
-grid-template-columns:260px 1fr;
-gap:24px;
-}
-
-/* =========================
-SIDEBAR
-========================= */
-
-.sidebar{
-background:rgba(255,255,255,0.08);
-padding:22px;
-border-radius:24px;
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,0.14);
-height:fit-content;
-}
-
-.hat{
-font-size:70px;
-text-align:center;
-margin-bottom:12px;
-}
-
-.sidebar-title{
-text-align:center;
-font-size:34px;
-margin-bottom:22px;
-}
-
-.menu{
-background:rgba(255,255,255,0.08);
-padding:14px;
-border-radius:16px;
-margin-bottom:12px;
-cursor:pointer;
-transition:0.25s;
-}
-
-.menu:hover{
-background:rgba(255,255,255,0.18);
-transform:translateX(4px);
-}
-
-.active-menu{
-background:rgba(255,255,255,0.28);
-}
-
-/* =========================
-SEARCH
-========================= */
-
-.search-bar{
-width:100%;
-padding:14px;
-border:none;
-border-radius:18px;
-margin-bottom:24px;
-font-size:16px;
-background:rgba(255,255,255,0.12);
-color:white;
-font-family:"Comic Sans MS", cursive;
-outline:none;
-border:1px solid rgba(255,255,255,0.15);
-}
-
-.search-bar::placeholder{
-color:#f3d9ff;
-}
-
-/* =========================
-GRID
-========================= */
-
-.game-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:20px;
-}
-
-/* =========================
-CARDS
-========================= */
-
-.game-card{
-background:
-linear-gradient(
-180deg,
-rgba(255,255,255,0.12),
-rgba(92,34,150,0.9)
-);
-border-radius:24px;
-overflow:hidden;
-border:1px solid rgba(255,255,255,0.15);
-transition:0.25s;
-position:relative;
-box-shadow:0 0 14px rgba(0,0,0,0.3);
-}
-
-.game-card:hover{
-transform:translateY(-4px);
-box-shadow:0 0 24px rgba(216,180,254,0.55);
-}
-
-.currently-playing{
-background:
-linear-gradient(
-180deg,
-rgba(34,197,94,0.35),
-rgba(0,0,0,0.9)
-) !important;
-}
-
-.currently-playing::before,
-.currently-playing::after{
-content:"🌿";
-position:absolute;
-font-size:28px;
-animation:sway 5s ease-in-out infinite;
-}
-
-.currently-playing::before{
-top:8px;
-left:8px;
-}
-
-.currently-playing::after{
-bottom:8px;
-right:8px;
-}
-
-@keyframes sway{
-0%{transform:rotate(-5deg);}
-50%{transform:rotate(5deg);}
-100%{transform:rotate(-5deg);}
-}
-
-.completed{
-background:
-linear-gradient(
-180deg,
-#1a1a1a,
-#000000
-) !important;
-}
-
-.game-card img{
-width:100%;
-display:block;
-transition:0.3s;
-}
-
-.game-card:hover img{
-filter:brightness(1.08);
-}
-
-.game-info{
-padding:16px;
-}
-
-.game-title{
-font-size:18px;
-margin-bottom:14px;
-}
-
-select,
-textarea,
-button,
-input{
-
-font-family:
-"Comic Sans MS",
-"Chalkboard SE",
-"Comic Neue",
-cursive !important;
-
-font-weight:normal !important;
-
-accent-color:#ffffff;
-
-
-
-font-family:
-"Comic Sans MS",
-"Chalkboard SE",
-"Comic Neue",
-cursive !important;
-
-font-weight:normal !important;
-
--webkit-appearance:none;
-width:100%;
-border:none;
-border-radius:14px;
-background:rgba(0,0,0,0.35);
-color:white;
-font-family:"Comic Sans MS", cursive;
-margin-bottom:12px;
-padding:12px;
-}
-
-textarea{
-min-height:80px;
-resize:vertical;
-}
-
-label{
 display:block;
 margin-bottom:12px;
 }
@@ -443,9 +182,9 @@ TOP BUTTON
 
 #loadMoreBtn{
 
-padding:12px 20px;
+padding:10px 18px;
 
-font-size:16px;
+font-size:15px;
 
 width:auto;
 
@@ -1054,6 +793,8 @@ loadGames();
 
 </body>
 </html>
+
+
 
 
 
